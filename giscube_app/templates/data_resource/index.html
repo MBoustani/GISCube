@@ -1,0 +1,44 @@
+{% include 'header.html' %}
+
+
+<!-- /left-nav-stack-bar -->
+<div class="row">
+  <div class="col-md-2">
+    <ul class="nav nav-pills nav-stacked">
+      <li class="active"><a href="resource">Data Resource</a></li>
+      <li><a href="information">Data Information</a></li>
+      <li><a href="visualiser">Data Visualiser</a></li>
+      <li><a href="tools">GeoSpatial Tools</a></li>
+    </ul>
+  </div>
+  <!-- left-nav-stack-bar/ -->
+
+  <div class="col-md-3">
+    <div class="alert alert-info"><p>Supported formats: ".shp" and ".tif"(GeoTIFF)</p></div>
+    <form action="{% url 'resource' %}" method="post" enctype="multipart/form-data">
+      {% csrf_token %}
+      <p>{{ form.non_field_errors }}</p>
+      <p>
+        {{ form.docfile.errors }}
+        {{ form.docfile }}
+      </p>
+      <p><button type="submit" value="Upload" class="btn btn-primary btn-lg">Submit</button></p>
+    </form>
+  </div>
+
+  <div class="col-md-2">
+  {% if UPLODED_FILES %}
+    <ul>
+      {% for file in UPLODED_FILES %}
+      <li>
+        <button type="button" class="btn btn-danger btn-xs" onclick="Dajaxice.giscube_app.remove_loaded_file('',{'param': '{{ file }}'});location.reload();"><span class="glyphicon glyphicon-remove"></span></button>
+        {{ file }}
+      </li><br>
+      {% endfor %}
+    </ul>
+  {% else %}
+      <h3><small>No documents.</small></h3>
+  {% endif %}
+</div>
+
+{% include 'footer.html' %}

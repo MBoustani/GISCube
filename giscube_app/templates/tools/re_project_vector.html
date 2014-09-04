@@ -1,0 +1,86 @@
+{% load shp_dict %}
+
+<!-- Modal -->
+<div class="modal fade" id="re_project_vector" tabindex="-1" role="dialog" aria-labelledby="re_project_vector_lable" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+        <h4 class="modal-title" id="re_project_vector_lable">Re-Project Vector</h4>
+      </div>
+      <div class="modal-body">
+      <p>This tool re-projects and creates new vector data.</p>
+      <div class="container">
+	<h2><small>1- Select from current vector data:</small></h2>
+	{% for each in shps_info %}
+	<div class="radio">
+	<input type="radio" name="optionsRadios" id="current_vector" value="{{ each|layer_name }}">
+	<p>{{ each|file_name }}</p>
+      </div>
+      {% endfor %}
+      
+      <h2><small>2- Select projection (<a href="http://en.wikipedia.org/wiki/List_of_map_projections" target="_blank">more info</a>):</small></h2>
+      
+      <!--
+      <div class="btn-group">
+      <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
+      List of Projections <span class="caret"></span>
+      </button>
+      <ul class="dropdown-menu" role="menu">
+	  <li><a href="#" id="projection" value="wgs_84" >WGS 84</a></li>
+	  <li><a href="#">OSGB 1936 / British National Grid</a></li>
+	  <li><a href="#">Modis Sinusoidal</a></li>
+	</ul>
+      </div>
+      
+      
+      <div class="dropdown">
+  <button class="btn dropdown-toggle sr-only" type="button" id="dropdownMenu1" data-toggle="dropdown">
+    Dropdown
+    <span class="caret"></span>
+  </button>
+  <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu1">
+    <li role="presentation"><a role="menuitem" tabindex="-1" href="#">Action</a></li>
+    <li role="presentation"><a role="menuitem" tabindex="-1" href="#">Another action</a></li>
+    <li role="presentation"><a role="menuitem" tabindex="-1" href="#">Something else here</a></li>
+    <li role="presentation" class="divider"></li>
+    <li role="presentation"><a role="menuitem" tabindex="-1" href="#">Separated link</a></li>
+  </ul>
+</div>
+      -->
+    <select class="form-control" id="projection">
+      <option value="4326" >WGS_84</option>
+      <option value="2024">NAD27</option>
+      <option value="2035">NAD83</option>
+    </select>
+
+      <h2><small>3- Enter name for projecting file:</small></h2>
+      
+      <div class="input-group">
+      <input class="form-control" id="focusedInput" type="text" placeholder="Enter name" value="">
+    </div>
+
+  <h2><small>4- Re-project vector data:</small></h2>
+  <button type="button" class="btn btn-primary btn-lg" onclick="re_project()">Re-Project</button>
+
+      </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+      </div>
+    </div><!-- /.modal-content -->
+  </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+
+{% load re-project %}
+<script>
+  function re_project() {
+    var selected_vector = $('input[name="optionsRadios"]:checked').val();
+    var selected_proj = $( "#projection" ).val();
+    var vector_name = $('#focusedInput').val();
+    console.log(selected_vector);
+    console.log(selected_proj);
+    console.log(vector_name);
+    window.onload(Dajaxice.giscube_app.reproject_vector('',{'selected_vector': selected_vector, 'selected_proj':selected_proj, 'vector_name':vector_name}));
+  }
+</script>

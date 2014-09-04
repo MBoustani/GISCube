@@ -1,0 +1,171 @@
+{% include 'header.html' %}
+
+  <script src='http://maps.google.com/maps/api/js?sensor=false&v=3.7'></script>
+  <script>
+  var geojson_format = new OpenLayers.Format.GeoJSON();
+  </script>
+    {% for json in json_files %}
+    <script src="{{ json }}"></script>
+  {% endfor %}
+  
+  
+<style>
+  .map-container {  /* all maps */
+    width:  auto;
+    height: 500px;
+  }
+</style>
+
+
+
+  
+  
+<!-- /Map Settings-->
+<script type="text/javascript">
+
+/*
+{% for name in gtif_path %}
+      var {{ name }} = new OpenLayers.Layer.TMS("TMS Overlay", "",
+     {
+         serviceVersion: '..',
+         layername: 'static/uploaded_files/{{ name }}',
+         alpha: true,
+         type: 'png',
+         isBaseLayer: false,
+         getURL: getURL
+     });
+     if (OpenLayers.Util.alphaHack() == false) {
+         {{ name }}.setOpacity(0.7);
+     }
+{% endfor %}
+*/
+function add_remove_layer(kml_layer, kml) {
+  if (document.getElementById(kml).checked == true){
+    map.addLayer(kml_layer);
+  }else{
+    map.removeLayer(kml_layer);
+  }
+}
+
+  </script>
+
+<!-- Map Settings/-->
+
+<!-- /left-nav-stack-bar -->
+<div class="row">
+  <div class="col-md-2">
+    <ul class="nav nav-pills nav-stacked">
+      <li><a href="resource">Data Resource</a></li>
+      <li><a href="information">Data Information</a></li>
+      <li class="active"><a href="visualiser">Data Visualiser</a></li>
+      <li><a href="tools">GeoSpatial Tools</a></li>
+    </ul>
+  </div>
+<!-- left-nav-stack-bar/ -->
+
+
+<!-- /Data info box -->
+  <div class="col-md-3">
+  <!-- /vector and raster tabs -->
+  <ul id="myTab" class="nav nav-tabs">
+    <li class="active"><a href="#vectorData" data-toggle="tab">Vector Data</a></li>
+    <li><a href="#rasterData" data-toggle="tab">Raster Data</a></li>
+  </ul>
+  <!-- vector and raster tabs/ -->
+   <div id="myTabContent" class="tab-content">
+    <div class="tab-pane fade in active" id="vectorData">
+      <!-- /vector collapse -->
+      
+      
+      
+    {% for name in shp_kmls_names %}
+    <div class="checkbox">
+  <label>
+    <input type="checkbox" value={{ name }} id="{{ name }}" onchange="add_remove_layer({{ name }}_layer, '{{ name }}')"> 
+    {{ name }}
+  </label>
+</div>
+    {% endfor %}
+  <!-- /vector and raster contents -->
+
+      <!-- vector collapse\ -->
+    </div>
+   
+
+    <div class="tab-pane fade" id="rasterData">
+      <!-- /vector collapse --> 
+      {% for name in gtif_kmls_names %}
+      <div class="checkbox">
+    <label>
+      <input type="checkbox" value={{ name }} id="{{ name }}" onchange="add_remove_layer({{ name }}_layer, '{{ name }}')"> 
+      {{ name }}
+    </label>
+    </div>
+    {% endfor %}
+  <!-- /vector and raster contents -->
+
+      <!-- vector collapse\ -->
+    </div>
+    <!-- vector and raster contents/ -->
+    </div>
+    </div>
+
+<!-- Data info box/ -->
+
+
+<!-- /Map box -->
+    <div class="col-md-6">
+    <div class="container">
+    <h1><small>MAP</small></h1>
+    <div class="jumbotron">
+    <div class="map-container" id="map"></div>
+     <div id="map" class="smallmap"></div>
+    </div>
+    </div>
+  </div>
+</div>
+<!-- Map box/ -->
+
+<script>
+  //init();
+  var map = new OpenLayers.Map({
+    div: "map",
+    layers: [
+        new OpenLayers.Layer.WMS(
+            "WMS", "http://vmap0.tiles.osgeo.org/wms/vmap0",
+            {layers: "basic"}
+	    )],
+    center: new OpenLayers.LonLat(-112.169, 36.099),
+    zoom: 5
+  });
+  
+      {% for name in shp_kmls_names %}
+    var {{ name }}_layer = new OpenLayers.Layer.Vector("KML", {
+    strategies: [new OpenLayers.Strategy.Fixed()],
+      protocol: new OpenLayers.Protocol.HTTP({
+                url: '../static/uploaded_files/' + '{{ name }}.kml',
+                format: new OpenLayers.Format.KML({
+                    extractStyles: true, 
+                    extractAttributes: true,
+                    maxDepth: 2
+                })
+            })
+        });
+    {% endfor %}
+    
+    {% for name in gtif_kmls_names %}
+    var {{ name }}_layer = new OpenLayers.Layer.Vector("KML", {
+    strategies: [new OpenLayers.Strategy.Fixed()],
+      protocol: new OpenLayers.Protocol.HTTP({
+                url: '../static/uploaded_files/' + '{{ name }}.kml',
+                format: new OpenLayers.Format.KML({
+                    extractStyles: true, 
+                    extractAttributes: true,
+                    maxDepth: 2
+                })
+            })
+        });
+    {% endfor %}
+</script>
+
+{% include 'footer.html' %}

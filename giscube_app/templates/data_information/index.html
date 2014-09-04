@@ -1,0 +1,117 @@
+{% include 'header.html' %}
+
+<!-- /left-nav-stack-bar -->
+<div class="row">
+  <div class="col-md-2">
+    <ul class="nav nav-pills nav-stacked">
+      <li><a href="resource">Data Resource</a></li>
+      <li class="active"><a href="information">Data Information</a></li>
+      <li><a href="visualiser">Data Visualiser</a></li>
+      <li><a href="tools">GeoSpatial Tools</a></li>
+    </ul>
+  </div>
+
+<!-- left-nav-stack-bar/ -->
+
+<div class="col-md-7">
+<!-- /Data info box -->
+  <!-- /vector and raster tabs -->
+  <ul id="myTab" class="nav nav-tabs">
+    <li class="active"><a href="#vectorData" data-toggle="tab">Vector Data</a></li>
+    <li><a href="#rasterData" data-toggle="tab">Raster Data</a></li>
+  </ul>
+  <!-- vector and raster tabs/ -->
+  <!-- /vector contents -->
+  <div id="myTabContent" class="tab-content">
+    <div class="tab-pane fade in active" id="vectorData">
+      <!-- /vector collapse -->
+      {% load shp_dict %}
+      <div class="panel-group" id="accordion_vector">
+        {% for each in shps_info %}
+        <div class="panel panel-default">
+          <div class="panel-heading">
+            <h4 class="panel-title">
+              <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion_vector" href="#vector{{ forloop.counter0 }}">
+                {{ each|file_name }}
+              </a>
+            </h4>
+          </div>
+          <div id="vector{{ forloop.counter0 }}" class="panel-collapse collapse">
+            <div class="panel-body">
+            <h4>File Format:</h4>
+            {{ each|file_format }}
+            <h4>Number of Layers:</h4>
+            {{ each|num_layer }}
+            <h4>Layer Name:</h4>
+            {{ each|layer_name }}
+            <h4>Number of Features:</h4>
+            {{ each|number_of_feature }}
+            <h4>Layer Type:</h4>
+            {{ each|layer_type }}
+            <h4>Layer Spatial Reference:</h4>
+            {{ each|layer_spatial_reference }}
+            <h4>Layer Extend:</h4>
+            {{ each|layer_extend }}
+            </div>
+          </div>
+        </div>
+      {% endfor %}
+      </div>
+    </div>
+    <!-- vector collapse\ -->
+    <!-- vector contents/ -->
+    <!-- /raster contents -->
+    <div class="tab-pane fade in"  id="rasterData">
+      {% load tif_dict %}
+      <div class="panel-group" id="accordio_raster">
+        {% for each in tifs_info %}
+        <div class="panel panel-default">
+          <div class="panel-heading">
+            <h4 class="panel-title">
+              <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordio_raster" href="#raster{{ forloop.counter0 }}">{{ each|file_name }}</a>
+            </h4>
+          </div>
+          <div id="raster{{ forloop.counter0 }}" class="panel-collapse collapse">
+            <div class="panel-body">
+            <h4>File Format:</h4>
+            {{ each|file_format }}
+            <h4>Number of Bands:</h4>
+            {{ each|num_band }}
+            <h4>X Y size:</h4>
+            {{ each|raster_x_y_size }}
+            <h4>Raster Projection:</h4>
+            {{ each|raster_projection }}
+            <h4>Raster Geotransform:</h4>
+            {{ each|raster_geotransform }}
+            <h4>Raster Origin:</h4>
+            {{ each|raster_origin }}
+            <h4>Raster Pixle Size:</h4>
+            {{ each|raster_pixle_size }}
+            </div>
+          </div>
+        </div>
+      {% endfor %}
+      </div>
+    </div>
+  </div>
+  <!-- raster contents/ -->
+
+</div>
+<!-- Data info box/ -->
+
+
+
+<script type="text/javascript">
+   $(document).ready(function(){
+         $(":radio:eq(0)").click(function(){
+             $("#matn").show(1000);
+          });
+
+          $(":radio:eq(1)").click(function(){
+             $("#matn").hide(1000);
+          });
+
+  });
+</script>
+
+{% include 'footer.html' %}
