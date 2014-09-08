@@ -35,7 +35,7 @@
 
   <h2><small>4- Re-project vector data:</small></h2>
   <button type="button" class="btn btn-primary btn-lg" onclick="re_project()">Re-Project</button>
-      <p id='status'></p>
+      <p id='reproject_vector_status'></p>
       </div>
       </div>
       <div class="modal-footer">
@@ -48,11 +48,11 @@
 {% load re-project %}
 <script>
   function re_project() {
-    document.getElementById('status').innerHTML = 'Processing...';
+    document.getElementById('reproject_vector_status').innerHTML = 'Processing...';
     var selected_vector = $('input[name="optionsRadios"]:checked').val();
     var selected_proj = $("#projection").val();
     var vector_name = $('#focusedInput').val();
     Dajaxice.giscube_app.reproject_vector('',{'selected_vector': selected_vector, 'selected_proj':selected_proj, 'vector_name':vector_name});
-    document.getElementById('status').innerHTML = 'Done.';
+    document.getElementById('reproject_vector_status').innerHTML = 'Done.';
   }
 </script>
