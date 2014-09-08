@@ -1,0 +1,47 @@
+{% load shp_dict %}
+
+<!-- Modal -->
+<div class="modal fade" id="extract_shp_table" tabindex="-1" role="dialog" aria-labelledby="extract_shp_table_lable" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+        <h4 class="modal-title" id="extract_shp_table_lable">Extract Vector Table to text file.</h4>
+      </div>
+      <div class="modal-body">
+      <p>This tool can extracts Shapefile attribute table to text file.</p>
+      <div class="container">
+	<h2><small>1- Select from current vector data:</small></h2>
+	{% for each in shps_info %}
+	<div class="radio">
+	<input type="radio" name="optionsRadios" id="current_vector" value="{{ each|layer_name }}">
+	<p>{{ each|file_name }}</p>
+      </div>
+      {% endfor %}
+      
+      <h2><small>3- Enter text file name:</small></h2>
+      
+      <div class="input-group">
+      <input class="form-control" id="text_name" type="text" placeholder="Enter file name" value="">
+    </div>
+
+  <button type="button" class="btn btn-primary btn-lg" onclick="extract_table()">Extract table</button>
+      <p id='status'></p>
+      </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+      </div>
+    </div><!-- /.modal-content -->
+  </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+
+<script>
+  function extract_table() {
+    document.getElementById('status').innerHTML = 'Processing...';
+    var selected_vector = $('input[name="optionsRadios"]:checked').val();
+    var text_name = $('#text_name').val();
+    Dajaxice.giscube_app.extract_shp_table_text('',{'selected_vector': selected_vector, 'text_name':text_name});
+    document.getElementById('status').innerHTML = 'Done.';
+  }
+</script>
