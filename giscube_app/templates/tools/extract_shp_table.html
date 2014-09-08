@@ -26,7 +26,7 @@
     </div>
 
   <button type="button" class="btn btn-primary btn-lg" onclick="extract_table()">Extract table</button>
-      <p id='status'></p>
+      <p id='extract_shp_status'></p>
       </div>
       </div>
       <div class="modal-footer">
@@ -38,10 +38,10 @@
 
 <script>
   function extract_table() {
-    document.getElementById('status').innerHTML = 'Processing...';
+    document.getElementById('extract_shp_status').innerHTML = 'Processing...';
     var selected_vector = $('input[name="optionsRadios"]:checked').val();
     var text_name = $('#text_name').val();
     Dajaxice.giscube_app.extract_shp_table_text('',{'selected_vector': selected_vector, 'text_name':text_name});
-    document.getElementById('status').innerHTML = 'Done.';
+    document.getElementById('extract_shp_status').innerHTML = 'Done.';
   }
 </script>
