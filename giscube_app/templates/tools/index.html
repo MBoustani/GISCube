@@ -1,3 +1,9 @@
+
+{% include '/tools/re_project_vector.html' %}
+{% include '/tools/extract_shp_table.html' %}
+{% include '/tools/vector_to_kml.html' %}
+{% include '/tools/raster_to_kml.html' %}
+
 {% include 'header.html' %}
 
 <!-- /row -->
@@ -11,19 +17,23 @@
       <li class="active"><a href="tools">GeoSpatial Tools</a></li>
     </ul>
   </div>
+</div>
+
+<div id="toggle"> </div>
+
 <!-- left-nav-stack-bar/ -->
 <div class="container">
 <h1><small>Vector Tools:</small></h1>
 <hr>
-<div class="col-md-3 col-md-offset-1">
+<div class="col-md-3">
   <button type="button" class="btn btn-default btn-lg btn-block" disabled="disabled">Vector to Shapefile</button>
   <button type="button" class="btn btn-default btn-lg btn-block" disabled="disabled">Vector to Raster</button>
-  <button type="button" class="btn btn-default btn-lg btn-block" data-toggle="modal" data-target="#vector_to_kml">Vector to KML</button>
+  <button type="button" class="btn btn-default btn-lg btn-block open" id="vector_to_kml">Vector to KML</button>
   <button type="button" class="btn btn-default btn-lg btn-block" disabled="disabled">Vector to GeoJSON</button>
 </div>
 <div class="col-md-3">
-  <button type="button" class="btn btn-default btn-lg btn-block" data-toggle="modal" data-target="#re_project_vector">Re-Project Vector</button>
-  <button type="button" class="btn btn-default btn-lg btn-block" disabled="disabled">Extract Vector Table</button>
+  <button type="button" class="btn btn-default btn-lg btn-block open" id="reproject_vector">Re-Project Vector</button>
+  <button type="button" class="btn btn-default btn-lg btn-block open" id="extract_shp_table">Extract Vector Table to text file</button>
   <button type="button" class="btn btn-default btn-lg btn-block" disabled="disabled">-</button>
   <button type="button" class="btn btn-default btn-lg btn-block" disabled="disabled">-</button>
 </div>
@@ -38,9 +48,9 @@
 <div class="container">
 <h1><small>Raster Tools:</small></h1>
 <hr>
-<div class="col-md-3 col-md-offset-1">
+<div class="col-md-3">
   <button type="button" class="btn btn-default btn-lg btn-block" disabled="disabled">Raster to Vector</button>
-  <button type="button" class="btn btn-default btn-lg btn-block" data-toggle="modal" data-target="#raster_to_kml">Raster to KML</button>
+  <button type="button" class="btn btn-default btn-lg btn-block open" id="raster_to_kml">Raster to KML</button>
   <button type="button" class="btn btn-default btn-lg btn-block" disabled="disabled">Raster to GeoJSON</button>
   <button type="button" class="btn btn-default btn-lg btn-block" disabled="disabled">Raster to netCDF</button>
 </div>
@@ -57,14 +67,21 @@
   <button type="button" class="btn btn-default btn-lg btn-block" disabled="disabled">-</button>
 </div>
 </div>
-
-</div>
 <!-- row/ -->
 
 
-{% include '/tools/re_project_vector.html' %}
-{% include '/tools/vector_to_kml.html' %}
-{% include '/tools/raster_to_kml.html' %}
 
+<script>
+$(".open").click(function() {
+  var id = $(this).attr('id');
+  $("#menu_"+id).toggleClass("closed");
+  $("#toggle").toggleClass("closed");
+});
+
+$(".close").click(function(){
+  $(".menu").addClass("closed");
+  $("#toggle").toggleClass("closed");
+  });
+</script>
 
 {% include 'footer.html' %}
