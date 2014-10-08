@@ -13,6 +13,7 @@ from giscube_app.models import Document
 from giscube_app.forms import DocumentForm
 
 #import GIS scripts
+from giscube_app.scripts.open_file import open_shp_file, open_tif_file
 from giscube_app.scripts.shp_name_info import run_shp_info
 from giscube_app.scripts.tif_name_info import run_tif_info
 from giscube_app.scripts.shp_to_kml import shp_to_kml
@@ -68,16 +69,28 @@ def data_resource(request):
 def data_information(request):
     os.chdir(MEDIA_ROOT + MEDIA_URL)
     shp_file_name = [each for each in glob.glob("*.shp") ]
-    shps_info = []    
+    shps_info = []
+    error = ""
     for name in shp_file_name:
-        shps_info.append(run_shp_info(name))
+        print open_shp_file(name)
+        if open_shp_file(name):
+            shps_info.append(run_shp_info(name))
+            error = ""
+        else:
+            error = "Cannot open shapfile."
+            break
 
     tif_file_name = [each for each in glob.glob("*.tif") ]
     tifs_info = []
     for name in tif_file_name:
-        tifs_info.append(run_tif_info(name))
+        if open_tif_file(name):
+            tifs_info.append(run_tif_info(name))
+            error = ""
+        else:
+            error = "Cannot open tif file."
+            break
 
-    context = {'shps_info': shps_info, 'tifs_info': tifs_info}
+    context = {'shps_info': shps_info, 'tifs_info': tifs_info, 'error':error}
     
     return render(request, 'data_information/index.html', context)
 
