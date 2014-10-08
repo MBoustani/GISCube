@@ -73,7 +73,6 @@ def data_information(request):
     shp_error = ""
     tif_error = ""
     for name in shp_file_name:
-        print open_shp_file(name)
         if open_shp_file(name):
             shps_info.append(run_shp_info(name))
             shp_error = ""
@@ -106,7 +105,6 @@ def data_visualiser(request):
     gtif_file_name = [each for each in glob.glob("*.tif") ] #TODO: Use GDLA file format to recognize geotif, not with parsing
     for name in shp_file_name:
         if open_shp_file(name):
-            print open_shp_file(name)
             kml_file = shp_to_kml(name)
             shp_kmls_names.append(kml_file.split('.kml')[0])
             shp_error = ""
@@ -130,11 +128,8 @@ def tools(request):
     shp_file_name = [each for each in glob.glob("*.shp") ]
     shps_info = []
     for name in shp_file_name:
-        shps_info.append(run_shp_info(name))
-    if shps_info:
-        pass
-    else:
-        shps_info = ""
+        if open_shp_file(name):
+            shps_info.append(run_shp_info(name))   
     context = {'shps_info': shps_info}
 
     return render(request, 'tools/index.html', context)
