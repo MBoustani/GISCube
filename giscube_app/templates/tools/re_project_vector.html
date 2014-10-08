@@ -1,15 +1,10 @@
 {% load shp_dict %}
 
-<!-- Modal -->
-<div class="modal fade" id="re_project_vector" tabindex="-1" role="dialog" aria-labelledby="re_project_vector_lable" aria-hidden="true">
-  <div class="modal-dialog">
-    <div class="modal-content">
-      <div class="modal-header">
-        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-        <h4 class="modal-title" id="re_project_vector_lable">Re-Project Vector</h4>
-      </div>
-      <div class="modal-body">
-      <p>This tool re-projects and creates new vector data.</p>
+
+<div class="menu closed" id="menu_reproject_vector">
+  <button class="close">close</button>
+<h2>Re-Project Vector</h2>
+      <h3>This tool re-projects and creates new vector data.</h3>
       <div class="container">
 	<h2><small>1- Select from current vector data:</small></h2>
 	{% for each in shps_info %}
@@ -37,13 +32,7 @@
   <button type="button" class="btn btn-primary btn-lg" onclick="re_project()">Re-Project</button>
       <p id='reproject_vector_status'></p>
       </div>
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-      </div>
-    </div><!-- /.modal-content -->
-  </div><!-- /.modal-dialog -->
-</div><!-- /.modal -->
+</div>
 
 {% load re-project %}
 <script>

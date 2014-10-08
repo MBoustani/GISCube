@@ -1,15 +1,10 @@
 {% load shp_dict %}
 
-<!-- Modal -->
-<div class="modal fade" id="extract_shp_table" tabindex="-1" role="dialog" aria-labelledby="extract_shp_table_lable" aria-hidden="true">
-  <div class="modal-dialog">
-    <div class="modal-content">
-      <div class="modal-header">
-        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-        <h4 class="modal-title" id="extract_shp_table_lable">Extract Vector Table to text file.</h4>
-      </div>
-      <div class="modal-body">
-      <p>This tool can extracts Shapefile attribute table to text file.</p>
+
+<div class="menu closed" id="menu_extract_shp_table">
+  <button class="close">close</button>
+<h2>Extract Vector Table to text file.</h2>
+      <h3>This tool can extracts Shapefile attribute table to text file.</h3>
       <div class="container">
 	<h2><small>1- Select from current vector data:</small></h2>
 	{% for each in shps_info %}
@@ -27,14 +22,9 @@
 
   <button type="button" class="btn btn-primary btn-lg" onclick="extract_table()">Extract table</button>
       <p id='extract_shp_status'></p>
-      </div>
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-      </div>
-    </div><!-- /.modal-content -->
-  </div><!-- /.modal-dialog -->
-</div><!-- /.modal -->
+    </div>
+</div>
+
 
 <script>
   function extract_table() {
