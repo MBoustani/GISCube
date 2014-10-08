@@ -70,14 +70,15 @@ def data_information(request):
     os.chdir(MEDIA_ROOT + MEDIA_URL)
     shp_file_name = [each for each in glob.glob("*.shp") ]
     shps_info = []
-    error = ""
+    shp_error = ""
+    tif_error = ""
     for name in shp_file_name:
         print open_shp_file(name)
         if open_shp_file(name):
             shps_info.append(run_shp_info(name))
-            error = ""
+            shp_error = ""
         else:
-            error = "Cannot open shapfile."
+            shp_error = "Cannot open shapfile."
             break
 
     tif_file_name = [each for each in glob.glob("*.tif") ]
@@ -85,12 +86,12 @@ def data_information(request):
     for name in tif_file_name:
         if open_tif_file(name):
             tifs_info.append(run_tif_info(name))
-            error = ""
+            tif_error = ""
         else:
-            error = "Cannot open tif file."
+            tif_error = "Cannot open tif file."
             break
 
-    context = {'shps_info': shps_info, 'tifs_info': tifs_info, 'error':error}
+    context = {'shps_info': shps_info, 'tifs_info': tifs_info, 'shp_error':shp_error, 'tif_error':tif_error}
     
     return render(request, 'data_information/index.html', context)
 
@@ -99,15 +100,28 @@ def data_visualiser(request):
     os.chdir(MEDIA_ROOT + MEDIA_URL)
     shp_kmls_names = []
     gtif_kmls_names = []
+    shp_error = ""
+    tif_error = ""
     shp_file_name = [each for each in glob.glob("*.shp") ] #TODO: Use GDLA file format to recognize shapefiles, not with parsing
     gtif_file_name = [each for each in glob.glob("*.tif") ] #TODO: Use GDLA file format to recognize geotif, not with parsing
     for name in shp_file_name:
-        kml_file = shp_to_kml(name)
-        shp_kmls_names.append(kml_file.split('.kml')[0])
+        if open_shp_file(name):
+            print open_shp_file(name)
+            kml_file = shp_to_kml(name)
+            shp_kmls_names.append(kml_file.split('.kml')[0])
+            shp_error = ""
+        else:
+            shp_error = "Cannot open shapfile."
+            break
     for name in gtif_file_name:
-        kml_file = gtif_to_kml(name)
-        gtif_kmls_names.append(kml_file.split('.kml')[0])
-    context = {'shp_kmls_names':shp_kmls_names, 'gtif_kmls_names':gtif_kmls_names}
+        if open_tif_file(name):
+            kml_file = gtif_to_kml(name)
+            gtif_kmls_names.append(kml_file.split('.kml')[0])
+            tif_error = ""
+        else:
+            tif_error = "Cannot open tif file."
+            break
+    context = {'shp_kmls_names':shp_kmls_names, 'gtif_kmls_names':gtif_kmls_names, 'shp_error':shp_error, 'tif_error':tif_error}
     return render(request, 'data_visualiser/index.html', context)
 
 #tools page
