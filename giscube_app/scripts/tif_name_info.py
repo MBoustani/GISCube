@@ -8,7 +8,7 @@
 
 
 import sys
-import argparse
+
 try:
     from osgeo import gdal
     from osgeo import osr
