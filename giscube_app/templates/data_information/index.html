@@ -20,6 +20,9 @@
     <li class="active"><a href="#vectorData" data-toggle="tab">Vector Data</a></li>
     <li><a href="#rasterData" data-toggle="tab">Raster Data</a></li>
   </ul>
+ {% if error %}
+   <div class="alert alert-danger" role="alert">{{ error }}</div>
+  {% else %}
   <!-- vector and raster tabs/ -->
   <!-- /vector contents -->
   <div id="myTabContent" class="tab-content">
@@ -95,7 +98,7 @@
     </div>
   </div>
   <!-- raster contents/ -->
-
+{% endif %}
 </div>
 <!-- Data info box/ -->
 
