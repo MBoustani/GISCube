@@ -77,15 +77,18 @@ function add_remove_layer(kml_layer, kml) {
       <!-- /vector collapse -->
       
       
-      
+    {% if shp_error %}
+      <div class="alert alert-danger" role="alert">{{ shp_error }}</div>
+    {% else %}
     {% for name in shp_kmls_names %}
     <div class="checkbox">
-  <label>
-    <input type="checkbox" value={{ name }} id="{{ name }}" onchange="add_remove_layer({{ name }}_layer, '{{ name }}')"> 
-    {{ name }}
-  </label>
-</div>
+    <label>
+      <input type="checkbox" value={{ name }} id="{{ name }}" onchange="add_remove_layer({{ name }}_layer, '{{ name }}')"> 
+      {{ name }}
+    </label>
+    </div>
     {% endfor %}
+    {% endif %}
   <!-- /vector and raster contents -->
 
       <!-- vector collapse\ -->
@@ -93,7 +96,10 @@ function add_remove_layer(kml_layer, kml) {
    
 
     <div class="tab-pane fade" id="rasterData">
-      <!-- /vector collapse --> 
+      <!-- /vector collapse -->
+    {% if tif_error %}
+      <div class="alert alert-danger" role="alert">{{ tif_error }}</div>
+    {% else %}
       {% for name in gtif_kmls_names %}
       <div class="checkbox">
     <label>
@@ -101,7 +107,8 @@ function add_remove_layer(kml_layer, kml) {
       {{ name }}
     </label>
     </div>
-    {% endfor %}
+  {% endfor %}
+  {% endif %}
   <!-- /vector and raster contents -->
 
       <!-- vector collapse\ -->
@@ -109,7 +116,6 @@ function add_remove_layer(kml_layer, kml) {
     <!-- vector and raster contents/ -->
     </div>
     </div>
-
 <!-- Data info box/ -->
 
 
