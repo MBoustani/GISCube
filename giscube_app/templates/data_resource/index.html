@@ -26,12 +26,12 @@
     </form>
   </div>
 
-  <div class="col-md-2">
+  <div class="col-md-4">
   {% if UPLODED_FILES %}
     <ul>
       {% for file in UPLODED_FILES %}
       <li>
-        <button type="button" class="btn btn-danger btn-xs" onclick="Dajaxice.giscube_app.remove_loaded_file('',{'param': '{{ file }}'});location.reload();"><span class="glyphicon glyphicon-remove"></span></button>
+        <span class="glyphicon glyphicon-remove" onclick="Dajaxice.giscube_app.remove_loaded_file('',{'param': '{{ file }}'});location.reload();"></span>
         {{ file }}
       </li><br>
       {% endfor %}
