@@ -1,10 +1,10 @@
 import os
 
 #get the current directory
-Current_path = os.getcwd()
+current_dir = os.getcwd()
 
 STATIC_ROOT = ''
 STATIC_URL = '/static/'
-BASE_DIR = '{0}/giscube_app/static/'.format(Current_path)
-MEDIA_ROOT = '{0}/giscube_app/static/'.format(Current_path)
+MEDIA_ROOT = '{0}/giscube_app/static/'.format(current_dir)
 MEDIA_URL = 'uploaded_files/'
+#BASE_DIR = '{0}/giscube_app/static/'.format(current_dir) #used for database
