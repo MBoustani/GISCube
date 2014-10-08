@@ -20,9 +20,6 @@
     <li class="active"><a href="#vectorData" data-toggle="tab">Vector Data</a></li>
     <li><a href="#rasterData" data-toggle="tab">Raster Data</a></li>
   </ul>
- {% if error %}
-   <div class="alert alert-danger" role="alert">{{ error }}</div>
-  {% else %}
   <!-- vector and raster tabs/ -->
   <!-- /vector contents -->
   <div id="myTabContent" class="tab-content">
@@ -30,6 +27,9 @@
       <!-- /vector collapse -->
       {% load shp_dict %}
       <div class="panel-group" id="accordion_vector">
+        {% if shp_error %}
+          <div class="alert alert-danger" role="alert">{{ shp_error }}</div>
+        {% else %}
         {% for each in shps_info %}
         <div class="panel panel-default">
           <div class="panel-heading">
@@ -59,6 +59,7 @@
           </div>
         </div>
       {% endfor %}
+      {% endif %}
       </div>
     </div>
     <!-- vector collapse\ -->
@@ -67,6 +68,9 @@
     <div class="tab-pane fade in"  id="rasterData">
       {% load tif_dict %}
       <div class="panel-group" id="accordio_raster">
+      {% if tif_error %}
+          <div class="alert alert-danger" role="alert">{{ tif_error }}</div>
+        {% else %}
         {% for each in tifs_info %}
         <div class="panel panel-default">
           <div class="panel-heading">
@@ -94,11 +98,11 @@
           </div>
         </div>
       {% endfor %}
+      {% endif %}
       </div>
     </div>
   </div>
   <!-- raster contents/ -->
-{% endif %}
 </div>
 <!-- Data info box/ -->
 
