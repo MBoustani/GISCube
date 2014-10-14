@@ -19,7 +19,7 @@ from giscube_app.scripts.tif_name_info import run_tif_info
 from giscube_app.scripts.shp_to_kml import shp_to_kml
 from giscube_app.scripts.gtif_to_kml import gtif_to_kml
 from giscube_app.scripts.what_file import what_format
-
+from giscube_app.scripts.vector_to_geojson import get_geojson
 
 #resource page
 def data_resource(request):
@@ -97,29 +97,36 @@ def data_information(request):
 #visualiser page
 def data_visualiser(request):
     os.chdir(MEDIA_ROOT + MEDIA_URL)
-    shp_kmls_names = []
-    gtif_kmls_names = []
+    jsons = []
     shp_error = ""
     tif_error = ""
     shp_file_name = [each for each in glob.glob("*.shp") ] #TODO: Use GDLA file format to recognize shapefiles, not with parsing
     gtif_file_name = [each for each in glob.glob("*.tif") ] #TODO: Use GDLA file format to recognize geotif, not with parsing
+    #for name in shp_file_name:
+    #    if open_shp_file(name):
+    #        kml_file = shp_to_kml(name)
+    #        shp_kmls_names.append(kml_file.split('.kml')[0])
+    #        shp_error = ""
+    #    else:
+    #        shp_error = "Cannot open shapfile."
+    #        break
+    #for name in gtif_file_name:
+    #    if open_tif_file(name):
+    #        kml_file = gtif_to_kml(name)
+    #        gtif_kmls_names.append(kml_file.split('.kml')[0])
+    #        tif_error = ""
+    #    else:
+    #        tif_error = "Cannot open tif file."
+    #        break
     for name in shp_file_name:
         if open_shp_file(name):
-            kml_file = shp_to_kml(name)
-            shp_kmls_names.append(kml_file.split('.kml')[0])
+            json_name = get_geojson(name)
+            jsons.append(json_name)
             shp_error = ""
         else:
             shp_error = "Cannot open shapfile."
             break
-    for name in gtif_file_name:
-        if open_tif_file(name):
-            kml_file = gtif_to_kml(name)
-            gtif_kmls_names.append(kml_file.split('.kml')[0])
-            tif_error = ""
-        else:
-            tif_error = "Cannot open tif file."
-            break
-    context = {'shp_kmls_names':shp_kmls_names, 'gtif_kmls_names':gtif_kmls_names, 'shp_error':shp_error, 'tif_error':tif_error}
+    context = {'jsons':jsons, 'shp_error':shp_error, 'tif_error':tif_error}
     return render(request, 'data_visualiser/index.html', context)
 
 #tools page
