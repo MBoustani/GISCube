@@ -20,6 +20,7 @@ from giscube_app.scripts.shp_to_kml import shp_to_kml
 from giscube_app.scripts.gtif_to_kml import gtif_to_kml
 from giscube_app.scripts.what_file import what_format
 from giscube_app.scripts.vector_to_geojson import get_geojson
+from giscube_app.scripts.netcdf_info import run_nc_info
 
 #resource page
 def data_resource(request):
@@ -32,6 +33,8 @@ def data_resource(request):
         elif file_format == "LIBKML":
             UPLODED_FILES.append(each)
         elif file_format == "GeoTIFF":
+            UPLODED_FILES.append(each)
+        elif file_format == "Network Common Data Format":
             UPLODED_FILES.append(each)
     if request.method == 'POST':
         form = DocumentForm(request.POST, request.FILES)
@@ -72,6 +75,7 @@ def data_information(request):
     shps_info = []
     shp_error = ""
     tif_error = ""
+    nc_error = ""
     for name in shp_file_name:
         if open_shp_file(name):
             shps_info.append(run_shp_info(name))
@@ -90,7 +94,17 @@ def data_information(request):
             tif_error = "Cannot open tif file."
             break
 
-    context = {'shps_info': shps_info, 'tifs_info': tifs_info, 'shp_error':shp_error, 'tif_error':tif_error}
+    nc_file_name = [each for each in glob.glob("*.nc") ]
+    nc_info = []
+    for name in nc_file_name:
+        if open_tif_file(name):
+            nc_info.append(run_nc_info(name))
+            nc_error = ""
+        else:
+            nc_error = "Cannot open netCDF file."
+            break
+
+    context = {'shps_info': shps_info, 'tifs_info': tifs_info, 'nc_info':nc_info, 'shp_error':shp_error, 'tif_error':tif_error, 'nc_error':nc_error}
     
     return render(request, 'data_information/index.html', context)
 

@@ -19,6 +19,7 @@
   <ul id="myTab" class="nav nav-tabs">
     <li class="active"><a href="#vectorData" data-toggle="tab">Vector Data</a></li>
     <li><a href="#rasterData" data-toggle="tab">Raster Data</a></li>
+    <li><a href="#netcdfData" data-toggle="tab">netCDF Data</a></li>
   </ul>
   <!-- vector and raster tabs/ -->
   <!-- /vector contents -->
@@ -101,8 +102,39 @@
       {% endif %}
       </div>
     </div>
+    <!-- raster contents/ -->
+    <!-- /netcdf contents -->
+    <div class="tab-pane fade in"  id="netcdfData">
+      {% load nc_dict %}
+      <div class="panel-group" id="accordio_netcdf">
+      {% if nc_error %}
+          <div class="alert alert-danger" role="alert">{{ nc_error }}</div>
+        {% else %}
+        {% for netcdf in nc_info %}
+        <div class="panel panel-default">
+          <div class="panel-heading">
+            <h4 class="panel-title">
+              <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordio_netcdf" href="#netcdf{{ forloop.counter0 }}">{{ netcdf|file_name }}</a>
+            </h4>
+          </div>
+          <div id="netcdf{{ forloop.counter0 }}" class="panel-collapse collapse">
+            <div class="panel-body">
+            <h2>Variables:</h2>
+            {% for variable in  netcdf|all_variables_info %}
+              <h3>{{ variable|var_name }}:</h3>
+               {% for att in variable|attributes %}
+                 <p>{{ att }}</p>
+                 {% endfor %}
+            {% endfor %}
+            </div>
+          </div>
+        </div>
+      {% endfor %}
+      {% endif %}
+      </div>
+    </div>
   </div>
-  <!-- raster contents/ -->
+  <!-- netcdf contents/ -->
 </div>
 <!-- Data info box/ -->
 

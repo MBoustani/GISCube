@@ -29,10 +29,11 @@
 
 
 
-<div class="col-md-2">
+<div class="col-md-3">
   <ul id="myTab" class="nav nav-tabs">
     <li class="active"><a href="#vectorData" data-toggle="tab">Vector Data</a></li>
     <li><a href="#rasterData" data-toggle="tab">Raster Data</a></li>
+    <li><a href="#netcdfData" data-toggle="tab">netCDF Data</a></li>
   </ul>
 
    <div id="myTabContent" class="tab-content">
@@ -46,13 +47,55 @@
         </div>
       {% endfor %}
     </div>
+    <div class="tab-pane fade in" id="rasterData">
+    </div>
+    <div class="tab-pane fade in" id="netcdfData">
+      {% for nc in ncs %}
+        <div class="checkbox">
+          <label>
+            <input type="checkbox" name="nc_files" value={{ nc }} id="{{ nc }}" onchange="add_remove_layer({{ nc }}, '{{ nc }}')"> 
+            {{ nc }}
+          </label>
+          <h3>Select Variables:</h3>
+          <p>Latitude:</p>
+          <select class="form-control" id="latitude">
+            {% for var in nc_variables %}
+            <option>{{ var }}</option>
+            {% endfor %}
+          </select>
+          <p>Longitude:</p>
+          <select class="form-control" id="longitude">
+            {% for var in nc_variables %}
+            <option>{{ var }}</option>
+            {% endfor %}
+          </select>
+          <p>Time:</p>
+          <select class="form-control" id="time">
+            {% for var in nc_variables %}
+            <option>{{ var }}</option>
+            {% endfor %}
+          </select>
+          <p>Value:</p>
+          <select class="form-control" id="value">
+            {% for var in nc_variables %}
+            <option>{{ var }}</option>
+            {% endfor %}
+          </select>
+        </div>
+        <button  class="btn btn-primary btn-lg" onclick="netcdf_get_time()">Next</button>
+      {% endfor %}
+      <h3 id="select_time"></h3>
+      <div id="start_time_select"></div>
+      <div id="end_time_select"></div>
+      <div id="map_button"></div>
+    </div>
    </div>
 </div>
     
 
 
 <!-- /Map box -->
-    <div class="col-md-8">
+    <div class="col-md-7">
     <div class="container">
     <div class="map-container" id="map"></div>
      <div id="map"></div>
@@ -90,6 +133,34 @@
       map.removeLayer(layer);
     }
   }
-    </script>
+  function callback(data) {
+    console.log("List of times");
+    console.log(data.time_data);
+    document.getElementById('select_time').innerHTML = 'Select time: ';
+    document.getElementById('start_time_select').innerHTML = '<select class="form-control" id="netcdf_times">';
+    for (i = 0; i < data.time_data.length; i++) {
+    document.getElementById('netcdf_times').innerHTML += '<option>' + data.time_data[i] + '</option>' ;
+    }
+    document.getElementById('end_time_select').innerHTML = '</select>';
+    document.getElementById('map_button').innerHTML = '<button  class="btn btn-primary btn-lg" onclick="map_netcdf()">Map it</button>';
+  }
+  function netcdf_get_time() {
+    var nc_file = $('input[name="nc_files"]:checked').val();
+    var latitude_var = $("#latitude").val();
+    var longitude_var = $('#longitude').val();
+    var time_var = $('#time').val();
+    var value_var = $('#value').val();
+    Dajaxice.giscube_app.get_netcdf_times(callback,{'nc_file':nc_file, 'time_var':time_var});
+  }
+  function map_netcdf() {
+    var nc_file = $('input[name="nc_files"]:checked').val();
+    var latitude_var = $("#latitude").val();
+    var longitude_var = $('#longitude').val();
+    var time_var = $('#time').val();
+    var value_var = $('#value').val();
+    var selected_time = $('#netcdf_times').val();
+    Dajaxice.giscube_app.map_netcdf('',{'nc_file':nc_file, 'latitude_var': latitude_var, 'longitude_var':longitude_var, 'time_var':time_var, 'value_var':value_var, 'selected_time':selected_time});
+  }
+</script>
 
 {% include 'footer.html' %}

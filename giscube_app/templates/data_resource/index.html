@@ -14,7 +14,7 @@
   <!-- left-nav-stack-bar/ -->
 
   <div class="col-md-3">
-    <div class="alert alert-info"><p>Supported formats: ".shp" and ".tif"(GeoTIFF)</p></div>
+    <div class="alert alert-info"><p>Supported formats: shapefile (.shp), GeoTIFF (.tif) and netCDF (.nc)</p></div>
     <form action="{% url 'resource' %}" method="post" enctype="multipart/form-data">
       {% csrf_token %}
       <p>{{ form.non_field_errors }}</p>
