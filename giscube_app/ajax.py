@@ -5,7 +5,7 @@ from dajaxice.decorators import dajaxice_register
 from giscube.config import MEDIA_ROOT, MEDIA_URL
 from scripts.extract_shp_table import extract_shp_table
 from scripts.netcdf_info import get_nc_data
-from scripts.conversion import nc_to_gtif
+from scripts.conversion import nc_to_gtif, nc_to_geojson
 from netCDF4 import Dataset
 
 @dajaxice_register(method='GET')
@@ -51,6 +51,7 @@ def map_netcdf(request, nc_file, latitude_var, longitude_var, time_var, value_va
     time_data = nc_dataset.variables[time_var][:]
     selected_time_index = np.where(time_data==float(selected_time))[0][0]
     value_data = get_nc_data(nc_file, latitude_var, longitude_var, time_var, value_var, selected_time_index)
+    nc_to_geojson(latitude_data, longitude_data, value_data)
     nc_to_gtif(latitude_data, longitude_data, value_data)
     print ">>>> Mapping netCDF data (Done)"
     print values.shape
