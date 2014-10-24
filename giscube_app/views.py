@@ -34,6 +34,8 @@ def data_resource(request):
             UPLODED_FILES.append(each)
         elif file_format == "GeoTIFF":
             UPLODED_FILES.append(each)
+        elif file_format == "GeoJSON":
+            UPLODED_FILES.append(each)
         elif file_format == "Network Common Data Format":
             UPLODED_FILES.append(each)
     if request.method == 'POST':
@@ -97,7 +99,7 @@ def data_information(request):
     nc_file_name = [each for each in glob.glob("*.nc") ]
     nc_info = []
     for name in nc_file_name:
-        if open_tif_file(name):
+        if open_tif_file(name): #netCDF file can be opened by GDAL
             nc_info.append(run_nc_info(name))
             nc_error = ""
         else:
@@ -112,35 +114,36 @@ def data_information(request):
 def data_visualiser(request):
     os.chdir(MEDIA_ROOT + MEDIA_URL)
     jsons = []
+    ncs = []
     shp_error = ""
     tif_error = ""
+    nc_error = ""
     shp_file_name = [each for each in glob.glob("*.shp") ] #TODO: Use GDLA file format to recognize shapefiles, not with parsing
     gtif_file_name = [each for each in glob.glob("*.tif") ] #TODO: Use GDLA file format to recognize geotif, not with parsing
-    #for name in shp_file_name:
-    #    if open_shp_file(name):
-    #        kml_file = shp_to_kml(name)
-    #        shp_kmls_names.append(kml_file.split('.kml')[0])
-    #        shp_error = ""
-    #    else:
-    #        shp_error = "Cannot open shapfile."
-    #        break
-    #for name in gtif_file_name:
-    #    if open_tif_file(name):
-    #        kml_file = gtif_to_kml(name)
-    #        gtif_kmls_names.append(kml_file.split('.kml')[0])
-    #        tif_error = ""
-    #    else:
-    #        tif_error = "Cannot open tif file."
-    #        break
+    nc_file_name = [each for each in glob.glob("*.nc") ]
+    json_file_name = [each for each in glob.glob("*.json") ]
+
     for name in shp_file_name:
         if open_shp_file(name):
             json_name = get_geojson(name)
-            jsons.append(json_name)
+            #jsons.append(json_name)
             shp_error = ""
         else:
             shp_error = "Cannot open shapfile."
             break
-    context = {'jsons':jsons, 'shp_error':shp_error, 'tif_error':tif_error}
+    for name in nc_file_name:
+        if open_tif_file(name): #netCDF file can be opened by GDAL
+            #json_name = get_geojson(name)
+            nc_variables = run_nc_info(name)['all_variables']
+            ncs.append(name)
+            nc_error = ""
+        else:
+            nc_error = "Cannot open netCDF."
+            break
+    #add all GeoJSON to jsons
+    for json in json_file_name:
+        jsons.append(json.split(".json")[0])
+    context = {'jsons':jsons,'ncs':ncs, 'nc_variables':nc_variables, 'shp_error':shp_error, 'tif_error':tif_error, 'nc_error':nc_error}
     return render(request, 'data_visualiser/index.html', context)
 
 #tools page
