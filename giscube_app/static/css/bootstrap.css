@@ -295,11 +295,13 @@ table {
 }
 
 html {
+  height: 100%;
   font-size: 62.5%;
   -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
 }
 
 body {
+  height: 100%;
   font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
   font-size: 14px;
   line-height: 1.428571429;
@@ -324,7 +326,7 @@ textarea {
 }
 
 a {
-  color: #428bca;
+  color: #0cb0b3;
   text-decoration: none;
 }
 
@@ -546,9 +548,8 @@ h4 small,
 }
 
 .page-header {
-  padding-bottom: 9px;
-  margin: 40px 0 20px;
-  border-bottom: 1px solid #eeeeee;
+  text-align: center;
+  border-bottom: 2px groove #8c8b8c;
 }
 
 ul,
@@ -773,6 +774,7 @@ pre code {
 }
 
 .row {
+  height: 100%;
   margin-right: -15px;
   margin-left: -15px;
 }
@@ -847,7 +849,6 @@ pre code {
 .col-lg-12 {
   position: relative;
   min-height: 1px;
-  padding-right: 15px;
   padding-left: 15px;
 }
 
@@ -3910,7 +3911,6 @@ textarea.input-group-sm > .input-group-btn > .btn {
 }
 
 .nav-pills > li > a {
-  border-radius: 5px;
 }
 
 .nav-pills > li + li {
@@ -3921,7 +3921,7 @@ textarea.input-group-sm > .input-group-btn > .btn {
 .nav-pills > li.active > a:hover,
 .nav-pills > li.active > a:focus {
   color: #ffffff;
-  background-color: #428bca;
+  background-color: #4af79b;
 }
 
 .nav-stacked > li {
@@ -4992,7 +4992,6 @@ a.thumbnail:focus {
   padding: 15px;
   margin-bottom: 20px;
   border: 1px solid transparent;
-  border-radius: 4px;
 }
 
 .alert h4 {

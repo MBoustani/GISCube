@@ -9,7 +9,7 @@
 <!-- /row -->
 <!-- /left-nav-stack-bar -->
 <div class="row">
-  <div class="col-md-2">
+  <div class="col-md-2" id="side_menu">
     <ul class="nav nav-pills nav-stacked">
       <li><a href="resource">Data Resource</a></li>
       <li><a href="information">Data Information</a></li>
@@ -17,55 +17,79 @@
       <li class="active"><a href="tools">GeoSpatial Tools</a></li>
     </ul>
   </div>
-</div>
 
 <div id="toggle"> </div>
 
 <!-- left-nav-stack-bar/ -->
-<div class="container">
+<div class="container col-md-10">
 <h1><small>Vector Tools:</small></h1>
 <hr>
-<div class="col-md-3">
-  <button type="button" class="btn btn-default btn-lg btn-block" disabled="disabled">Vector to Shapefile</button>
-  <button type="button" class="btn btn-default btn-lg btn-block" disabled="disabled">Vector to Raster</button>
-  <button type="button" class="btn btn-default btn-lg btn-block open" id="vector_to_kml">Vector to KML</button>
-  <button type="button" class="btn btn-default btn-lg btn-block" disabled="disabled">Vector to GeoJSON</button>
+<div class="col-md-2">
+  <button type="button" class="btn btn-default btn-block" disabled="disabled">Vector to Shapefile</button>
+  <button type="button" class="btn btn-default btn-block" disabled="disabled">Vector to Raster</button>
+  <button type="button" class="btn btn-default btn-block open" id="vector_to_kml">Vector to KML</button>
+  <button type="button" class="btn btn-default btn-block" disabled="disabled">Vector to GeoJSON</button>
 </div>
-<div class="col-md-3">
-  <button type="button" class="btn btn-default btn-lg btn-block open" id="reproject_vector">Re-Project Vector</button>
-  <button type="button" class="btn btn-default btn-lg btn-block open" id="extract_shp_table">Extract Vector Table to text file</button>
-  <button type="button" class="btn btn-default btn-lg btn-block" disabled="disabled">-</button>
-  <button type="button" class="btn btn-default btn-lg btn-block" disabled="disabled">-</button>
+<div class="col-md-2">
+  <button type="button" class="btn btn-default btn-block open" id="reproject_vector">Re-Project Vector</button>
+  <button type="button" class="btn btn-default btn-block open" id="extract_shp_table">Extract Vector Table to text file</button>
+  <button type="button" class="btn btn-default btn-block" disabled="disabled">-</button>
+  <button type="button" class="btn btn-default btn-block" disabled="disabled">-</button>
 </div>
-<div class="col-md-3">
-  <button type="button" class="btn btn-default btn-lg btn-block" disabled="disabled" >-</button>
-  <button type="button" class="btn btn-default btn-lg btn-block" disabled="disabled">-</button>
-  <button type="button" class="btn btn-default btn-lg btn-block" disabled="disabled">-</button>
-  <button type="button" class="btn btn-default btn-lg btn-block" disabled="disabled">-</button>
+<div class="col-md-2">
+  <button type="button" class="btn btn-default btn-block" disabled="disabled" >-</button>
+  <button type="button" class="btn btn-default btn-block" disabled="disabled">-</button>
+  <button type="button" class="btn btn-default btn-block" disabled="disabled">-</button>
+  <button type="button" class="btn btn-default btn-block" disabled="disabled">-</button>
 </div>
 </div>
 
-<div class="container">
+<div class="container col-md-10">
 <h1><small>Raster Tools:</small></h1>
 <hr>
-<div class="col-md-3">
-  <button type="button" class="btn btn-default btn-lg btn-block" disabled="disabled">Raster to Vector</button>
-  <button type="button" class="btn btn-default btn-lg btn-block open" id="raster_to_kml">Raster to KML</button>
-  <button type="button" class="btn btn-default btn-lg btn-block" disabled="disabled">Raster to GeoJSON</button>
-  <button type="button" class="btn btn-default btn-lg btn-block" disabled="disabled">Raster to netCDF</button>
+<div class="col-md-2">
+  <button type="button" class="btn btn-default btn-block" disabled="disabled">Raster to Vector</button>
+  <button type="button" class="btn btn-default btn-block open" id="raster_to_kml">Raster to KML</button>
+  <button type="button" class="btn btn-default btn-block" disabled="disabled">Raster to GeoJSON</button>
+  <button type="button" class="btn btn-default btn-block" disabled="disabled">Raster to netCDF</button>
 </div>
-<div class="col-md-3">
-  <button type="button" class="btn btn-default btn-lg btn-block" >Re-Project Raster</button>
-  <button type="button" class="btn btn-default btn-lg btn-block" disabled="disabled" >Extract Raster Table</button>
-  <button type="button" class="btn btn-default btn-lg btn-block" disabled="disabled">-</button>
-  <button type="button" class="btn btn-default btn-lg btn-block" disabled="disabled">-</button>
+<div class="col-md-2">
+  <button type="button" class="btn btn-default btn-block" >Re-Project Raster</button>
+  <button type="button" class="btn btn-default btn-block" disabled="disabled" >Extract Raster Table</button>
+  <button type="button" class="btn btn-default btn-block" disabled="disabled">-</button>
+  <button type="button" class="btn btn-default btn-block" disabled="disabled">-</button>
 </div>
-<div class="col-md-3">
-  <button type="button" class="btn btn-default btn-lg btn-block" disabled="disabled">-</button>
-  <button type="button" class="btn btn-default btn-lg btn-block" disabled="disabled">-</button>
-  <button type="button" class="btn btn-default btn-lg btn-block" disabled="disabled">-</button>
-  <button type="button" class="btn btn-default btn-lg btn-block" disabled="disabled">-</button>
+<div class="col-md-2">
+  <button type="button" class="btn btn-default btn-block" disabled="disabled">-</button>
+  <button type="button" class="btn btn-default btn-block" disabled="disabled">-</button>
+  <button type="button" class="btn btn-default btn-block" disabled="disabled">-</button>
+  <button type="button" class="btn btn-default btn-block" disabled="disabled">-</button>
 </div>
+</div>
+
+<div class="container col-md-10">
+<h1><small>netCDF Tools:</small></h1>
+<hr>
+<div class="col-md-2">
+  <button type="button" class="btn btn-default btn-block" disabled="disabled">-</button>
+  <button type="button" class="btn btn-default btn-block" disabled="disabled">-</button>
+  <button type="button" class="btn btn-default btn-block" disabled="disabled">-</button>
+  <button type="button" class="btn btn-default btn-block" disabled="disabled">-</button>
+</div>
+<div class="col-md-2">
+  <button type="button" class="btn btn-default btn-block" disabled="disabled">-</button>
+  <button type="button" class="btn btn-default btn-block" disabled="disabled">-</button>
+  <button type="button" class="btn btn-default btn-block" disabled="disabled">-</button>
+  <button type="button" class="btn btn-default btn-block" disabled="disabled">-</button>
+</div>
+<div class="col-md-2">
+  <button type="button" class="btn btn-default btn-block" disabled="disabled">-</button>
+  <button type="button" class="btn btn-default btn-block" disabled="disabled">-</button>
+  <button type="button" class="btn btn-default btn-block" disabled="disabled">-</button>
+  <button type="button" class="btn btn-default btn-block" disabled="disabled">-</button>
+</div>
+</div>
+
 </div>
 <!-- row/ -->
 
