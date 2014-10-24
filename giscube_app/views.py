@@ -114,6 +114,7 @@ def data_visualiser(request):
     os.chdir(MEDIA_ROOT + MEDIA_URL)
     jsons = []
     ncs = []
+    nc_variables = []
     geotifs = []
     shp_error = ""
     tif_error = ""
