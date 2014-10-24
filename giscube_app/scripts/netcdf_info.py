@@ -54,7 +54,7 @@ def get_nc_data(nc_file, latitude_var, longitude_var, time_var, value_var, selec
                     slices += (slice(0,dims_info[dim]+1),)
             else:
                 slices += (slice(0,1),)
-        print "Valued sliced"
+        print "Values sliced"
         print np.squeeze(value[slices]).shape
         return np.squeeze(value[slices])
 
