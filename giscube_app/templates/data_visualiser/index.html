@@ -48,6 +48,14 @@
       {% endfor %}
     </div>
     <div class="tab-pane fade in" id="rasterData">
+      {% for geotif in geotifs %}
+        <div class="checkbox">
+          <label>
+            <input type="checkbox" value={{ geotif }} id="{{ geotif }}" onchange="add_remove_layer({{ geotif }}, '{{ geotif }}')"> 
+            {{ geotif }}
+          </label>
+        </div>
+      {% endfor %}
     </div>
     <div class="tab-pane fade in" id="netcdfData">
       {% for nc in ncs %}
@@ -113,6 +121,14 @@
         });
   {% endfor %}
 
+  {% for geotif in geotifs %}
+  var {{ geotif }} = new ol.layer.Tile({
+            source: new ol.source.OSM({
+              url: 'static/uploaded_files/{{ geotif }}/{z}/{x}/{-y}.png'
+            })
+        });
+  {% endfor %}
+
   var map = new ol.Map({
     target: 'map',
       layers: [
@@ -121,7 +137,7 @@
         }),
       ],
       view: new ol.View({
-        center: ol.proj.transform([-30, 37], 'EPSG:4326', 'EPSG:3857'),
+        center:  [-118, 57],//ol.proj.transform([-30, 37], 'EPSG:4326', 'EPSG:3857'),
         zoom: 2
       })
     });

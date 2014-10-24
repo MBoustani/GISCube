@@ -16,11 +16,10 @@ from giscube_app.forms import DocumentForm
 from giscube_app.scripts.open_file import open_shp_file, open_tif_file
 from giscube_app.scripts.shp_name_info import run_shp_info
 from giscube_app.scripts.tif_name_info import run_tif_info
-from giscube_app.scripts.shp_to_kml import shp_to_kml
-from giscube_app.scripts.gtif_to_kml import gtif_to_kml
 from giscube_app.scripts.what_file import what_format
 from giscube_app.scripts.vector_to_geojson import get_geojson
 from giscube_app.scripts.netcdf_info import run_nc_info
+from giscube_app.scripts.gtif_to_tile import create_gtif
 
 #resource page
 def data_resource(request):
@@ -112,26 +111,11 @@ def data_information(request):
 def data_visualiser(request):
     os.chdir(MEDIA_ROOT + MEDIA_URL)
     jsons = []
+    geotifs = []
     shp_error = ""
     tif_error = ""
     shp_file_name = [each for each in glob.glob("*.shp") ] #TODO: Use GDLA file format to recognize shapefiles, not with parsing
     gtif_file_name = [each for each in glob.glob("*.tif") ] #TODO: Use GDLA file format to recognize geotif, not with parsing
-    #for name in shp_file_name:
-    #    if open_shp_file(name):
-    #        kml_file = shp_to_kml(name)
-    #        shp_kmls_names.append(kml_file.split('.kml')[0])
-    #        shp_error = ""
-    #    else:
-    #        shp_error = "Cannot open shapfile."
-    #        break
-    #for name in gtif_file_name:
-    #    if open_tif_file(name):
-    #        kml_file = gtif_to_kml(name)
-    #        gtif_kmls_names.append(kml_file.split('.kml')[0])
-    #        tif_error = ""
-    #    else:
-    #        tif_error = "Cannot open tif file."
-    #        break
     for name in shp_file_name:
         if open_shp_file(name):
             json_name = get_geojson(name)
@@ -140,7 +124,15 @@ def data_visualiser(request):
         else:
             shp_error = "Cannot open shapfile."
             break
-    context = {'jsons':jsons, 'shp_error':shp_error, 'tif_error':tif_error}
+    for name in gtif_file_name:
+        if open_tif_file(name):
+            geotif_folder = create_gtif(name)
+            geotifs.append(geotif_folder)
+            tif_error = ""
+        else:
+            tif_error = "Cannot open GeoTIFF."
+            break
+    context = {'jsons':jsons, 'geotifs':geotifs, 'shp_error':shp_error, 'tif_error':tif_error}
     return render(request, 'data_visualiser/index.html', context)
 
 #tools page
