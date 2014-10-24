@@ -3,7 +3,10 @@ try:
 except ImportError:
     from osgeo import gdal
 
-from osgeo import osr
+try:
+    import ogr
+except ImportError:
+    from osgeo import ogr
 
 import numpy
 from numpy import ma
@@ -26,7 +29,6 @@ def nc_to_gtif(latitudes, longitudes, values):
     print "Converting longitudes"
     
     for i in range(len(longitudes)):
-        print i
         if longitudes[i] > 180:
             longitudes[i] = longitudes[i] - 360
 
@@ -64,3 +66,20 @@ def nc_to_gtif(latitudes, longitudes, values):
 
     print "GeoTIFF Created"
 
+def nc_to_geojson(latitudes, longitudes, values):
+    print "Creating GeoJSON from netCDF"
+    multipoint = ogr.Geometry(ogr.wkbMultiPoint)
+    print "multipoint geometry made"
+    for lat in latitudes:
+        for lon in longitudes:
+            point = ogr.Geometry(ogr.wkbPoint)
+            point.AddPoint(lon, lat)
+            multipoint.AddGeometry(point)
+    print "point data read sucessfully"
+
+    geojson_multipoint = multipoint.ExportToJson()
+    with open('out.json', 'w') as json:
+        json.write(geojson_multipoint)
+    json.close()
+    print "netCDF to GeoJSON, Done"
+    
