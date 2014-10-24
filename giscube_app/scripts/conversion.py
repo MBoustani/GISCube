@@ -8,6 +8,9 @@ try:
 except ImportError:
     from osgeo import ogr
 
+from osgeo import osr
+
+
 import numpy
 from numpy import ma
 
