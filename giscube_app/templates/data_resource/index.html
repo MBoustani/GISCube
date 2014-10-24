@@ -3,7 +3,7 @@
 
 <!-- /left-nav-stack-bar -->
 <div class="row">
-  <div class="col-md-2">
+  <div class="col-md-2" id="side_menu">
     <ul class="nav nav-pills nav-stacked">
       <li class="active"><a href="resource">Data Resource</a></li>
       <li><a href="information">Data Information</a></li>
@@ -13,8 +13,8 @@
   </div>
   <!-- left-nav-stack-bar/ -->
 
-  <div class="col-md-3">
-    <div class="alert alert-info"><p>Supported formats: shapefile (.shp), GeoTIFF (.tif) and netCDF (.nc)</p></div>
+  <div class="col-md-4">
+    <div class="alert alert-info"><p>Supported formats: Shapefile, GeoTIFF, GeoJSON and netCDF files.</p></div>
     <form action="{% url 'resource' %}" method="post" enctype="multipart/form-data">
       {% csrf_token %}
       <p>{{ form.non_field_errors }}</p>
@@ -26,7 +26,8 @@
     </form>
   </div>
 
-  <div class="col-md-4">
+  <div class="col-md-6" id="uploaded_files">
+    <h3>Uploaded Files:</h3>
   {% if UPLODED_FILES %}
     <ul>
       {% for file in UPLODED_FILES %}
