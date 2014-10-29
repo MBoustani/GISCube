@@ -1,0 +1,85 @@
+
+<div class="menu closed" id="menu_netcdf_to_geotiff">
+  <button class="close">close</button>
+<h2>Convert netCDF to GeoTIFF</h2>
+      <h3>This tool converts netCDF to GeoTIFF</h3>
+      <div class="container">
+	<h2><small>1- Select a netCDF file:</small></h2>
+
+
+      {% for nc in ncs %}
+        <div class="checkbox">
+          <label>
+            <input type="checkbox" name="nc_files" value={{ nc }} id="{{ nc }}" '{{ nc }}')"> 
+            {{ nc }}
+          </label>
+          <h3>Select Variables:</h3>
+          <p>Latitude:</p>
+          <select class="form-control" id="latitude">
+            {% for var in nc_variables %}
+            <option>{{ var }}</option>
+            {% endfor %}
+          </select>
+          <p>Longitude:</p>
+          <select class="form-control" id="longitude">
+            {% for var in nc_variables %}
+            <option>{{ var }}</option>
+            {% endfor %}
+          </select>
+          <p>Time:</p>
+          <select class="form-control" id="time">
+            {% for var in nc_variables %}
+            <option>{{ var }}</option>
+            {% endfor %}
+          </select>
+          <p>Value:</p>
+          <select class="form-control" id="value">
+            {% for var in nc_variables %}
+            <option>{{ var }}</option>
+            {% endfor %}
+          </select>
+        </div>
+        <button  class="btn btn-primary btn-lg" onclick="netcdf_get_time()">Next</button>
+      {% endfor %}
+      <h3 id="select_time"></h3>
+      <div id="start_time_select"></div>
+      <div id="end_time_select"></div>
+      <div id="netcdf_to_geotiff_name_placeholder"></div>
+      <div id="convert_button"></div>
+      <p id='netcdf_to_geotiff_status'></p>
+    </div>
+</div>
+
+
+<script>
+  function callback(data) {
+    console.log("List of times");
+    console.log(data.time_data);
+    document.getElementById('select_time').innerHTML = 'Select time: ';
+    document.getElementById('start_time_select').innerHTML = '<select class="form-control" id="netcdf_times">';
+    for (i = 0; i < data.time_data.length; i++) {
+    document.getElementById('netcdf_times').innerHTML += '<option>' + data.time_data[i] + '</option>' ;
+    }
+    document.getElementById('end_time_select').innerHTML = '</select>';
+    document.getElementById('netcdf_to_geotiff_name_placeholder').innerHTML = '<h2><small>2- Enter GeoTIFF file name:</small></h2><div class="input-group"><input class="form-control" id="netcdf_to_geotiff_name" type="text" placeholder="Enter GeoTIFF file name" value=""></div>';
+    document.getElementById('convert_button').innerHTML = '<button  class="btn btn-primary btn-lg" onclick="netcdf_to_geotiff()">Convert</button>';
+  }
+  function netcdf_get_time() {
+    var nc_file = $('input[name="nc_files"]:checked').val();
+    var time_var = $('#time').val();
+    Dajaxice.giscube_app.get_netcdf_times(callback,{'nc_file':nc_file, 'time_var':time_var});
+  }
+
+  function netcdf_to_geotiff() {
+    document.getElementById('netcdf_to_geotiff_status').innerHTML = 'Processing...';
+    var nc_file = $('input[name="nc_files"]:checked').val();
+    var latitude_var = $("#latitude").val();
+    var longitude_var = $('#longitude').val();
+    var time_var = $('#time').val();
+    var value_var = $('#value').val();
+    var selected_time = $('#netcdf_times').val();
+    var geotiff_name = $('#netcdf_to_geotiff_name').val();
+    Dajaxice.giscube_app.netcdf_to_geotiff('',{'nc_file':nc_file, 'latitude_var': latitude_var, 'longitude_var':longitude_var, 'time_var':time_var, 'value_var':value_var, 'selected_time':selected_time, 'geotiff_name':geotiff_name});
+    document.getElementById('netcdf_to_geotiff_status').innerHTML = 'Done.';
+  }
+</script>

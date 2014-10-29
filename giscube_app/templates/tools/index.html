@@ -1,8 +1,14 @@
 
+<!-- vector tools-->
 {% include '/tools/re_project_vector.html' %}
 {% include '/tools/extract_shp_table.html' %}
 {% include '/tools/vector_to_kml.html' %}
+
+<!-- raster tools-->
 {% include '/tools/raster_to_kml.html' %}
+
+<!-- netCDF tools-->
+{% include '/tools/netcdf_to_geotiff.html' %}
 {% include '/tools/ncdump_header.html' %}
 {% include '/tools/ncdump_whole_netcdf.html' %}
 
@@ -33,16 +39,16 @@
   <button type="button" class="btn btn-default btn-block btn-lg" disabled="disabled"><small>Shapefile to Raster</small></button>
 </div>
 <div class="col-md-2">
-  <button type="button" class="btn btn-default btn-block btn-lg" disabled="disabled"><small>Shapefile to GeoJSON</small></button>
-  <button type="button" class="btn btn-default btn-block btn-lg" disabled="disabled"><small>-</small></button>
-  <button type="button" class="btn btn-default btn-block btn-lg" disabled="disabled"><small>-</small></button>
-  <button type="button" class="btn btn-default btn-block btn-lg" disabled="disabled"><small>-</small></button>
+  <button type="button" class="btn btn-default btn-block btn-lg open" disabled="disabled"><small>Shapefile to GeoJSON</small></button>
+  <button type="button" class="btn btn-default btn-block btn-lg open" disabled="disabled"><small>-</small></button>
+  <button type="button" class="btn btn-default btn-block btn-lg open" disabled="disabled"><small>-</small></button>
+  <button type="button" class="btn btn-default btn-block btn-lg open" disabled="disabled"><small>-</small></button>
 </div>
 <div class="col-md-2">
-  <button type="button" class="btn btn-default btn-block btn-lg" disabled="disabled"><small>-</small></button>
-  <button type="button" class="btn btn-default btn-block btn-lg" disabled="disabled"><small>-</small></button>
-  <button type="button" class="btn btn-default btn-block btn-lg" disabled="disabled"><small>-</small></button>
-  <button type="button" class="btn btn-default btn-block btn-lg" disabled="disabled"><small>-</small></button>
+  <button type="button" class="btn btn-default btn-block btn-lg open" disabled="disabled"><small>-</small></button>
+  <button type="button" class="btn btn-default btn-block btn-lg open" disabled="disabled"><small>-</small></button>
+  <button type="button" class="btn btn-default btn-block btn-lg open" disabled="disabled"><small>-</small></button>
+  <button type="button" class="btn btn-default btn-block btn-lg open" disabled="disabled"><small>-</small></button>
 </div>
 </div>
 
@@ -50,22 +56,22 @@
 <h1><small>Raster Tools:</small></h1>
 <hr>
 <div class="col-md-2">
-  <button type="button" class="btn btn-default btn-block btn-lg"><small>Re-Project GeoTIFF</small></button>
+  <button type="button" class="btn btn-default btn-block btn-lg open"><small>Re-Project GeoTIFF</small></button>
   <button type="button" class="btn btn-default btn-block btn-lg open" id="raster_to_kml"><small>GeoTIFF to KML</small></button>
-  <button type="button" class="btn btn-default btn-block btn-lg" disabled="disabled"><small>GeoTIFF to GeoJSON</small></button>
-  <button type="button" class="btn btn-default btn-block btn-lg" disabled="disabled"><small>GeoTIFF to netCDF</small></button>
+  <button type="button" class="btn btn-default btn-block btn-lg open" disabled="disabled"><small>GeoTIFF to GeoJSON</small></button>
+  <button type="button" class="btn btn-default btn-block btn-lg open" disabled="disabled"><small>GeoTIFF to netCDF</small></button>
 </div>
 <div class="col-md-2">
-  <button type="button" class="btn btn-default btn-block btn-lg" disabled="disabled"><small>GeoTIFF Table to text</small></button>
-  <button type="button" class="btn btn-default btn-block btn-lg" disabled="disabled"><small>-</small></button>
-    <button type="button" class="btn btn-default btn-block btn-lg" disabled="disabled"><small>-</small></button>
-  <button type="button" class="btn btn-default btn-block btn-lg" disabled="disabled"><small>-</small></button>
+  <button type="button" class="btn btn-default btn-block btn-lg open" disabled="disabled"><small>GeoTIFF Table to text</small></button>
+  <button type="button" class="btn btn-default btn-block btn-lg open" disabled="disabled"><small>-</small></button>
+  <button type="button" class="btn btn-default btn-block btn-lg open" disabled="disabled"><small>-</small></button>
+  <button type="button" class="btn btn-default btn-block btn-lg open" disabled="disabled"><small>-</small></button>
 </div>
 <div class="col-md-2">
-  <button type="button" class="btn btn-default btn-block btn-lg" disabled="disabled"><small>-</small></button>
-  <button type="button" class="btn btn-default btn-block btn-lg" disabled="disabled"><small>-</small></button>
-  <button type="button" class="btn btn-default btn-block btn-lg" disabled="disabled"><small>-</small></button>
-  <button type="button" class="btn btn-default btn-block btn-lg" disabled="disabled"><small>-</small></button>
+  <button type="button" class="btn btn-default btn-block btn-lg open" disabled="disabled"><small>-</small></button>
+  <button type="button" class="btn btn-default btn-block btn-lg open" disabled="disabled"><small>-</small></button>
+  <button type="button" class="btn btn-default btn-block btn-lg open" disabled="disabled"><small>-</small></button>
+  <button type="button" class="btn btn-default btn-block btn-lg open" disabled="disabled"><small>-</small></button>
 </div>
 </div>
 
@@ -73,22 +79,22 @@
 <h1><small>netCDF Tools:</small></h1>
 <hr>
 <div class="col-md-2">
-  <button type="button" class="btn btn-default btn-block btn-lg" disabled="disabled"><small>netCDF to Point Shapefile</small></button>
-  <button type="button" class="btn btn-default btn-block btn-lg" disabled="disabled"><small>netCDF to one-band GeoTIFF</small></button>
-  <button type="button" class="btn btn-default btn-block btn-lg" disabled="disabled"><small>netCDF to multi-band GeoTIFF</small></button>
-  <button type="button" class="btn btn-default btn-block btn-lg" disabled="disabled"><small>netCDF to CSV</small></button>
+  <button type="button" class="btn btn-default btn-block btn-lg open" disabled="disabled"><small>netCDF to Point Shapefile</small></button>
+  <button type="button" class="btn btn-default btn-block btn-lg open" id="netcdf_to_geotiff"><small>netCDF to GeoTIFF</small></button>
+  <button type="button" class="btn btn-default btn-block btn-lg open" disabled="disabled"><small>netCDF to CSV</small></button>
+  <button type="button" class="btn btn-default btn-block btn-lg open" disabled="disabled"><small>-</small></button>
 </div>
 <div class="col-md-2">
   <button type="button" class="btn btn-default btn-block btn-lg open" id="ncdump_dump_to_text"><small>netCDF dump to text</small></button>
   <button type="button" class="btn btn-default btn-block btn-lg open" id="ncdump_header_to_text"><small>netCDF header to text</small></button>
-  <button type="button" class="btn btn-default btn-block btn-lg" disabled="disabled"><small>-</small></button>
-  <button type="button" class="btn btn-default btn-block btn-lg" disabled="disabled"><small>-</small></button>
+  <button type="button" class="btn btn-default btn-block btn-lg open" disabled="disabled"><small>-</small></button>
+  <button type="button" class="btn btn-default btn-block btn-lg open" disabled="disabled"><small>-</small></button>
 </div>
 <div class="col-md-2">
-  <button type="button" class="btn btn-default btn-block btn-lg" disabled="disabled"><small>-</small></button>
-  <button type="button" class="btn btn-default btn-block btn-lg" disabled="disabled"><small>-</small></button>
-  <button type="button" class="btn btn-default btn-block btn-lg" disabled="disabled"><small>-</small></button>
-  <button type="button" class="btn btn-default btn-block btn-lg" disabled="disabled"><small>-</small></button>
+  <button type="button" class="btn btn-default btn-block btn-lg open" disabled="disabled"><small>-</small></button>
+  <button type="button" class="btn btn-default btn-block btn-lg open" disabled="disabled"><small>-</small></button>
+  <button type="button" class="btn btn-default btn-block btn-lg open" disabled="disabled"><small>-</small></button>
+  <button type="button" class="btn btn-default btn-block btn-lg open" disabled="disabled"><small>-</small></button>
 </div>
 </div>
 

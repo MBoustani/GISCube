@@ -49,28 +49,23 @@ def dump_netcdf_to_text(request, selected_netcdf, text_name):
     s = "ncdump {0} > {1}".format(MEDIA_ROOT+MEDIA_URL+selected_netcdf, MEDIA_ROOT+MEDIA_URL+text_name)
     os.system(s)
 
+
 @dajaxice_register(method='GET')
 def get_netcdf_times(request, nc_file, time_var):
-    print ">>>> Getting netCDF times"
     nc_dataset = Dataset(MEDIA_ROOT+MEDIA_URL+nc_file, mode='r')
     time_data = nc_dataset.variables[time_var][:]
     times = [float(t) for t in time_data]
-    print ">>>> Getting netCDF times (Done)"
-    print ">>> List of time: {0}".format(times)
     return simplejson.dumps({'time_data': times}) 
 
 
 @dajaxice_register(method='GET')
-def map_netcdf(request, nc_file, latitude_var, longitude_var, time_var, value_var, selected_time):
-    print ">>>> Mapping netCDF data"
+def netcdf_to_geotiff(request, nc_file, latitude_var, longitude_var, time_var, value_var, selected_time, geotiff_name):
     nc_dataset = Dataset(MEDIA_ROOT+MEDIA_URL+nc_file, mode='r')
     latitude_data = nc_dataset.variables[latitude_var][:]
     longitude_data = nc_dataset.variables[longitude_var][:]
     time_data = nc_dataset.variables[time_var][:]
     selected_time_index = np.where(time_data==float(selected_time))[0][0]
     value_data = get_nc_data(nc_file, latitude_var, longitude_var, time_var, value_var, selected_time_index)
-    nc_to_geojson(latitude_data, longitude_data, value_data)
-    nc_to_gtif(latitude_data, longitude_data, value_data)
-    print ">>>> Mapping netCDF data (Done)"
-    print values.shape
+    nc_to_geojson(latitude_data, longitude_data, value_data, geotiff_name)
+    nc_to_gtif(latitude_data, longitude_data, value_data, geotiff_name)
     
