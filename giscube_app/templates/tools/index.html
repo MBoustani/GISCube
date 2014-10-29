@@ -3,6 +3,7 @@
 {% include '/tools/extract_shp_table.html' %}
 {% include '/tools/vector_to_kml.html' %}
 {% include '/tools/raster_to_kml.html' %}
+{% include '/tools/ncdump_header.html' %}
 
 {% include 'header.html' %}
 
@@ -26,7 +27,7 @@
 <hr>
 <div class="col-md-2">
   <button type="button" class="btn btn-default btn-block btn-lg open" id="reproject_vector"><small>Re-Project Vector</small></button>
-  <button type="button" class="btn btn-default btn-block btn-lg open" id="extract_shp_table"><small>Shapefile table to text file</small></button>
+  <button type="button" class="btn btn-default btn-block btn-lg open" id="extract_shp_table"><small>Shapefile table to text</small></button>
   <button type="button" class="btn btn-default btn-block btn-lg open" id="vector_to_kml" disabled="disabled"><small>Shapefile to KML</small></button>
   <button type="button" class="btn btn-default btn-block btn-lg" disabled="disabled"><small>Shapefile to Raster</small></button>
 </div>
@@ -54,7 +55,7 @@
   <button type="button" class="btn btn-default btn-block btn-lg" disabled="disabled"><small>GeoTIFF to netCDF</small></button>
 </div>
 <div class="col-md-2">
-  <button type="button" class="btn btn-default btn-block btn-lg" disabled="disabled"><small>GeoTIFF Table to text file</small></button>
+  <button type="button" class="btn btn-default btn-block btn-lg" disabled="disabled"><small>GeoTIFF Table to text</small></button>
   <button type="button" class="btn btn-default btn-block btn-lg" disabled="disabled"><small>-</small></button>
     <button type="button" class="btn btn-default btn-block btn-lg" disabled="disabled"><small>-</small></button>
   <button type="button" class="btn btn-default btn-block btn-lg" disabled="disabled"><small>-</small></button>
@@ -77,7 +78,7 @@
   <button type="button" class="btn btn-default btn-block btn-lg" disabled="disabled"><small>netCDF to CSV</small></button>
 </div>
 <div class="col-md-2">
-  <button type="button" class="btn btn-default btn-block btn-lg" disabled="disabled"><small>-</small></button>
+  <button type="button" class="btn btn-default btn-block btn-lg open" id="ncdump_header_to_text"><small>netCDF header to text</small></button>
   <button type="button" class="btn btn-default btn-block btn-lg" disabled="disabled"><small>-</small></button>
   <button type="button" class="btn btn-default btn-block btn-lg" disabled="disabled"><small>-</small></button>
   <button type="button" class="btn btn-default btn-block btn-lg" disabled="disabled"><small>-</small></button>

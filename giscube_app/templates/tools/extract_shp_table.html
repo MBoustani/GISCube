@@ -17,21 +17,21 @@
       <h2><small>2- Enter text file name:</small></h2>
       
       <div class="input-group">
-      <input class="form-control" id="text_name" type="text" placeholder="Enter file name" value="">
+      <input class="form-control" id="shp_table_text_name" type="text" placeholder="Enter file name" value="">
     </div>
 
   <button type="button" class="btn btn-primary btn-lg" onclick="extract_table()">Extract table</button>
-      <p id='extract_shp_status'></p>
+      <p id='extract_shp_table_status'></p>
     </div>
 </div>
 
 
 <script>
   function extract_table() {
-    document.getElementById('extract_shp_status').innerHTML = 'Processing...';
+    document.getElementById('extract_shp_table_status').innerHTML = 'Processing...';
     var selected_vector = $('input[name="optionsRadios"]:checked').val();
-    var text_name = $('#text_name').val();
+    var text_name = $('#shp_table_text_name').val();
     Dajaxice.giscube_app.extract_shp_table_text('',{'selected_vector': selected_vector, 'text_name':text_name});
-    document.getElementById('extract_shp_status').innerHTML = 'Done.';
+    document.getElementById('extract_shp_table_status').innerHTML = 'Done.';
   }
 </script>
