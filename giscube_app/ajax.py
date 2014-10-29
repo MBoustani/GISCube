@@ -38,9 +38,16 @@ def extract_shp_table_text(request, selected_vector, text_name):
 def extract_netcdf_header(request, selected_netcdf, text_name):
     if text_name.split(".")[-1] != "txt":
         text_name = "{0}.txt".format(text_name)
-    s = "ncdump -h {0} >> {1}".format(MEDIA_ROOT+MEDIA_URL+selected_netcdf, MEDIA_ROOT+MEDIA_URL+text_name)
+    s = "ncdump -h {0} > {1}".format(MEDIA_ROOT+MEDIA_URL+selected_netcdf, MEDIA_ROOT+MEDIA_URL+text_name)
     os.system(s)
 
+
+@dajaxice_register(method='GET')
+def dump_netcdf_to_text(request, selected_netcdf, text_name):
+    if text_name.split(".")[-1] != "txt":
+        text_name = "{0}.txt".format(text_name)
+    s = "ncdump {0} > {1}".format(MEDIA_ROOT+MEDIA_URL+selected_netcdf, MEDIA_ROOT+MEDIA_URL+text_name)
+    os.system(s)
 
 @dajaxice_register(method='GET')
 def get_netcdf_times(request, nc_file, time_var):

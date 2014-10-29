@@ -1,0 +1,37 @@
+{% load netcdf_dict %}
+
+
+<div class="menu closed" id="menu_ncdump_dump_to_text">
+  <button class="close">close</button>
+<h2>Dump netCDF to text file.</h2>
+      <h3>This tool can dump whole netCDF to text file.</h3>
+      <div class="container">
+	<h2><small>1- Select a netCDF file:</small></h2>
+	{% for each in netcdf_info %}
+	<div class="radio">
+	<input type="radio" name="optionsRadios" id="current_netcdf" value="{{ each|file_name }}">
+	<p>{{ each|file_name }}</p>
+      </div>
+      {% endfor %}
+      
+      <h2><small>2- Enter text file name:</small></h2>
+      
+      <div class="input-group">
+      <input class="form-control" id="netcdf_dump_text_name" type="text" placeholder="Enter file name" value="">
+    </div>
+
+  <button type="button" class="btn btn-primary btn-lg" onclick="dump_netcdf()">Dump netCDF</button>
+      <p id='netcdf_dump_status'></p>
+    </div>
+</div>
+
+
+<script>
+  function dump_netcdf() {
+    document.getElementById('netcdf_dump_status').innerHTML = 'Processing...';
+    var selected_netcdf = $('input[name="optionsRadios"]:checked').val();
+    var text_name = $('#netcdf_dump_text_name').val();
+    Dajaxice.giscube_app.dump_netcdf_to_text('',{'selected_netcdf': selected_netcdf, 'text_name':text_name});
+    document.getElementById('netcdf_dump_status').innerHTML = 'Done.';
+  }
+</script>
