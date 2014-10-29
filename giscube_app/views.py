@@ -37,6 +37,8 @@ def data_resource(request):
             UPLODED_FILES.append(each)
         elif file_format == "Network Common Data Format":
             UPLODED_FILES.append(each)
+        elif each.split(".")[-1] == "txt" or each.split(".")[-1] == "csv":
+            UPLODED_FILES.append(each)
     if request.method == 'POST':
         form = DocumentForm(request.POST, request.FILES)
         if form.is_valid():
