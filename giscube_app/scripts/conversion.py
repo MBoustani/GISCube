@@ -14,12 +14,10 @@ import numpy
 from numpy import ma
 
 
-def nc_to_gtif(latitudes, longitudes, values):
+def nc_to_gtif(latitudes, longitudes, values, geotiff_name):
     print "Creating GeoTIFF"
     file_format = "GTiff"
     driver = gdal.GetDriverByName(file_format)
-    
-    GEOTIFF_OUTPUT = "netCDF_in_geotiff.tif"
 
     print "Getting values for making GeoTIFF"
 
@@ -52,7 +50,7 @@ def nc_to_gtif(latitudes, longitudes, values):
 
     print "Creating raster dataset"
 
-    raster_dataset = driver.Create(GEOTIFF_OUTPUT,
+    raster_dataset = driver.Create(geotiff_name,
                                    raster_x_size,
                                    raster_y_size,
                                    number_of_band,
@@ -68,7 +66,7 @@ def nc_to_gtif(latitudes, longitudes, values):
 
     print "GeoTIFF Created"
 
-def nc_to_geojson(latitudes, longitudes, values):
+def nc_to_geojson(latitudes, longitudes, values, geotiff_name):
     print "Creating GeoJSON from netCDF"
     multipoint = ogr.Geometry(ogr.wkbMultiPoint)
     print "multipoint geometry made"
@@ -80,7 +78,7 @@ def nc_to_geojson(latitudes, longitudes, values):
     print "point data read sucessfully"
 
     geojson_multipoint = multipoint.ExportToJson()
-    with open('out.json', 'w') as json:
+    with open('{0}.json'.format(geotiff_name.split(".")[0]), 'w') as json:
         json.write(geojson_multipoint)
     json.close()
     print "netCDF to GeoJSON, Done"
