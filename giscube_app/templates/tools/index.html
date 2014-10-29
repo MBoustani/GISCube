@@ -4,6 +4,7 @@
 {% include '/tools/vector_to_kml.html' %}
 {% include '/tools/raster_to_kml.html' %}
 {% include '/tools/ncdump_header.html' %}
+{% include '/tools/ncdump_whole_netcdf.html' %}
 
 {% include 'header.html' %}
 
@@ -78,8 +79,8 @@
   <button type="button" class="btn btn-default btn-block btn-lg" disabled="disabled"><small>netCDF to CSV</small></button>
 </div>
 <div class="col-md-2">
+  <button type="button" class="btn btn-default btn-block btn-lg open" id="ncdump_dump_to_text"><small>netCDF dump to text</small></button>
   <button type="button" class="btn btn-default btn-block btn-lg open" id="ncdump_header_to_text"><small>netCDF header to text</small></button>
-  <button type="button" class="btn btn-default btn-block btn-lg" disabled="disabled"><small>-</small></button>
   <button type="button" class="btn btn-default btn-block btn-lg" disabled="disabled"><small>-</small></button>
   <button type="button" class="btn btn-default btn-block btn-lg" disabled="disabled"><small>-</small></button>
 </div>
