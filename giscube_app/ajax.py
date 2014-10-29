@@ -21,7 +21,9 @@ def remove_loaded_file(request, param):
     
 @dajaxice_register(method='GET')
 def reproject_vector(request, selected_vector, selected_proj, vector_name):
-    s = 'ogr2ogr -f "ESRI Shapefile" -s_srs EPSG:27700 -t_srs EPSG:4326 {0} {1}'.format(MEDIA_ROOT+MEDIA_URL+vector_name, MEDIA_ROOT+MEDIA_URL+selected_vector+'.shp')
+    if vector_name.split(".")[-1] != "shp":
+        vector_name = "{0}.shp".format(vector_name)
+    s = 'ogr2ogr -f "ESRI Shapefile" -t_srs EPSG:{2} {0} {1}'.format(MEDIA_ROOT+MEDIA_URL+vector_name, MEDIA_ROOT+MEDIA_URL+selected_vector+'.shp', selected_proj)
     os.system(s)
 
 
