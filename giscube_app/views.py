@@ -160,10 +160,14 @@ def data_visualiser(request):
 def tools(request):
     os.chdir(MEDIA_ROOT + MEDIA_URL)
     shp_file_name = [each for each in glob.glob("*.shp") ]
+    nc_file_name = [each for each in glob.glob("*.nc")]
     shps_info = []
+    netcdf_info = []
     for name in shp_file_name:
         if open_shp_file(name):
-            shps_info.append(run_shp_info(name))   
-    context = {'shps_info': shps_info}
+            shps_info.append(run_shp_info(name))
+    for name in nc_file_name:
+        netcdf_info.append(run_nc_info(name))
+    context = {'shps_info': shps_info, 'netcdf_info':netcdf_info}
 
     return render(request, 'tools/index.html', context)
