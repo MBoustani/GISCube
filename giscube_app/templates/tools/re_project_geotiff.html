@@ -1,0 +1,42 @@
+{% load tif_dict %}
+
+
+<div class="menu closed" id="menu_reproject_geotiff">
+  <button class="close">close</button>
+<h2>Re-Project GeoTIFF</h2>
+      <h3>This tool re-projects and creates new GeoTIFF data.</h3>
+      <div class="container">
+	<h2><small>1- Select from current GeoTIFF data:</small></h2>
+	{% for each in tiffs_info %}
+	<div class="radio">
+	<input type="radio" name="optionsRadios" id="existing_geotiff" value="{{ each|file_name }}">
+	<p>{{ each|file_name }}</p>
+      </div>
+      {% endfor %}
+      
+      <h2><small>2- Enter EPSG: (<a href="http://en.wikipedia.org/wiki/List_of_map_projections" target="_blank">more info</a>):</small></h2>
+
+    <input class="form-control" id="geotif_re_project_epsg" type="text" placeholder="Enter EPSG" value="">
+
+      <h2><small>3- Enter name for projected file:</small></h2>
+      
+      <div class="input-group">
+      <input class="form-control" id="reporjected_geotiff_name" type="text" placeholder="Enter name" value="">
+    </div>
+
+  <h2><small>4- Re-project GeoTIFF data:</small></h2>
+  <button type="button" class="btn btn-primary btn-lg" onclick="re_project_geotiff()">Re-Project</button>
+      <p id='reproject_geotiff_status'></p>
+      </div>
+</div>
+
+<script>
+  function re_project_geotiff() {
+    document.getElementById('reproject_geotiff_status').innerHTML = 'Processing...';
+    var selected_geotiff = $('input[name="optionsRadios"]:checked').val();
+    var geotif_re_project_epsg = $("#geotif_re_project_epsg").val();
+    var projected_geotiff_name = $('#reporjected_geotiff_name').val();
+    Dajaxice.giscube_app.reproject_geotiff('',{'selected_geotiff': selected_geotiff, 'geotif_re_project_epsg':geotif_re_project_epsg, 'projected_geotiff_name':projected_geotiff_name});
+    document.getElementById('reproject_geotiff_status').innerHTML = 'Done.';
+  }
+</script>
