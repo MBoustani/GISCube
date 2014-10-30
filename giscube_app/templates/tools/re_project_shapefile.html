@@ -1,0 +1,42 @@
+{% load shp_dict %}
+
+
+<div class="menu closed" id="menu_reproject_shapefile">
+  <button class="close">close</button>
+<h2>Re-Project Shapefile</h2>
+      <h3>This tool re-projects and creates new shapefile data.</h3>
+      <div class="container">
+	<h2><small>1- Select from existing shapefile:</small></h2>
+	{% for each in shps_info %}
+	<div class="radio">
+	<input type="radio" name="optionsRadios" id="current_vector" value="{{ each|layer_name }}">
+	<p>{{ each|file_name }}</p>
+      </div>
+      {% endfor %}
+      
+      <h2><small>2- Enter EPSG: (<a href="http://en.wikipedia.org/wiki/List_of_map_projections" target="_blank">more info</a>):</small></h2>
+
+    <input class="form-control" id="shapefile_re_project_epsg" type="text" placeholder="Enter EPSG" value="">
+
+      <h2><small>3- Enter name for projecting file:</small></h2>
+      
+      <div class="input-group">
+      <input class="form-control" id="focusedInput" type="text" placeholder="Enter name" value="">
+    </div>
+
+  <h2><small>4- Re-project shapefile:</small></h2>
+  <button type="button" class="btn btn-primary btn-lg" onclick="re_project()">Re-Project</button>
+      <p id='reproject_shapefile_status'></p>
+      </div>
+</div>
+
+<script>
+  function re_project() {
+    document.getElementById('reproject_shapefile_status').innerHTML = 'Processing...';
+    var selected_shapefile = $('input[name="optionsRadios"]:checked').val();
+    var shapefile_re_project_epsg = $("#shapefile_re_project_epsg").val();
+    var projected_shapefile_name = $('#focusedInput').val();
+    Dajaxice.giscube_app.reproject_shapefile('',{'selected_shapefile': selected_shapefile, 'shapefile_re_project_epsg':shapefile_re_project_epsg, 'projected_shapefile_name':projected_shapefile_name});
+    document.getElementById('reproject_shapefile_status').innerHTML = 'Done.';
+  }
+</script>
