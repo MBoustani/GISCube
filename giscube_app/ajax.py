@@ -28,6 +28,17 @@ def reproject_vector(request, selected_vector, selected_proj, vector_name):
 
 
 @dajaxice_register(method='GET')
+def reproject_geotiff(request, selected_geotiff, geotif_re_project_epsg, projected_geotiff_name):
+    if projected_geotiff_name.split(".")[-1] != "tif" or projected_geotiff_name.split(".")[-1] != "tiff":
+        projected_geotiff_name = "{0}.tif".format(projected_geotiff_name)
+    s = "gdalwarp -t_srs 'epsg:{2}' {0} {1}".format(MEDIA_ROOT+MEDIA_URL+selected_geotiff, MEDIA_ROOT+MEDIA_URL+projected_geotiff_name, geotif_re_project_epsg)
+    print "----"
+    print s
+    print "----"
+    os.system(s)
+
+
+@dajaxice_register(method='GET')
 def extract_shp_table_text(request, selected_vector, text_name):
     if text_name.split(".")[-1] != "txt":
         text_name = "{0}.txt".format(text_name)

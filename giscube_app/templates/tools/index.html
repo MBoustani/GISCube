@@ -5,6 +5,7 @@
 {% include '/tools/vector_to_kml.html' %}
 
 <!-- raster tools-->
+{% include '/tools/re_project_geotiff.html' %}
 {% include '/tools/raster_to_kml.html' %}
 
 <!-- netCDF tools-->
@@ -56,7 +57,7 @@
 <h1><small>Raster Tools:</small></h1>
 <hr>
 <div class="col-md-2">
-  <button type="button" class="btn btn-default btn-block btn-lg open"><small>Re-Project GeoTIFF</small></button>
+  <button type="button" class="btn btn-default btn-block btn-lg open" id="reproject_geotiff"><small>Re-Project GeoTIFF</small></button>
   <button type="button" class="btn btn-default btn-block btn-lg open" id="raster_to_kml"><small>GeoTIFF to KML</small></button>
   <button type="button" class="btn btn-default btn-block btn-lg open" disabled="disabled"><small>GeoTIFF to GeoJSON</small></button>
   <button type="button" class="btn btn-default btn-block btn-lg open" disabled="disabled"><small>GeoTIFF to netCDF</small></button>

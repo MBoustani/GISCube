@@ -160,14 +160,19 @@ def data_visualiser(request):
 def tools(request):
     os.chdir(MEDIA_ROOT + MEDIA_URL)
     shp_file_name = [each for each in glob.glob("*.shp") ]
+    gtif_file_name = [each for each in glob.glob("*.tif")]
     nc_file_name = [each for each in glob.glob("*.nc")]
     shps_info = []
+    tiffs_info = []
     netcdf_info = []
     ncs = []
     nc_variables = []
     for name in shp_file_name:
         if open_shp_file(name):
             shps_info.append(run_shp_info(name))
+    for name in gtif_file_name:
+        if open_tif_file(name):
+            tiffs_info.append(run_tif_info(name))
     for name in nc_file_name:
         netcdf_info.append(run_nc_info(name))
     for name in nc_file_name:
@@ -178,6 +183,6 @@ def tools(request):
         else:
             nc_error = "Cannot open netCDF."
             break
-    context = {'shps_info': shps_info, 'netcdf_info':netcdf_info, 'ncs':ncs, 'nc_variables':nc_variables,}
+    context = {'shps_info': shps_info, 'tiffs_info':tiffs_info, 'netcdf_info':netcdf_info, 'ncs':ncs, 'nc_variables':nc_variables,}
 
     return render(request, 'tools/index.html', context)
