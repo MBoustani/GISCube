@@ -30,7 +30,6 @@ INSTALLED_APPS = (
     #'django.contrib.messages',
     'django.contrib.staticfiles',
     'giscube_app',
-    'leaflet',
     'dajaxice',
 )
 
