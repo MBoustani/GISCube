@@ -7,7 +7,6 @@ Description:   This code exports Shapefile attribute table to csv file
 Author:        Maziyar Boustani (github.com/MBoustani)
 '''
 import csv
-import argparse
 
 try:
     import ogr
