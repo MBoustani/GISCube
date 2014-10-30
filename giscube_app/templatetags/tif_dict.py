@@ -10,12 +10,16 @@ def file_name(dict):
 def file_format(dict):
     return dict['file_format']
 
+@register.filter(name='layer_name')
+def layer_name(dict):
+    return dict['layer_name']
+
 @register.filter(name='num_band')
 def num_layer(dict):
     return dict['num_band']
 
 @register.filter(name='raster_x_y_size')
-def layer_name(dict):
+def raster_x_y_size(dict):
     return dict['raster_x_y_size']
 
 @register.filter(name='raster_projection')
