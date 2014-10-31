@@ -37,9 +37,8 @@ def nc_to_gtif(latitudes, longitudes, values, geotiff_name):
     raster_x_size = longitudes.shape[0]
     raster_y_size = latitudes.shape[0]
 
-    print "Rotating GeoTIFF"
-
-    values = numpy.rot90(values, 1)
+    #print "Rotating GeoTIFF"
+    #values = numpy.rot90(values, 1)
 
     print "Setting projection for GeoTIFF"
 
