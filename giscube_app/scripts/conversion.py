@@ -72,13 +72,17 @@ def nc_to_geojson(latitudes, longitudes, values, geotiff_name):
     for lat in latitudes:
         for lon in longitudes:
             point = ogr.Geometry(ogr.wkbPoint)
-            point.AddPoint(lon, lat)
+            point.AddPoint(float(lon), float(lat))
             multipoint.AddGeometry(point)
     print "point data read sucessfully"
 
     geojson_multipoint = multipoint.ExportToJson()
     with open('{0}.json'.format(geotiff_name.split(".")[0]), 'w') as json:
+        json.write('''{
+      "type": "Feature",
+      "geometry":''')
         json.write(geojson_multipoint)
+        json.write('}')
     json.close()
     print "netCDF to GeoJSON, Done"
     

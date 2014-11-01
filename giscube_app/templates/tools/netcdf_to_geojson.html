@@ -1,0 +1,89 @@
+
+<div class="menu closed" id="menu_netcdf_to_geojson">
+  <button class="close">close</button>
+<h2>Convert netCDF to GeoJSON</h2>
+      <h3>This tool converts netCDF to GeoJSON</h3>
+      <div class="container">
+	<h2><small>1- Select a netCDF file:</small></h2>
+
+
+      {% for nc in ncs %}
+        <div class="checkbox">
+          <label>
+            <input type="checkbox" name="nc_files_nc_to_json" value={{ nc }} id="{{ nc }}" '{{ nc }}')"> 
+            {{ nc }}
+          </label>
+          <h3>Select Variables:</h3>
+          <p>Latitude:</p>
+          <select class="form-control" id="latitude_nc_to_json">
+            {% for var in nc_variables %}
+            <option>{{ var }}</option>
+            {% endfor %}
+          </select>
+          <p>Longitude:</p>
+          <select class="form-control" id="longitude_nc_to_json">
+            {% for var in nc_variables %}
+            <option>{{ var }}</option>
+            {% endfor %}
+          </select>
+          <p>Time:</p>
+          <select class="form-control" id="time_nc_to_json">
+            {% for var in nc_variables %}
+            <option>{{ var }}</option>
+            {% endfor %}
+          </select>
+          <p>Value:</p>
+          <select class="form-control" id="value_nc_to_json">
+            {% for var in nc_variables %}
+            <option>{{ var }}</option>
+            {% endfor %}
+          </select>
+        </div>
+        <button  class="btn btn-primary btn-lg" onclick="netcdf_get_time()">Next</button>
+      {% endfor %}
+      <h3 id="select_time_nc_to_json"></h3>
+      <div id="start_time_select_nc_to_json"></div>
+      <div id="end_time_select_nc_to_json"></div>
+      <div id="netcdf_to_geojson_name_placeholder"></div>
+      <div id="convert_button_nc_to_geojson"></div>
+      <p id='netcdf_to_geojson_status'></p>
+    </div>
+</div>
+
+
+<script>
+  function callback(data) {
+    document.getElementById('select_time_nc_to_json').innerHTML = 'Select time: ';
+    document.getElementById('start_time_select_nc_to_json').innerHTML = '<select class="form-control" id="netcdf_times_nc_to_json">';
+    for (i = 0; i < data.time_data.length; i++) {
+    document.getElementById('netcdf_times_nc_to_json').innerHTML += '<option>' + data.time_data[i] + '</option>' ;
+    }
+    document.getElementById('end_time_select_nc_to_json').innerHTML = '</select>';
+    document.getElementById('netcdf_to_geojson_name_placeholder').innerHTML = '<h2><small>2- Enter GeoTIFF file name:</small></h2><div class="input-group"><input class="form-control" id="netcdf_to_geojson_name" type="text" placeholder="Enter GeoJSON file name" value=""></div>';
+    document.getElementById('convert_button_nc_to_geojson').innerHTML = '<button  class="btn btn-primary btn-lg" onclick="netcdf_to_geojson()">Convert</button>';
+  }
+  function netcdf_get_time() {
+    var nc_file = $('input[name="nc_files_nc_to_json"]:checked').val();
+    var time_var = $('#time_nc_to_json').val();
+    Dajaxice.giscube_app.get_netcdf_times(callback,{'nc_file':nc_file, 'time_var':time_var});
+  }
+
+  function netcdf_to_geojson() {
+    document.getElementById('netcdf_to_geojson_status').innerHTML = 'Processing...';
+    var nc_file_nc_to_json = $('input[name="nc_files_nc_to_json"]:checked').val();
+    var latitude_var_nc_to_json = $("#latitude_nc_to_json").val();
+    var longitude_var_nc_to_json = $('#longitude_nc_to_json').val();
+    var time_var_nc_to_json = $('#time_nc_to_json').val();
+    var value_var_nc_to_json = $('#value_nc_to_json').val();
+    var selected_time_nc_to_json = $('#netcdf_times_nc_to_json').val();
+    var geojson_name = $('#netcdf_to_geojson_name').val();
+    Dajaxice.giscube_app.netcdf_to_geojson('',{'nc_file_nc_to_json':nc_file_nc_to_json,
+					   'latitude_var_nc_to_json': latitude_var_nc_to_json,
+					   'longitude_var_nc_to_json':longitude_var_nc_to_json,
+					   'time_var_nc_to_json':time_var_nc_to_json,
+					   'value_var_nc_to_json':value_var_nc_to_json,
+					   'selected_time_nc_to_json':selected_time_nc_to_json,
+					   'geojson_name':geojson_name});
+    document.getElementById('netcdf_to_geojson_status').innerHTML = 'Done.';
+  }
+</script>
