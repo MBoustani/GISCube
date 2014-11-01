@@ -10,6 +10,7 @@
 
 <!-- netCDF tools-->
 {% include '/tools/netcdf_to_geotiff.html' %}
+{% include '/tools/netcdf_to_geojson.html' %}
 {% include '/tools/ncdump_header.html' %}
 {% include '/tools/ncdump_whole_netcdf.html' %}
 
@@ -82,8 +83,8 @@
 <div class="col-md-2">
   <button type="button" class="btn btn-default btn-block btn-lg open" disabled="disabled"><small>netCDF to Point Shapefile</small></button>
   <button type="button" class="btn btn-default btn-block btn-lg open" id="netcdf_to_geotiff"><small>netCDF to GeoTIFF</small></button>
+  <button type="button" class="btn btn-default btn-block btn-lg open" id="netcdf_to_geojson"><small>netCDF to GeoJSON</small></button>
   <button type="button" class="btn btn-default btn-block btn-lg open" disabled="disabled"><small>netCDF to CSV</small></button>
-  <button type="button" class="btn btn-default btn-block btn-lg open" disabled="disabled"><small>-</small></button>
 </div>
 <div class="col-md-2">
   <button type="button" class="btn btn-default btn-block btn-lg open" id="ncdump_dump_to_text"><small>netCDF dump to text</small></button>
