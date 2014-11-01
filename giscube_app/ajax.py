@@ -79,7 +79,6 @@ def netcdf_to_geotiff(request, nc_file, latitude_var, longitude_var, time_var, v
 
 @dajaxice_register(method='GET')
 def netcdf_to_geojson(request, nc_file_nc_to_json, latitude_var_nc_to_json, longitude_var_nc_to_json, time_var_nc_to_json, value_var_nc_to_json, selected_time_nc_to_json, geojson_name):
-    print "here"
     nc_dataset = Dataset(MEDIA_ROOT+MEDIA_URL+nc_file_nc_to_json, mode='r')
     latitude_data = nc_dataset.variables[latitude_var_nc_to_json][:]
     longitude_data = nc_dataset.variables[longitude_var_nc_to_json][:]
