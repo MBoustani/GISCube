@@ -67,22 +67,24 @@ def nc_to_gtif(latitudes, longitudes, values, geotiff_name):
 
 def nc_to_geojson(latitudes, longitudes, values, geotiff_name):
     print "Creating GeoJSON from netCDF"
-    multipoint = ogr.Geometry(ogr.wkbMultiPoint)
+    #multipoint = ogr.Geometry(ogr.wkbMultiPoint)
     print "multipoint geometry made"
-    for lat in latitudes:
-        for lon in longitudes:
-            point = ogr.Geometry(ogr.wkbPoint)
-            point.AddPoint(float(lon), float(lat))
-            multipoint.AddGeometry(point)
-    print "point data read sucessfully"
-
-    geojson_multipoint = multipoint.ExportToJson()
     with open('{0}.json'.format(geotiff_name.split(".")[0]), 'w') as json:
-        json.write('''{
-      "type": "Feature",
-      "geometry":''')
-        json.write(geojson_multipoint)
-        json.write('}')
+        json.write('''{"type": "FeatureCollection","features": [''')
+        string = ""
+        for ilat, lat in enumerate(latitudes):
+            for ilon, lon in enumerate(longitudes):
+                point = ogr.Geometry(ogr.wkbPoint)
+                point.AddPoint(float(lon), float(lat))
+                geojson_point = point.ExportToJson()
+                #multipoint.AddGeometry(point)
+                string += '{"type": "Feature","geometry":'
+                string += geojson_point
+                string += ',"properties": {"prop0": "'
+                string += "{0}".format(values[ilat][ilon])
+                string += '"}},'
+        string = string[:-1] + ']}'
+        json.write(string)
     json.close()
     print "netCDF to GeoJSON, Done"
     
