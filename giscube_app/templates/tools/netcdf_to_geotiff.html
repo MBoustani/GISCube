@@ -39,7 +39,7 @@
             {% endfor %}
           </select>
         </div>
-        <button  class="btn btn-primary btn-lg" onclick="netcdf_get_time()">Next</button>
+        <button  class="btn btn-primary btn-lg" onclick="netcdf_get_time_nc_to_geotiff()">Next</button>
       {% endfor %}
       <h3 id="select_time"></h3>
       <div id="start_time_select"></div>
@@ -52,7 +52,7 @@
 
 
 <script>
-  function callback(data) {
+  function callback_nc_to_geotiff(data) {
     console.log("List of times");
     console.log(data.time_data);
     document.getElementById('select_time').innerHTML = 'Select time: ';
@@ -64,10 +64,10 @@
     document.getElementById('netcdf_to_geotiff_name_placeholder').innerHTML = '<h2><small>2- Enter GeoTIFF file name:</small></h2><div class="input-group"><input class="form-control" id="netcdf_to_geotiff_name" type="text" placeholder="Enter GeoTIFF file name" value=""></div>';
     document.getElementById('convert_button').innerHTML = '<button  class="btn btn-primary btn-lg" onclick="netcdf_to_geotiff()">Convert</button>';
   }
-  function netcdf_get_time() {
+  function netcdf_get_time_nc_to_geotiff() {
     var nc_file = $('input[name="nc_files"]:checked').val();
     var time_var = $('#time').val();
-    Dajaxice.giscube_app.get_netcdf_times(callback,{'nc_file':nc_file, 'time_var':time_var});
+    Dajaxice.giscube_app.get_netcdf_times(callback_nc_to_geotiff,{'nc_file':nc_file, 'time_var':time_var});
   }
 
   function netcdf_to_geotiff() {
