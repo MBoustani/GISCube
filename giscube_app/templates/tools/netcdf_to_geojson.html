@@ -52,7 +52,7 @@
 
 
 <script>
-  function callback(data) {
+  function callback_nc_to_geojson(data) {
     document.getElementById('select_time_nc_to_json').innerHTML = 'Select time: ';
     document.getElementById('start_time_select_nc_to_json').innerHTML = '<select class="form-control" id="netcdf_times_nc_to_json">';
     for (i = 0; i < data.time_data.length; i++) {
@@ -65,7 +65,7 @@
   function netcdf_get_time() {
     var nc_file = $('input[name="nc_files_nc_to_json"]:checked').val();
     var time_var = $('#time_nc_to_json').val();
-    Dajaxice.giscube_app.get_netcdf_times(callback,{'nc_file':nc_file, 'time_var':time_var});
+    Dajaxice.giscube_app.get_netcdf_times(callback_nc_to_geojson,{'nc_file':nc_file, 'time_var':time_var});
   }
 
   function netcdf_to_geojson() {
