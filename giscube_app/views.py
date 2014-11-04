@@ -135,7 +135,7 @@ def data_visualiser(request):
     for name in nc_file_name:
         if open_tif_file(name): #netCDF file can be opened by GDAL
             #json_name = get_geojson(name)
-            nc_variables = run_nc_info(name)['all_variables']
+            nc_variables = sorted(run_nc_info(name)['all_variables'], key=str.lower)
             ncs.append(name)
             nc_error = ""
         else:
@@ -177,7 +177,7 @@ def tools(request):
         netcdf_info.append(run_nc_info(name))
     for name in nc_file_name:
         if open_tif_file(name): #netCDF file can be opened by GDAL
-            nc_variables = run_nc_info(name)['all_variables']
+            nc_variables = sorted(run_nc_info(name)['all_variables'], key=str.lower)
             ncs.append(name)
             nc_error = ""
         else:
