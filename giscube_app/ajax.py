@@ -1,6 +1,6 @@
 import os, shutil
 import numpy as np
-from django.utils import simplejson
+import json
 from dajaxice.decorators import dajaxice_register
 from giscube.config import MEDIA_ROOT, MEDIA_URL
 from scripts.extract_shp_table import extract_shp_table
@@ -63,7 +63,7 @@ def get_netcdf_times(request, nc_file, time_var):
     nc_dataset = Dataset(MEDIA_ROOT+MEDIA_URL+nc_file, mode='r')
     time_data = nc_dataset.variables[time_var][:]
     times = [float(t) for t in time_data]
-    return simplejson.dumps({'time_data': times}) 
+    return json.dumps({'time_data': times}) 
 
 
 @dajaxice_register(method='GET')
