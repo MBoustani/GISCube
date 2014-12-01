@@ -5,20 +5,17 @@ from django.template import RequestContext
 from django.http import HttpResponseRedirect
 from django.core.urlresolvers import reverse
 
-#import variables
 from giscube.config import MEDIA_ROOT, MEDIA_URL
 
-#import form and model to be able to upload files
 from giscube_app.models import Document
 from giscube_app.forms import DocumentForm
 
-#import GIS scripts
 from giscube_app.scripts.open_file import open_shp_file, open_tif_file
-from giscube_app.scripts.shp_name_info import run_shp_info
-from giscube_app.scripts.tif_name_info import run_tif_info
+from giscube_app.scripts.metadata import run_shp_info
+from giscube_app.scripts.metadata import run_tif_info
 from giscube_app.scripts.what_file import what_format
-from giscube_app.scripts.vector_to_geojson import get_geojson
-from giscube_app.scripts.netcdf_info import run_nc_info
+from giscube_app.scripts.conversion import get_geojson
+from giscube_app.scripts.metadata import run_nc_info
 from giscube_app.scripts.gtif_to_tile import create_gtif
 
 #resource page
