@@ -4,7 +4,7 @@ import json
 from dajaxice.decorators import dajaxice_register
 from giscube.config import MEDIA_ROOT, MEDIA_URL
 from scripts.extract_shp_table import extract_shp_table
-from scripts.netcdf_info import get_nc_data
+from scripts.metadata import get_nc_data
 from scripts.conversion import nc_to_gtif, nc_to_geojson
 from netCDF4 import Dataset
 
