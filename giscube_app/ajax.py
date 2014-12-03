@@ -5,7 +5,7 @@ from dajaxice.decorators import dajaxice_register
 from giscube.config import MEDIA_ROOT, MEDIA_URL
 from scripts.extract_shp_table import extract_shp_table
 from scripts.metadata import get_nc_data
-from scripts.conversion import nc_to_gtif, nc_to_geojson
+from scripts.conversion import nc_to_gtif, nc_to_geojson, shp_to_kml
 from netCDF4 import Dataset
 
 @dajaxice_register(method='GET')
@@ -86,3 +86,11 @@ def netcdf_to_geojson(request, nc_file_nc_to_json, latitude_var_nc_to_json, long
     selected_time_index = np.where(time_data==float(selected_time_nc_to_json))[0][0]
     value_data = get_nc_data(nc_file_nc_to_json, latitude_var_nc_to_json, longitude_var_nc_to_json, time_var_nc_to_json, value_var_nc_to_json, selected_time_index)
     nc_to_geojson(latitude_data, longitude_data, value_data, geojson_name)
+
+
+@dajaxice_register(method='GET')
+def shapefile_to_kml(request, selected_shp, kml_name):
+    if kml_name.split(".")[-1] != "kml":
+        kml_name = "{0}.kml".format(kml_name)
+    shp_to_kml(MEDIA_ROOT + MEDIA_URL + selected_shp + '.shp', MEDIA_ROOT + MEDIA_URL + kml_name)
+
