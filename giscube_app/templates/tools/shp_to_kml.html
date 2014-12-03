@@ -1,0 +1,35 @@
+{% load shp_dict %}
+
+<div class="menu closed" id="menu_shp_to_kml">
+  <button class="close">close</button>
+  <h2>Convert Shapefile to KML</h2>
+    <h3>This tool converts shapefile to KML file format.</h3>
+    <div class="container">
+      <h2><small>1- Select from current vector data:</small></h2>
+	{% for each in shps_info %}
+	<div class="radio">
+	<input type="radio" name="optionsRadios" id="current_vector" value="{{ each|layer_name }}">
+	<p>{{ each|file_name }}</p>
+      </div>
+      {% endfor %}
+
+      <h2><small>2- Enter text file name:</small></h2>
+
+      <div class="input-group">
+        <input class="form-control" id="shp_to_kml" type="text" placeholder="Enter KML file name" value="">
+      </div>
+
+      <button type="button" class="btn btn-primary btn-lg" onclick="shp_to_kml()">Convert</button>
+        <p id='shp_to_kml_status'></p>
+    </div>
+</div>
+
+<script>
+  function shp_to_kml() {
+    document.getElementById('shp_to_kml_status').innerHTML = 'Processing...';
+    var selected_shp = $('input[name="optionsRadios"]:checked').val();
+    var kml_name = $('#shp_to_kml').val();
+    Dajaxice.giscube_app.shapefile_to_kml('',{'selected_shp': selected_shp, 'kml_name':kml_name});
+    document.getElementById('shp_to_kml_status').innerHTML = 'Done.';
+  }
+</script>
