@@ -96,20 +96,47 @@ def nc_to_geojson(latitudes, longitudes, values, geotiff_name):
 
 
 def convert_vector_to_geojson(GeoJSON_file_name, vector_path):
-        #string = "ogr2ogr -f GeoJSON -t_srs '+proj=merc +a=6378137 +b=6378137 +lat_ts=0.0 +lon_0=0.0 +x_0=0.0 +y_0=0 +k=1.0 +units=m +nadgrids=@null +no_defs'\
-        #        -lco \"WRITE_BBOX=YES\" {0} {1} ".format(GeoJSON_file_name, vector_path)
-        string = "ogr2ogr -f GeoJSON -t_srs EPSG:4326 -lco \"WRITE_BBOX=YES\" {0} {1} ".format(GeoJSON_file_name, vector_path)
-        os.system(string)
+    #string = "ogr2ogr -f GeoJSON -t_srs '+proj=merc +a=6378137 +b=6378137 +lat_ts=0.0 +lon_0=0.0 +x_0=0.0 +y_0=0 +k=1.0 +units=m +nadgrids=@null +no_defs'\
+    #        -lco \"WRITE_BBOX=YES\" {0} {1} ".format(GeoJSON_file_name, vector_path)
+    string = "ogr2ogr -f GeoJSON -t_srs EPSG:4326 -lco \"WRITE_BBOX=YES\" {0} {1} ".format(GeoJSON_file_name, vector_path)
+    os.system(string)
 
-        return GeoJSON_file_name
+    return GeoJSON_file_name
 
 
 def get_geojson(vector_path):
-        vector_format = what_format(vector_path)
-        if vector_format == "ESRI Shapefile":
-                vector_name = run_shp_info(vector_path)['layer_name']
-        GeoJSON_file_name = vector_name + ".json"
-        if not os.path.isfile(GeoJSON_file_name):
-                convert_vector_to_geojson(GeoJSON_file_name, vector_path)
-        return vector_name
+    vector_format = what_format(vector_path)
+    if vector_format == "ESRI Shapefile":
+            vector_name = run_shp_info(vector_path)['layer_name']
+    GeoJSON_file_name = vector_name + ".json"
+    if not os.path.isfile(GeoJSON_file_name):
+            convert_vector_to_geojson(GeoJSON_file_name, vector_path)
+    return vector_name
+
+
+def shp_to_kml(shp_path, kml_name):
+    try:
+        shp_datasource = ogr.Open(shp_path)
+    except:
+        raise "Shapefile cannot be opened"
+        sys.exit()
+
+    driver = ogr.GetDriverByName('KML')
+    layer_name = 'kml_layer'
+    kml_datasource = driver.CreateDataSource(kml_name)
     
+    layer = shp_datasource.GetLayerByIndex(0)
+    srs = layer.GetSpatialRef()
+    geom_type = layer.GetGeomType()
+    kml_layer = kml_datasource.CreateLayer(layer_name, srs, geom_type)
+
+    layer_number = shp_datasource.GetLayerCount()
+    for each in range(layer_number):
+        layer = shp_datasource.GetLayerByIndex(each)
+        features_number = layer.GetFeatureCount()
+        for i in range(features_number):
+            shp_feature = layer.GetFeature(i)
+            feature_geometry = shp_feature.GetGeometryRef()
+            kml_feature = ogr.Feature(kml_layer.GetLayerDefn())
+            kml_feature.SetGeometry(feature_geometry)
+            kml_layer.CreateFeature(kml_feature)
