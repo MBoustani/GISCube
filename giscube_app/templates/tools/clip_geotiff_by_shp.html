@@ -1,0 +1,45 @@
+{% load tif_dict %}
+
+
+<div class="menu closed" id="menu_clip_geotiff_by_shp">
+  <button class="close">close</button>
+<h2>Clip GeoTIFF by Shapefile</h2>
+      <h3>This tool clips GeoTIFF by Shapefile (only polygon shapefile will be accepted)</h3>
+      <div class="container">
+	<h2><small>1- Select from current GeoTIFF:</small></h2>
+	{% for each in tiffs_info %}
+	<div class="radio">
+	<input type="radio" name="existing_geotiff" id="existing_geotiff" value="{{ each|file_name }}">
+	<p>{{ each|file_name }}</p>
+      </div>
+      {% endfor %}
+      <h2><small>1- Select from current Vector:</small></h2>
+	{% for each in shps_info %}
+	<div class="radio">
+	<input type="radio" name="existing_shapefile" id="existing_shapefile" value="{{ each|layer_name }}">
+	<p>{{ each|file_name }}</p>
+      </div>
+      {% endfor %}
+      
+      <h2><small>2- Enter clipped GeoTIFF name:</small></h2>
+
+    <div class="input-group">
+      <input class="form-control" id="clipped_geotiff_name" type="text" placeholder="Enter new GeoTIFF" value="">
+    </div>
+
+  <h2><small>4- Clip GeoTIFF:</small></h2>
+  <button type="button" class="btn btn-primary btn-lg" onclick="clip_geotiff_by_shp()">Clip GeoTIFF</button>
+      <p id='clip_geotiff_status'></p>
+      </div>
+</div>
+
+<script>
+  function clip_geotiff_by_shp() {
+    document.getElementById('clip_geotiff_status').innerHTML = 'Processing...';
+    var selected_geotiff = $('input[name="existing_geotiff"]:checked').val();
+    var selected_shapefile = $('input[name="existing_shapefile"]:checked').val();
+    var clipped_geotiff_name = $('#clipped_geotiff_name').val();
+    Dajaxice.giscube_app.clip_geotiff_by_shapefile('',{'selected_geotiff': selected_geotiff, 'selected_shapefile':selected_shapefile, 'clipped_geotiff_name':clipped_geotiff_name});
+    document.getElementById('clip_geotiff_status').innerHTML = 'Done.';
+  }
+</script>

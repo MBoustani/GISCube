@@ -1,12 +1,15 @@
 import os, shutil
 import numpy as np
 import json
+from netCDF4 import Dataset
 from dajaxice.decorators import dajaxice_register
 from giscube.config import MEDIA_ROOT, MEDIA_URL
+
 from scripts.extract_shp_table import extract_shp_table
 from scripts.metadata import get_nc_data
 from scripts.conversion import nc_to_gtif, nc_to_geojson, shp_to_kml
-from netCDF4 import Dataset
+from scripts.clip_geotiff_by_shp import clip_geotiff_by_shp
+
 
 @dajaxice_register(method='GET')
 def remove_loaded_file(request, param):
@@ -93,4 +96,11 @@ def shapefile_to_kml(request, selected_shp, kml_name):
     if kml_name.split(".")[-1] != "kml":
         kml_name = "{0}.kml".format(kml_name)
     shp_to_kml(MEDIA_ROOT + MEDIA_URL + selected_shp + '.shp', MEDIA_ROOT + MEDIA_URL + kml_name)
+
+
+@dajaxice_register(method='GET')
+def clip_geotiff_by_shapefile(request, selected_geotiff, selected_shapefile, clipped_geotiff_name):
+    if clipped_geotiff_name.split(".")[-1] != "tif" or clipped_geotiff_name.split(".")[-1] != "tiff":
+        clipped_geotiff_name = "{0}.tif".format(clipped_geotiff_name)
+    clip_geotiff_by_shp(MEDIA_ROOT + MEDIA_URL + selected_geotiff , MEDIA_ROOT + MEDIA_URL + selected_shapefile + '.shp', MEDIA_ROOT + MEDIA_URL + clipped_geotiff_name)
 
