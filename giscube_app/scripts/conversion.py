@@ -140,3 +140,8 @@ def shp_to_kml(shp_path, kml_name):
             kml_feature = ogr.Feature(kml_layer.GetLayerDefn())
             kml_feature.SetGeometry(feature_geometry)
             kml_layer.CreateFeature(kml_feature)
+
+
+def convert_geotiff_to_kml(selected_geotiff, geotiff_to_kml_name):
+    string = "gdal_translate -of KMLSUPEROVERLAY {0} {1}".format(selected_geotiff, geotiff_to_kml_name)
+    os.system(string)
