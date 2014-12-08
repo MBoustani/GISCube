@@ -7,7 +7,7 @@ from giscube.config import MEDIA_ROOT, MEDIA_URL
 
 from scripts.extract_shp_table import extract_shp_table
 from scripts.metadata import get_nc_data
-from scripts.conversion import nc_to_gtif, nc_to_geojson, shp_to_kml
+from scripts.conversion import nc_to_gtif, nc_to_geojson, shp_to_kml, convert_geotiff_to_kml
 from scripts.clip_geotiff_by_shp import clip_geotiff_by_shp
 
 
@@ -66,7 +66,7 @@ def get_netcdf_times(request, nc_file, time_var):
     nc_dataset = Dataset(MEDIA_ROOT+MEDIA_URL+nc_file, mode='r')
     time_data = nc_dataset.variables[time_var][:]
     times = [float(t) for t in time_data]
-    return json.dumps({'time_data': times}) 
+    return json.dumps({'time_data': times})
 
 
 @dajaxice_register(method='GET')
@@ -104,3 +104,10 @@ def clip_geotiff_by_shapefile(request, selected_geotiff, selected_shapefile, cli
         clipped_geotiff_name = "{0}.tif".format(clipped_geotiff_name)
     clip_geotiff_by_shp(MEDIA_ROOT + MEDIA_URL + selected_geotiff , MEDIA_ROOT + MEDIA_URL + selected_shapefile + '.shp', MEDIA_ROOT + MEDIA_URL + clipped_geotiff_name)
 
+
+@dajaxice_register(method='GET')
+def geotiff_to_kml(request, selected_geotiff, geotiff_to_kml_name):
+    if geotiff_to_kml_name.split(".")[-1] != "kml":
+        geotiff_to_kml_name = "{0}.kml".format(geotiff_to_kml_name)
+    convert_geotiff_to_kml(selected_geotiff, geotiff_to_kml_name)
+    return json.dumps({'status': 'Done'})
