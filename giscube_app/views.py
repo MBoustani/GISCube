@@ -23,10 +23,14 @@ def data_resource(request):
     ALL_FILES = [each for each in os.listdir(MEDIA_ROOT+MEDIA_URL)]# if os.path.isfile(each)]
     UPLODED_FILES = []
     for each in ALL_FILES:
+        print each
+        print "----"
         file_format = what_format(MEDIA_ROOT+MEDIA_URL+each)
+        print file_format
+        print "____"
         if file_format == "ESRI Shapefile" and each.split(".")[-1]=="shp":
             UPLODED_FILES.append(each)
-        elif file_format == "LIBKML":
+        elif file_format == "LIBKML" or file_format=="Kml Super Overlay":
             UPLODED_FILES.append(each)
         elif file_format == "GeoTIFF":
             UPLODED_FILES.append(each)
