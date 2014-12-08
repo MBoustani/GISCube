@@ -1,0 +1,39 @@
+{% load tif_dict %}
+
+
+<div class="menu closed" id="menu_geotiff_to_kml">
+  <button class="close">close</button>
+<h2>Convert GeoTIFF to KML</h2>
+      <h3>This tool converts GeoTIFF to KML file format.</h3>
+      <div class="container">
+	<h2><small>1- Select from current GeoTIFF:</small></h2>
+	{% for each in tiffs_info %}
+	<div class="radio">
+	<input type="radio" name="existing_geotiff" id="existing_geotiff" value="{{ each|file_name }}">
+	<p>{{ each|file_name }}</p>
+      </div>
+      {% endfor %}
+      
+      <h2><small>2- Enter KML file name:</small></h2>
+
+    <div class="input-group">
+      <input class="form-control" id="geotiff_to_kml_name" type="text" placeholder="Enter KML name" value="">
+    </div>
+
+  <h2><small>3- Convert GeoTIFF to KML:</small></h2>
+  <button type="button" class="btn btn-primary btn-lg" onclick="geotiff_to_kml()">Convert</button>
+      <p id='geotiff_to_kml_status'></p>
+      </div>
+</div>
+
+<script>
+  function geotiff_to_kml_status(data) {
+    document.getElementById('geotiff_to_kml_status').innerHTML = data.status;
+  }
+  function geotiff_to_kml() {
+    document.getElementById('geotiff_to_kml_status').innerHTML = 'Processing...';
+    var selected_geotiff = $('input[name="existing_geotiff"]:checked').val();
+    var geotiff_to_kml_name = $('#geotiff_to_kml_name').val();
+    Dajaxice.giscube_app.geotiff_to_kml(geotiff_to_kml_status,{'selected_geotiff': selected_geotiff, 'geotiff_to_kml_name':geotiff_to_kml_name});
+  }
+</script>
