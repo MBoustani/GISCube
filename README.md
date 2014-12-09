@@ -22,9 +22,11 @@ Beside some open source GIS libraries and some software like ArcGIS there are co
 
 7- `git clone https://github.com/MBoustani/GISCube.git GISCube`
 
-8- `python GISCube/manage.py runserver 0.0.0.0:5050`
+8- `cd GISCube`
 
-9- open [localhost:5050](http://localhost:5050) in browser and enjoy.
+9- `python manage.py runserver 0.0.0.0:5050`
+
+10- open [localhost:5050](http://localhost:5050) in browser and enjoy.
 
 
 [Documentation](https://github.com/MBoustani/GISCube/wiki)
