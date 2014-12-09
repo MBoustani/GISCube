@@ -26,7 +26,7 @@ Beside some open source GIS libraries and some software like ArcGIS there are co
 
 9- `python GISCube/manage.py runserver 0.0.0.0:5050`
 
-10- open [localhost:5050](localhost:5050) in browser and enjoy.
+10- open [test](localhost:5050) in browser and enjoy.
 
 
 [Documentation](https://github.com/MBoustani/GISCube/wiki)
