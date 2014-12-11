@@ -8,6 +8,7 @@
 {% include '/tools/re_project_geotiff.html' %}
 {% include '/tools/clip_geotiff_by_shp.html' %}
 {% include '/tools/geotiff_to_kml.html' %}
+{% include '/tools/geotiff_resolution.html' %}
 
 <!-- netCDF tools-->
 {% include '/tools/netcdf_to_geotiff.html' %}
@@ -62,12 +63,12 @@
   <button type="button" class="btn btn-default btn-block btn-lg open" id="reproject_geotiff"><small>Re-Project GeoTIFF</small></button>
   <button type="button" class="btn btn-default btn-block btn-lg open" id="clip_geotiff_by_shp"><small>Clip GeoTIFF</small></button>
   <button type="button" class="btn btn-default btn-block btn-lg open" id="geotiff_to_kml"><small>GeoTIFF to KML</small></button>
-  <button type="button" class="btn btn-default btn-block btn-lg open" disabled="disabled"><small>GeoTIFF to GeoJSON</small></button>
+  <button type="button" class="btn btn-default btn-block btn-lg open" id="geotiff_resolution"><small>GeoTIFF Resolution</small></button>
 </div>
 <div class="col-md-2">
   <button type="button" class="btn btn-default btn-block btn-lg open" disabled="disabled"><small>GeoTIFF to netCDF</small></button>
   <button type="button" class="btn btn-default btn-block btn-lg open" disabled="disabled"><small>GeoTIFF Table to text</small></button>
-  <button type="button" class="btn btn-default btn-block btn-lg open" disabled="disabled"><small>-</small></button>
+  <button type="button" class="btn btn-default btn-block btn-lg open" disabled="disabled"><small>GeoTIFF to GeoJSON</small></button>
   <button type="button" class="btn btn-default btn-block btn-lg open" disabled="disabled"><small>-</small></button>
 </div>
 <div class="col-md-2">

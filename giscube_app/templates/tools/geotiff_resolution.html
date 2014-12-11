@@ -1,0 +1,50 @@
+{% load tif_dict %}
+
+
+<div class="menu closed" id="menu_geotiff_resolution">
+  <button class="close">close</button>
+<h2>Change the GeoTIFF Resolution</h2>
+      <h3>This tool changes the GeoTIFF resolution (pixel size)</h3>
+      <div class="container">
+	<h2><small>1- Select from current GeoTIFF:</small></h2>
+	{% for each in tiffs_info %}
+	<div class="radio">
+	<input type="radio" name="existing_geotiff" id="existing_geotiff" value="{{ each|file_name }}">
+	<p>{{ each|file_name }}</p>
+      </div>
+      {% endfor %}
+      
+      <h2><small>2- Enter new X size</small></h2>
+      <div class="input-group">
+	<input class="form-control" id="geotiff_new_x_res" type="text" placeholder="Enter new X size" value="">
+      </div>
+      
+      <h2><small>3- Enter new Y size</small></h2>
+      <div class="input-group">
+	<input class="form-control" id="geotiff_new_y_res" type="text" placeholder="Enter new Y size" value="">
+      </div>
+
+      <h2><small>4- Enter new GeoTIFF name</small></h2>
+      <div class="input-group">
+	<input class="form-control" id="geotiff_new_resolution_name" type="text" placeholder="Enter GeoTIFF name" value="">
+      </div>
+
+  <h2><small>5- Change GeoTIFF Resolution:</small></h2>
+  <button type="button" class="btn btn-primary btn-lg" onclick="clip_geotiff_by_shp()">Process</button>
+      <p id='geotiff_resolution_status'></p>
+      </div>
+</div>
+
+<script>
+  function geotiff_resolution_status(data) {
+   document.getElementById('geotiff_resolution_status').innerHTML = data.status;
+  }
+  function clip_geotiff_by_shp() {
+    document.getElementById('geotiff_resolution_status').innerHTML = 'Processing...';
+    var selected_geotiff = $('input[name="existing_geotiff"]:checked').val();
+    var geotiff_new_x_res = $('#geotiff_new_x_res').val();
+    var geotiff_new_y_res = $('#geotiff_new_y_res').val();
+    var geotiff_new_resolution_name = $('#geotiff_new_resolution_name').val();
+    Dajaxice.giscube_app.geotiff_resolution(geotiff_resolution_status,{'selected_geotiff': selected_geotiff, 'geotiff_new_x_res':geotiff_new_x_res, 'geotiff_new_y_res':geotiff_new_y_res, 'geotiff_new_resolution_name':geotiff_new_resolution_name});
+  }
+</script>

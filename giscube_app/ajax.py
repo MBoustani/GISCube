@@ -9,6 +9,7 @@ from scripts.extract_shp_table import extract_shp_table
 from scripts.metadata import get_nc_data
 from scripts.conversion import nc_to_gtif, nc_to_geojson, shp_to_kml, convert_geotiff_to_kml
 from scripts.clip_geotiff_by_shp import clip_geotiff_by_shp
+from scripts.data_management import change_geotiff_resolution
 
 
 @dajaxice_register(method='GET')
@@ -111,3 +112,12 @@ def geotiff_to_kml(request, selected_geotiff, geotiff_to_kml_name):
         geotiff_to_kml_name = "{0}.kml".format(geotiff_to_kml_name)
     convert_geotiff_to_kml(selected_geotiff, geotiff_to_kml_name)
     return json.dumps({'status': 'Done'})
+
+
+@dajaxice_register(method='GET')
+def geotiff_resolution(request, selected_geotiff, geotiff_new_x_res, geotiff_new_y_res, geotiff_new_resolution_name):
+    if geotiff_new_resolution_name.split(".")[-1] != "tif" or clipped_geotiff_name.split(".")[-1] != "tiff":
+        geotiff_new_resolution_name = "{0}.tif".format(geotiff_new_resolution_name)
+    change_geotiff_resolution(selected_geotiff, geotiff_new_x_res, geotiff_new_y_res, geotiff_new_resolution_name)
+    return json.dumps({'status': 'Done'})
+
