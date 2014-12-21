@@ -5,10 +5,10 @@
 <div class="row">
   <div class="col-md-2" id="side_menu">
     <ul class="nav nav-pills nav-stacked">
-      <li class="active"><a href="resource">Data Resource</a></li>
-      <li><a href="information">Data Information</a></li>
-      <li><a href="visualiser">Data Visualiser</a></li>
-      <li><a href="tools">GeoSpatial Tools</a></li>
+      <li class="active"><a href="/resource">Data Resource</a></li>
+      <li><a href="/information">Data Information</a></li>
+      <li><a href="/visualiser">Data Visualiser</a></li>
+      <li><a href="/tools">GeoSpatial Tools</a></li>
     </ul>
   </div>
   <!-- left-nav-stack-bar/ -->
@@ -23,6 +23,11 @@
         {{ form.docfile }}
       </p>
       <p><button type="submit" value="Upload" class="btn btn-primary btn-lg">Submit</button></p>
+      {% if notification %}
+        <div class="alert alert-warning" role="alert"><b>Warning!</b><br>
+        {{ notification }}
+        </div>
+      {% endif %}
     </form>
   </div>
 
