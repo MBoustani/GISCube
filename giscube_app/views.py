@@ -111,16 +111,17 @@ def data_information(request):
 def data_visualiser(request):
     os.chdir(MEDIA_ROOT + MEDIA_URL)
     jsons = []
-    ncs = []
-    nc_variables = []
     geotifs = []
     shp_error = ""
     tif_error = ""
-    nc_error = ""
     shp_file_name = [each for each in glob.glob("*.shp")] #TODO: Use GDLA file format to recognize shapefiles, not with parsing
     gtif_file_name = [each for each in glob.glob("*.tif")] #TODO: Use GDLA file format to recognize geotif, not with parsing
-    nc_file_name = [each for each in glob.glob("*.nc")]
     json_file_name = [each for each in glob.glob("*.json")]
+
+    #add all GeoJSON to jsons
+    for json in json_file_name:
+        jsons.append(json.split(".json")[0])
+
     for name in shp_file_name:
         if open_shp_file(name):
             json_name = get_geojson(name)
@@ -128,28 +129,21 @@ def data_visualiser(request):
         else:
             shp_error = "Cannot open shapfile."
             break
-    for name in nc_file_name:
-        if open_tif_file(name): #netCDF file can be opened by GDAL
-            #json_name = get_geojson(name)
-            nc_variables = sorted(run_nc_info(name)['all_variables'], key=str.lower)
-            ncs.append(name)
-            nc_error = ""
-        else:
-            nc_error = "Cannot open netCDF."
-            break
+
     for name in gtif_file_name:
         if open_tif_file(name):
-            geotif_folder = create_gtif(name)
-            geotifs.append(geotif_folder)
-            tif_error = ""
+            if os.path.exists('{0}{1}'.format(MEDIA_ROOT, MEDIA_URL) + name.split(".tif")[0]):
+                geotifs.append(name.split(".tif")[0])
+                tif_error = ""
+            else:
+                geotif_folder = create_gtif(name)
+                geotifs.append(geotif_folder)
+                tif_error = ""
         else:
             tif_error = "Cannot open GeoTIFF."
             break
-    #add all GeoJSON to jsons
-    for json in json_file_name:
-        jsons.append(json.split(".json")[0])
 
-    context = {'jsons':jsons,'ncs':ncs, 'nc_variables':nc_variables, 'geotifs':geotifs, 'shp_error':shp_error, 'tif_error':tif_error, 'nc_error':nc_error}
+    context = {'jsons':jsons, 'geotifs':geotifs, 'shp_error':shp_error, 'tif_error':tif_error}
     return render(request, 'data_visualiser/index.html', context)
 
 #tools page
