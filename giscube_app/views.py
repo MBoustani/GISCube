@@ -19,16 +19,20 @@ from giscube_app.scripts.metadata import run_nc_info
 from giscube_app.scripts.gtif_to_tile import create_gtif
 
 #resource page
-def data_resource(request):
+def data_resource(request, uploaded=''):
+    notification = ""
     ALL_FILES = [each for each in os.listdir(MEDIA_ROOT+MEDIA_URL)]# if os.path.isfile(each)]
     UPLODED_FILES = []
     for each in ALL_FILES:
-        print each
-        print "----"
         file_format = what_format(MEDIA_ROOT+MEDIA_URL+each)
         print file_format
-        print "____"
         if file_format == "ESRI Shapefile" and each.split(".")[-1]=="shp":
+            UPLODED_FILES.append(each)
+        if each.split(".")[-1]=="shx":
+            UPLODED_FILES.append(each)
+        if each.split(".")[-1]=="dbf":
+            UPLODED_FILES.append(each)
+        if each.split(".")[-1]=="prj":
             UPLODED_FILES.append(each)
         elif file_format == "LIBKML" or file_format=="Kml Super Overlay":
             UPLODED_FILES.append(each)
@@ -44,31 +48,22 @@ def data_resource(request):
         form = DocumentForm(request.POST, request.FILES)
         if form.is_valid():
             newdoc = Document(docfile = request.FILES['docfile'])
-            #get uploaded file name
             uploaded_file_name = newdoc.docfile.name
-            print uploaded_file_name
-            file_extension = uploaded_file_name.split('.')[-1]
-            if file_extension == "shp": #TODO: Use GDLA file format to recognize shapefiles, not with parsing
-                file_name_without_ext = uploaded_file_name.replace('.{0}'.format(file_extension),'')
-                shx_file = "{0}{1}{2}.shx".format(MEDIA_ROOT, MEDIA_URL, file_name_without_ext)
-                dbf_file = "{0}{1}{2}.dbf".format(MEDIA_ROOT, MEDIA_URL, file_name_without_ext)
-                if os.path.isfile(shx_file) == False:
-                    print "shx does not exists"
-                if os.path.isfile(dbf_file) == False:
-                    print "dbf does not exists"
-                newdoc.save()
-            else:
-                newdoc.save()
+            newdoc.save()
 
-            return HttpResponseRedirect(reverse('giscube_app.views.data_resource'))
+            return HttpResponseRedirect('/resource/{0}'.format(uploaded_file_name))
     else:
         form = DocumentForm()
 
     documents = Document.objects.all()
-
+    if uploaded.split('.')[-1] == 'shp':
+        file_name_without_ext = uploaded.replace('.{0}'.format(uploaded.split('.')[-1]),'')
+        shx_file = "{0}{1}{2}.shx".format(MEDIA_ROOT, MEDIA_URL, file_name_without_ext)
+        if os.path.isfile(shx_file) == False:
+            notification = 'Please upload files below to complete Shapefile:\n{0}.shx{0}.dbf{0}.prj'.format(file_name_without_ext)
     return render_to_response(
         'data_resource/index.html',
-        {'documents': documents, 'form': form, 'UPLODED_FILES': UPLODED_FILES},
+        {'documents': documents, 'form': form, 'UPLODED_FILES': UPLODED_FILES, 'notification':notification},
         context_instance=RequestContext(request)
     )
 
