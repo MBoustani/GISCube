@@ -37,7 +37,7 @@
     <ul>
       {% for file in UPLODED_FILES %}
       <li>
-        <span class="glyphicon glyphicon-remove" onclick="Dajaxice.giscube_app.remove_loaded_file('',{'param': '{{ file }}'});location.reload();"></span>
+        <a href=""><span class="glyphicon glyphicon-trash red" onclick="Dajaxice.giscube_app.remove_loaded_file('',{'param': '{{ file }}'});location.reload();"></span>&nbsp </a>
         <a href="/static/uploaded_files/{{ file }}">{{ file }}</a>
       </li><br>
       {% endfor %}
