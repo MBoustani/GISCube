@@ -32,7 +32,7 @@
       {% for json in jsons %}
         <div class="checkbox">
           <label>
-            <input type="checkbox" value={{ json }} id="{{ json }}" onchange="add_remove_layer({{ json }}, '{{ json }}')"> 
+            <input type="checkbox" value={{ json }} id="{{ json }}" onchange="add_remove_layer({{ json }}, '{{ json }}', 'json')"> 
             {{ json }}
           </label>
         </div>
@@ -42,7 +42,7 @@
       {% for geotif in geotifs %}
         <div class="checkbox">
           <label>
-            <input type="checkbox" value={{ geotif }} id="{{ geotif }}" onchange="add_remove_layer({{ geotif }}, '{{ geotif }}')"> 
+            <input type="checkbox" value={{ geotif }} id="{{ geotif }}" onchange="add_remove_layer({{ geotif }}, '{{ geotif }}', 'geotiff')"> 
             {{ geotif }}
           </label>
         </div>
@@ -56,7 +56,6 @@
     </div>
    </div>
 </div>
-    
 
 
 <!-- /Map box -->
@@ -70,6 +69,7 @@
 <!-- Map box/ -->
 
 <script type="text/javascript">
+
   var pointStyle = new ol.style.Circle({
   radius: 2,
   stroke: new ol.style.Stroke({color: 'red', width: 1})
@@ -161,6 +161,18 @@ var styles = {
         });
   {% endfor %}
 
+  var controls = [
+    new ol.control.MousePosition({
+        undefinedHTML: 'outside',
+        projection: 'EPSG:4326',
+        coordinateFormat: function(coordinate) {
+            return ol.coordinate.format(coordinate, '{x}, {y}', 4);
+        }
+    }),
+    new ol.control.ScaleLine(),
+    new ol.control.FullScreen()
+  ];
+
   var map = new ol.Map({
     target: 'map',
       layers: [
@@ -173,10 +185,21 @@ var styles = {
         zoom: 2
       })
     });
-  
-  function add_remove_layer(layer, json) {
-    if (document.getElementById(json).checked == true){
+
+  map.addControl(controls[0]);
+  map.addControl(controls[1]);
+  map.addControl(controls[2]);
+
+  function add_remove_layer(layer, name, type) {
+    if (document.getElementById(name).checked == true){
       map.addLayer(layer);
+      if (type=='json') {
+        extent = layer.getSource().getExtent();
+        map.getView().fitExtent(extent, map.getSize());
+      }else{
+        extent = ''; //TODO: to get GeoTIFF actual bound here, maybe reading XML file from gdal2tile
+      }
+      //map.getView().fitExtent(extent, map.getSize());
     }else{
       map.removeLayer(layer);
     }
