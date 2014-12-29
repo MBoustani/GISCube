@@ -14,21 +14,44 @@
   <!-- left-nav-stack-bar/ -->
 
   <div class="col-md-4">
-    <div class="alert alert-info"><p>Supported formats: Shapefile, GeoTIFF, GeoJSON and netCDF files.</p></div>
-    <form action="{% url 'resource' %}" method="post" enctype="multipart/form-data">
-      {% csrf_token %}
-      <p>{{ form.non_field_errors }}</p>
-      <p>
-        {{ form.docfile.errors }}
-        {{ form.docfile }}
-      </p>
-      <p><button type="submit" value="Upload" class="btn btn-primary btn-lg">Submit</button></p>
-      {% if notification %}
-        <div class="alert alert-warning" role="alert"><b>Warning!</b><br>
-        {{ notification }}
+    <ul id="myTab" class="nav nav-tabs">
+      <li class="active"><a href="#localdata" data-toggle="tab">Local Data</a></li>
+      <li><a href="#opendap" data-toggle="tab">OPeNDAP</a></li>
+    </ul>
+    <div id="myTabContent" class="tab-content">
+      <div class="tab-pane fade in active" id="localdata">
+      <div class="alert alert-info"><p>Supported formats: Shapefile, GeoTIFF, GeoJSON and netCDF files.</p></div>
+        <form action="{% url 'resource' %}" method="post" enctype="multipart/form-data">
+          {% csrf_token %}
+          <p>{{ form.non_field_errors }}</p>
+          <p>
+            {{ form.docfile.errors }}
+            {{ form.docfile }}
+          </p>
+          <p><button type="submit" value="Upload" class="btn btn-primary btn-lg">Submit</button></p>
+          {% if notification %}
+            <div class="alert alert-warning" role="alert"><b>Warning!</b><br>
+            {{ notification }}
+            </div>
+          {% endif %}
+        </form>
+      </div>
+      <div class="tab-pane fade in" id="opendap">
+        <h3>1: Enter OPenDAP URL:</h3>
+        <br>
+        <input type="text" class="form-control" id="opendap_url" placeholder="OPenDAP URL">
+        <h3>2: Enter variable name</h3>
+        <div class="input-group">
+          <input class="form-control" id="opendap_variable" type="text" placeholder="Enter variable name" value="">
         </div>
-      {% endif %}
-    </form>
+        <br>
+        <div class="alert alert-info" role="alert"><p><small>Example:<br><b>OPenDAP URL:</b> http://test.opendap.org/dap/data/nc/sst.mnmean.nc.gz<br><b>Variable:</b> sst</small></p></div>
+        <button value="opendap_getdata" class="btn btn-primary btn-lg" onclick="opendap_getdata()">Get Data</button>
+        <br>
+        <br>
+        <div id='opendap_status'></div>
+      </div>
+    </div>
   </div>
 
   <div class="col-md-6" id="uploaded_files">
@@ -46,5 +69,18 @@
       <h3><small>No documents.</small></h3>
   {% endif %}
 </div>
+
+<script>
+  function opendap_status(data) {
+    //location.reload();
+   document.getElementById('opendap_status').innerHTML = data.status;
+  }
+  function opendap_getdata() {
+    document.getElementById('opendap_status').innerHTML = '<div class="alert alert-info" role="alert" >Retrieving data...Please wait.</div>';
+    var opendap_url = $('#opendap_url').val();
+    var opendap_variable = $('#opendap_variable').val();
+    Dajaxice.giscube_app.opendap_getdata(opendap_status,{'opendap_url':opendap_url, 'opendap_variable':opendap_variable});
+  }
+</script>
 
 {% include 'footer.html' %}
