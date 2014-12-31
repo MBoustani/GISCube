@@ -11,13 +11,18 @@ from scripts.conversion import nc_to_gtif, nc_to_geojson, shp_to_kml, convert_ge
 from scripts.clip_geotiff_by_shp import clip_geotiff_by_shp
 from scripts.data_management import change_geotiff_resolution
 from scripts.opendap import load as load_opendap
+from scripts.opendap import opendap_metadata
 
 
 @dajaxice_register(method='GET')
 def opendap_getdata(request, opendap_url, opendap_variable):
     text_file = load_opendap(opendap_url, opendap_variable)
-    print text_file
     return json.dumps({'status': '<div class="alert alert-success" role="alert" >Successfully retrieved data. Please refresh the page.</div>'})
+
+@dajaxice_register(method='GET')
+def opendap_getmetadata(request, opendap_url):
+    metadata = opendap_metadata(opendap_url)
+    return json.dumps({'metadata': metadata.splitlines()})
 
 @dajaxice_register(method='GET')
 def remove_loaded_file(request, param):
