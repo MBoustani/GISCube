@@ -1,8 +1,13 @@
 from pydap.client import open_url
 from netcdftime import utime
 import numpy as np
+import urllib2
 
 from giscube.config import MEDIA_ROOT, MEDIA_URL
+
+def opendap_metadata(opendap_url):
+    response = urllib2.urlopen(opendap_url + ".das")
+    return response.read()
 
 def load(url, variable, name=''):
     d = open_url(url)

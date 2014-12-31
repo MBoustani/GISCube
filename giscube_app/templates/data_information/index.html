@@ -20,6 +20,7 @@
     <li class="active"><a href="#vectorData" data-toggle="tab">Vector Data</a></li>
     <li><a href="#rasterData" data-toggle="tab">Raster Data</a></li>
     <li><a href="#netcdfData" data-toggle="tab">netCDF Data</a></li>
+    <li><a href="#opendap" data-toggle="tab">OPeNDAP</a></li>
   </ul>
   <!-- vector and raster tabs/ -->
   <!-- /vector contents -->
@@ -133,6 +134,15 @@
       {% endif %}
       </div>
     </div>
+    <div class="tab-pane fade in"  id="opendap">
+      <h3>1: Enter OPenDAP URL:</h3>
+      <br>
+      <input type="text" class="form-control" id="opendap_url" placeholder="OPenDAP URL">
+      <br>
+      <div class="alert alert-info" role="alert"><p><small>Example:<br><b>OPenDAP URL:</b> http://test.opendap.org/dap/data/nc/sst.mnmean.nc.gz</div>
+      <button value="opendap_getmetadata" class="btn btn-primary btn-lg" onclick="opendap_getmetadata()">Get Metadata</button>
+    </div>
+    <div id=opendap_print_metadata></div>
   </div>
   <!-- netcdf contents/ -->
 </div>
@@ -142,15 +152,48 @@
 
 <script type="text/javascript">
    $(document).ready(function(){
-         $(":radio:eq(0)").click(function(){
-             $("#matn").show(1000);
-          });
+    $(":radio:eq(0)").click(function(){
+        $("#matn").show(1000);
+     });
 
-          $(":radio:eq(1)").click(function(){
-             $("#matn").hide(1000);
-          });
-
+     $(":radio:eq(1)").click(function(){
+        $("#matn").hide(1000);
+     });
   });
+
+  if (!library)
+   var library = {};
+
+library.json = {
+   replacer: function(match, pIndent, pKey, pVal, pEnd) {
+      var key = '<span class=json-key>';
+      var val = '<span class=json-value>';
+      var str = '<span class=json-string>';
+      var r = pIndent || '';
+      if (pKey)
+         r = r + key + pKey.replace(/[": ]/g, '') + '</span>: ';
+      if (pVal)
+         r = r + (pVal[0] == '"' ? str : val) + pVal + '</span>';
+      return r + (pEnd || '');
+      },
+   prettyPrint: function(obj) {
+      var jsonLine = /^( *)("[\w]+": )?("[^"]*"|[\w.+-]*)?([,[{])?$/mg;
+      return JSON.stringify(obj, null, 3)
+         .replace(/&/g, '&amp;').replace(/\\"/g, '&quot;')
+         .replace(/</g, '&lt;').replace(/>/g, '&gt;')
+         .replace(jsonLine, library.json.replacer);
+      }
+   };
+
+  function print_metadata(data) {
+    $('#opendap_print_metadata').html('<pre><code>' + library.json.prettyPrint(data.metadata) + '</code></pre>');
+  }
+
+  function opendap_getmetadata() {
+    var opendap_url = $('#opendap_url').val();
+    Dajaxice.giscube_app.opendap_getmetadata(print_metadata,{'opendap_url':opendap_url});
+  }
+
 </script>
 
 {% include 'footer.html' %}
