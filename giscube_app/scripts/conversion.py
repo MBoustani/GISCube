@@ -108,7 +108,7 @@ def get_geojson(vector_path):
     vector_format = what_format(vector_path)
     if vector_format == "ESRI Shapefile":
             vector_name = run_shp_info(vector_path)['layer_name']
-    GeoJSON_file_name = vector_name + ".json"
+    GeoJSON_file_name = vector_name + "_wgs84.json"
     if not os.path.isfile(GeoJSON_file_name):
             convert_vector_to_geojson(GeoJSON_file_name, vector_path)
     return vector_name
