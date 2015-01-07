@@ -124,6 +124,7 @@ def data_visualiser(request):
     for name in shp_file_name:
         if open_shp_file(name):
             json_name = get_geojson(name)
+            jsons.append(json_name)
             shp_error = ""
         else:
             shp_error = "Cannot open shapfile."
