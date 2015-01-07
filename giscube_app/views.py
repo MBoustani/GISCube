@@ -25,8 +25,7 @@ def data_resource(request, uploaded=''):
     UPLODED_FILES = []
     for each in ALL_FILES:
         file_format = what_format(MEDIA_ROOT+MEDIA_URL+each)
-        print file_format
-        if file_format == "ESRI Shapefile" and each.split(".")[-1]=="shp":
+        if each.split(".")[-1]=="shp":
             UPLODED_FILES.append(each)
         if each.split(".")[-1]=="shx":
             UPLODED_FILES.append(each)
