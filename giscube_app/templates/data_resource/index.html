@@ -20,7 +20,7 @@
     </ul>
     <div id="myTabContent" class="tab-content">
       <div class="tab-pane fade in active" id="localdata">
-      <div class="alert alert-info"><p>Supported formats: Shapefile, GeoTIFF, GeoJSON and netCDF files.</p></div>
+      <div class="alert alert-info"><p>Supported formats: Shapefile, GeoTIFF, GeoJSON, netCDF and HDF files.</p></div>
         <form action="{% url 'resource' %}" method="post" enctype="multipart/form-data">
           {% csrf_token %}
           <p>{{ form.non_field_errors }}</p>
