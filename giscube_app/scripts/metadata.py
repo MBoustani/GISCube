@@ -13,6 +13,8 @@ except ImportError:
 
 from netCDF4 import Dataset
 import numpy as np
+import urllib2
+import json
 
 def get_nc_data(nc_file, latitude_var, longitude_var, time_var, value_var, selected_time_index):
     print nc_file
@@ -97,14 +99,20 @@ def variables_info(nc_file, all_variables):
     return variables_info
 
 
-def run_nc_info(file_path):
-    nc_file = open_file(file_path)
-    file_name = get_file_name(file_path)
-    all_variables = get_variables(nc_file)
-    all_variables_info  = variables_info(nc_file, all_variables)
+def get_nc_metadata(file_path):
+    nc_metadata = urllib2.urlopen("http://127.0.0.1:18080/uploaded_files/{0}/?output=json&traverse".format(file_path)).read()
+    dic = json.loads(nc_metadata)
+    nc_variables = []
+    for each in dic['leaves']:
+        nc_variables.append(each['name'])
 
-    return {'file_name':file_name, 'all_variables':all_variables, 'all_variables_info':all_variables_info}
+    return {'file_name':file_path, 'nc_metadata':nc_metadata, 'nc_variables':nc_variables}
 
+
+def get_hdf_metadata(file_path):
+    hdf_metadata = urllib2.urlopen("http://127.0.0.1:18080/uploaded_files/{0}/?output=json&traverse".format(file_path)).read()
+
+    return {'file_name':file_path, 'hdf_metadata':hdf_metadata}
 
 #####shp_name_info.py
 
