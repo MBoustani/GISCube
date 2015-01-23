@@ -17,9 +17,9 @@
 <!-- /Data info box -->
   <!-- /vector and raster tabs -->
   <ul id="myTab" class="nav nav-tabs">
-    <li class="active"><a href="#vectorData" data-toggle="tab">Vector Data</a></li>
-    <li><a href="#rasterData" data-toggle="tab">Raster Data</a></li>
-    <li><a href="#netcdfData" data-toggle="tab">netCDF Data</a></li>
+    <li class="active"><a href="#vectorData" data-toggle="tab">Vector</a></li>
+    <li><a href="#rasterData" data-toggle="tab">Raster</a></li>
+    <li><a href="#netcdfData" data-toggle="tab">netCDF & HDF</a></li>
     <li><a href="#opendap" data-toggle="tab">OPeNDAP</a></li>
   </ul>
   <!-- vector and raster tabs/ -->
@@ -111,7 +111,7 @@
       {% if nc_error %}
           <div class="alert alert-danger" role="alert">{{ nc_error }}</div>
         {% else %}
-        {% for netcdf in nc_info %}
+        {% for netcdf in ncs_metadata %}
         <div class="panel panel-default">
           <div class="panel-heading">
             <h4 class="panel-title">
@@ -120,13 +120,26 @@
           </div>
           <div id="netcdf{{ forloop.counter0 }}" class="panel-collapse collapse">
             <div class="panel-body">
-            <h2>Variables:</h2>
-            {% for variable in  netcdf|all_variables_info %}
-              <h3>{{ variable|var_name }}:</h3>
-               {% for att in variable|attributes %}
-                 <p>{{ att }}</p>
-                 {% endfor %}
-            {% endfor %}
+              {{ netcdf.nc_metadata }}
+            </div>
+          </div>
+        </div>
+      {% endfor %}
+      {% endif %}
+
+      {% if hdf_error %}
+          <div class="alert alert-danger" role="alert">{{ hdf_error }}</div>
+        {% else %}
+        {% for hdf in hdfs_metadata %}
+        <div class="panel panel-default">
+          <div class="panel-heading">
+            <h4 class="panel-title">
+              <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordio_hdf" href="#hdf{{ forloop.counter0 }}">{{ hdf|file_name }}</a>
+            </h4>
+          </div>
+          <div id="hdf{{ forloop.counter0 }}" class="panel-collapse collapse">
+            <div class="panel-body">
+              {{ hdf.hdf_metadata }}
             </div>
           </div>
         </div>

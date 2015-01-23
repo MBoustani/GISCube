@@ -15,16 +15,17 @@ from giscube_app.scripts.metadata import run_shp_info
 from giscube_app.scripts.metadata import run_tif_info
 from giscube_app.scripts.what_file import what_format
 from giscube_app.scripts.conversion import get_geojson
-from giscube_app.scripts.metadata import run_nc_info
+from giscube_app.scripts.metadata import get_nc_metadata, get_hdf_metadata
 from giscube_app.scripts.gtif_to_tile import create_gtif
 
 #resource page
 def data_resource(request, uploaded=''):
     notification = ""
-    ALL_FILES = [each for each in os.listdir(MEDIA_ROOT+MEDIA_URL)]# if os.path.isfile(each)]
+    ALL_FILES = [each for each in os.listdir(MEDIA_ROOT+MEDIA_URL)]
     UPLODED_FILES = []
     for each in ALL_FILES:
         file_format = what_format(MEDIA_ROOT+MEDIA_URL+each)
+        print file_format
         if each.split(".")[-1]=="shp":
             UPLODED_FILES.append(each)
         if each.split(".")[-1]=="shx":
@@ -40,6 +41,12 @@ def data_resource(request, uploaded=''):
         elif file_format == "GeoJSON":
             UPLODED_FILES.append(each)
         elif file_format == "Network Common Data Format":
+            UPLODED_FILES.append(each)
+        elif file_format == "NetCDF":
+            UPLODED_FILES.append(each)
+        elif file_format == "Hierarchical Data Format Release 4":
+            UPLODED_FILES.append(each)
+        elif file_format == "Hierarchical Data Format Release 5":
             UPLODED_FILES.append(each)
         elif each.split(".")[-1] == "txt" or each.split(".")[-1] == "csv":
             UPLODED_FILES.append(each)
@@ -74,6 +81,7 @@ def data_information(request):
     shp_error = ""
     tif_error = ""
     nc_error = ""
+    hdf_error = ""
     for name in shp_file_name:
         if open_shp_file(name):
             shps_info.append(run_shp_info(name))
@@ -93,16 +101,26 @@ def data_information(request):
             break
 
     nc_file_name = [each for each in glob.glob("*.nc") ]
-    nc_info = []
+    ncs_metadata = []
     for name in nc_file_name:
-        if open_tif_file(name): #netCDF file can be opened by GDAL
-            nc_info.append(run_nc_info(name))
+        if open_tif_file(name):
+            ncs_metadata.append(get_nc_metadata(name))
             nc_error = ""
         else:
             nc_error = "Cannot open netCDF file."
             break
 
-    context = {'shps_info': shps_info, 'tifs_info': tifs_info, 'nc_info':nc_info, 'shp_error':shp_error, 'tif_error':tif_error, 'nc_error':nc_error}
+    hdf_file_name = [each for each in glob.glob("*.he5") ]
+    hdfs_metadata = []
+    for name in hdf_file_name:
+        if open_tif_file(name):
+            hdfs_metadata.append(get_hdf_metadata(name))
+            hdf_error = ""
+        else:
+            nc_error = "Cannot open HDF file."
+            break
+
+    context = {'shps_info': shps_info, 'tifs_info': tifs_info, 'ncs_metadata':ncs_metadata, 'hdfs_metadata':hdfs_metadata, 'shp_error':shp_error, 'tif_error':tif_error, 'nc_error':nc_error, 'hdf_error':hdf_error}
     
     return render(request, 'data_information/index.html', context)
 
@@ -155,9 +173,7 @@ def tools(request):
     nc_file_name = [each for each in glob.glob("*.nc")]
     shps_info = []
     tiffs_info = []
-    netcdf_info = []
-    ncs = []
-    nc_variables = []
+    ncs_metadata = []
     for name in shp_file_name:
         if open_shp_file(name):
             shps_info.append(run_shp_info(name))
@@ -165,15 +181,13 @@ def tools(request):
         if open_tif_file(name):
             tiffs_info.append(run_tif_info(name))
     for name in nc_file_name:
-        netcdf_info.append(run_nc_info(name))
-    for name in nc_file_name:
-        if open_tif_file(name): #netCDF file can be opened by GDAL
-            nc_variables = sorted(run_nc_info(name)['all_variables'], key=str.lower)
-            ncs.append(name)
+        if open_tif_file(name):
+            nc_metadata = get_nc_metadata(name)
+            ncs_metadata.append(nc_metadata)
             nc_error = ""
         else:
             nc_error = "Cannot open netCDF."
             break
-    context = {'shps_info': shps_info, 'tiffs_info':tiffs_info, 'netcdf_info':netcdf_info, 'ncs':ncs, 'nc_variables':nc_variables,}
+    context = {'shps_info': shps_info, 'tiffs_info':tiffs_info, 'ncs_metadata':ncs_metadata}
 
     return render(request, 'tools/index.html', context)

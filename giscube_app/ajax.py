@@ -83,24 +83,26 @@ def get_netcdf_times(request, nc_file, time_var):
 
 
 @dajaxice_register(method='GET')
-def netcdf_to_geotiff(request, nc_file, latitude_var, longitude_var, time_var, value_var, selected_time, geotiff_name):
+def netcdf_to_geotiff(request, nc_file, latitude, longitude, time, value, selected_time, geotiff_name):
+    if geotiff_name.split(".")[-1] != "tif" or geotiff_name.split(".")[-1] != "tiff":
+        geotiff_name = "{0}.tif".format(geotiff_name)
     nc_dataset = Dataset(MEDIA_ROOT+MEDIA_URL+nc_file, mode='r')
-    latitude_data = nc_dataset.variables[latitude_var][:]
-    longitude_data = nc_dataset.variables[longitude_var][:]
-    time_data = nc_dataset.variables[time_var][:]
+    latitude_data = nc_dataset.variables[latitude][:]
+    longitude_data = nc_dataset.variables[longitude][:]
+    time_data = nc_dataset.variables[time][:]
     selected_time_index = np.where(time_data==float(selected_time))[0][0]
-    value_data = get_nc_data(nc_file, latitude_var, longitude_var, time_var, value_var, selected_time_index)
+    value_data = get_nc_data(nc_file, latitude, longitude, time, value, selected_time_index)
     nc_to_gtif(latitude_data, longitude_data, value_data, geotiff_name)
 
 
 @dajaxice_register(method='GET')
-def netcdf_to_geojson(request, nc_file_nc_to_json, latitude_var_nc_to_json, longitude_var_nc_to_json, time_var_nc_to_json, value_var_nc_to_json, selected_time_nc_to_json, geojson_name):
-    nc_dataset = Dataset(MEDIA_ROOT+MEDIA_URL+nc_file_nc_to_json, mode='r')
-    latitude_data = nc_dataset.variables[latitude_var_nc_to_json][:]
-    longitude_data = nc_dataset.variables[longitude_var_nc_to_json][:]
-    time_data = nc_dataset.variables[time_var_nc_to_json][:]
-    selected_time_index = np.where(time_data==float(selected_time_nc_to_json))[0][0]
-    value_data = get_nc_data(nc_file_nc_to_json, latitude_var_nc_to_json, longitude_var_nc_to_json, time_var_nc_to_json, value_var_nc_to_json, selected_time_index)
+def netcdf_to_geojson(request, nc_file, latitude, longitude, time, value, selected_time, geojson_name):
+    nc_dataset = Dataset(MEDIA_ROOT+MEDIA_URL+nc_file, mode='r')
+    latitude_data = nc_dataset.variables[latitude][:]
+    longitude_data = nc_dataset.variables[longitude][:]
+    time_data = nc_dataset.variables[time][:]
+    selected_time_index = np.where(time_data==float(selected_time))[0][0]
+    value_data = get_nc_data(nc_file, latitude, longitude, time, value, selected_time_index)
     nc_to_geojson(latitude_data, longitude_data, value_data, geojson_name)
 
 
@@ -128,7 +130,7 @@ def geotiff_to_kml(request, selected_geotiff, geotiff_to_kml_name):
 
 @dajaxice_register(method='GET')
 def geotiff_resolution(request, selected_geotiff, geotiff_new_x_res, geotiff_new_y_res, geotiff_new_resolution_name):
-    if geotiff_new_resolution_name.split(".")[-1] != "tif" or clipped_geotiff_name.split(".")[-1] != "tiff":
+    if geotiff_new_resolution_name.split(".")[-1] != "tif" or geotiff_new_resolution_name.split(".")[-1] != "tiff":
         geotiff_new_resolution_name = "{0}.tif".format(geotiff_new_resolution_name)
     change_geotiff_resolution(selected_geotiff, geotiff_new_x_res, geotiff_new_y_res, geotiff_new_resolution_name)
     return json.dumps({'status': 'Done'})

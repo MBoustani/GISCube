@@ -7,34 +7,34 @@
 	<h2><small>1- Select a netCDF file:</small></h2>
 
 
-      {% for nc in ncs %}
+      {% for netcdf in ncs_metadata %}
         <div class="checkbox">
           <label>
-            <input type="checkbox" name="nc_files_nc_to_json" value={{ nc }} id="{{ nc }}" '{{ nc }}')"> 
-            {{ nc }}
+            <input type="checkbox" name="nc_files_nc_to_json" value={{ netcdf.file_name }} id="{{ netcdf.file_name }}" '{{ netcdf.file_name }}')"> 
+            {{ netcdf.file_name }}
           </label>
           <h3>Select Variables:</h3>
           <p>Latitude:</p>
           <select class="form-control" id="latitude_nc_to_json">
-            {% for var in nc_variables %}
+            {% for var in netcdf.nc_variables %}
             <option>{{ var }}</option>
             {% endfor %}
           </select>
           <p>Longitude:</p>
           <select class="form-control" id="longitude_nc_to_json">
-            {% for var in nc_variables %}
+            {% for var in netcdf.nc_variables %}
             <option>{{ var }}</option>
             {% endfor %}
           </select>
           <p>Time:</p>
           <select class="form-control" id="time_nc_to_json">
-            {% for var in nc_variables %}
+            {% for var in netcdf.nc_variables %}
             <option>{{ var }}</option>
             {% endfor %}
           </select>
           <p>Value:</p>
           <select class="form-control" id="value_nc_to_json">
-            {% for var in nc_variables %}
+            {% for var in netcdf.nc_variables %}
             <option>{{ var }}</option>
             {% endfor %}
           </select>
@@ -70,19 +70,19 @@
 
   function netcdf_to_geojson() {
     document.getElementById('netcdf_to_geojson_status').innerHTML = 'Processing...';
-    var nc_file_nc_to_json = $('input[name="nc_files_nc_to_json"]:checked').val();
-    var latitude_var_nc_to_json = $("#latitude_nc_to_json").val();
-    var longitude_var_nc_to_json = $('#longitude_nc_to_json').val();
-    var time_var_nc_to_json = $('#time_nc_to_json').val();
-    var value_var_nc_to_json = $('#value_nc_to_json').val();
-    var selected_time_nc_to_json = $('#netcdf_times_nc_to_json').val();
+    var nc_file = $('input[name="nc_files_nc_to_json"]:checked').val();
+    var latitude = $("#latitude_nc_to_json").val();
+    var longitude = $('#longitude_nc_to_json').val();
+    var time = $('#time_nc_to_json').val();
+    var value = $('#value_nc_to_json').val();
+    var selected_time = $('#netcdf_times_nc_to_json').val();
     var geojson_name = $('#netcdf_to_geojson_name').val();
-    Dajaxice.giscube_app.netcdf_to_geojson('',{'nc_file_nc_to_json':nc_file_nc_to_json,
-					   'latitude_var_nc_to_json': latitude_var_nc_to_json,
-					   'longitude_var_nc_to_json':longitude_var_nc_to_json,
-					   'time_var_nc_to_json':time_var_nc_to_json,
-					   'value_var_nc_to_json':value_var_nc_to_json,
-					   'selected_time_nc_to_json':selected_time_nc_to_json,
+    Dajaxice.giscube_app.netcdf_to_geojson('',{'nc_file':nc_file,
+					   'latitude': latitude,
+					   'longitude':longitude,
+					   'time':time,
+					   'value':value,
+					   'selected_time':selected_time,
 					   'geojson_name':geojson_name});
     document.getElementById('netcdf_to_geojson_status').innerHTML = 'Done.';
   }
