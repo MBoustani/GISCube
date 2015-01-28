@@ -78,10 +78,10 @@ def data_information(request):
     os.chdir(MEDIA_ROOT + MEDIA_URL)
     shp_file_name = [each for each in glob.glob("*.shp") ]
     shps_info = []
-    shp_error = ""
-    tif_error = ""
-    nc_error = ""
-    hdf_error = ""
+    shp_error = "No Shapefile"
+    tif_error = "No GeoTIFF"
+    nc_error = "No netCDF"
+    hdf_error = "No HDF"
     for name in shp_file_name:
         if open_shp_file(name):
             shps_info.append(run_shp_info(name))
@@ -103,7 +103,7 @@ def data_information(request):
     nc_file_name = [each for each in glob.glob("*.nc") ]
     ncs_metadata = []
     for name in nc_file_name:
-        if open_tif_file(name):
+        if get_nc_metadata(name):
             ncs_metadata.append(get_nc_metadata(name))
             nc_error = ""
         else:
@@ -113,14 +113,22 @@ def data_information(request):
     hdf_file_name = [each for each in glob.glob("*.he5") ]
     hdfs_metadata = []
     for name in hdf_file_name:
-        if open_tif_file(name):
+        if get_hdf_metadata(name):
             hdfs_metadata.append(get_hdf_metadata(name))
             hdf_error = ""
         else:
-            nc_error = "Cannot open HDF file."
+            hdf_error = "Cannot open HDF file."
             break
 
-    context = {'shps_info': shps_info, 'tifs_info': tifs_info, 'ncs_metadata':ncs_metadata, 'hdfs_metadata':hdfs_metadata, 'shp_error':shp_error, 'tif_error':tif_error, 'nc_error':nc_error, 'hdf_error':hdf_error}
+    context = {'shps_info': shps_info,
+               'tifs_info': tifs_info,
+               'ncs_metadata':ncs_metadata,
+               'hdfs_metadata':hdfs_metadata,
+               'shp_error':shp_error,
+               'tif_error':tif_error,
+               'nc_error':nc_error,
+               'hdf_error':hdf_error
+               }
     
     return render(request, 'data_information/index.html', context)
 

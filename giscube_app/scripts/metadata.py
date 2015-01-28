@@ -100,19 +100,23 @@ def variables_info(nc_file, all_variables):
 
 
 def get_nc_metadata(file_path):
-    nc_metadata = urllib2.urlopen("http://127.0.0.1:18080/uploaded_files/{0}/?output=json&traverse".format(file_path)).read()
-    dic = json.loads(nc_metadata)
-    nc_variables = []
-    for each in dic['leaves']:
-        nc_variables.append(each['name'])
-
-    return {'file_name':file_path, 'nc_metadata':nc_metadata, 'nc_variables':nc_variables}
+    try:
+        nc_metadata = urllib2.urlopen("http://127.0.0.1:18080/uploaded_files/{0}/?output=json&traverse".format(file_path)).read()
+        dic = json.loads(nc_metadata)
+        nc_variables = []
+        for each in dic['leaves']:
+            nc_variables.append(each['name'])
+        return {'file_name':file_path, 'nc_metadata':nc_metadata, 'nc_variables':nc_variables}
+    except:
+        return None
 
 
 def get_hdf_metadata(file_path):
-    hdf_metadata = urllib2.urlopen("http://127.0.0.1:18080/uploaded_files/{0}/?output=json&traverse".format(file_path)).read()
-
-    return {'file_name':file_path, 'hdf_metadata':hdf_metadata}
+    try:
+        hdf_metadata = urllib2.urlopen("http://127.0.0.1:18080/uploaded_files/{0}/?output=json&traverse".format(file_path)).read()
+        return {'file_name':file_path, 'hdf_metadata':hdf_metadata}
+    except:
+        return None
 
 #####shp_name_info.py
 
