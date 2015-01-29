@@ -1,6 +1,6 @@
 import os
 from what_file import what_format
-from shp_name_info import run_shp_info
+from metadata import run_shp_info
 
 
 try:
