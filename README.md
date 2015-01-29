@@ -21,15 +21,17 @@ Beside some open source GIS libraries and some software like ArcGIS there are co
 
 6- `vagrant box add giscube GISCube`
 
-7- `vagrant up`
+7- `vagrant init giscube`
 
-8-`vagrant ssh`
+8- `vagrant up`
 
-8- `cd GISCube`
+9-`vagrant ssh`
 
-9- `python manage.py runserver 0.0.0.0:5050`
+10- `cd GISCube`
 
-10- open [localhost:5050](http://localhost:5050) in browser and enjoy.
+11- `python manage.py runserver 0.0.0.0:5050`
+
+12- open [localhost:5050](http://localhost:5050) in browser and enjoy.
 
 ##Documentation 
 [Documentation](https://github.com/MBoustani/GISCube/wiki)
