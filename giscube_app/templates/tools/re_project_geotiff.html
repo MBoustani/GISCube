@@ -25,18 +25,20 @@
     </div>
 
   <h2><small>4- Re-project GeoTIFF data:</small></h2>
-  <button type="button" class="btn btn-primary btn-lg" onclick="re_project_geotiff()">Re-Project</button>
+  <button type="button" class="btn btn-primary btn-lg" onclick="reproject_geotiff()">Re-Project</button>
       <p id='reproject_geotiff_status'></p>
       </div>
 </div>
 
 <script>
-  function re_project_geotiff() {
+  function reproject_geotiff_status(data) {
+    document.getElementById('reproject_geotiff_status').innerHTML = data.status;
+  }
+  function reproject_geotiff() {
     document.getElementById('reproject_geotiff_status').innerHTML = 'Processing...';
     var selected_geotiff = $('input[name="optionsRadios"]:checked').val();
     var geotif_re_project_epsg = $("#geotif_re_project_epsg").val();
     var projected_geotiff_name = $('#reporjected_geotiff_name').val();
-    Dajaxice.giscube_app.reproject_geotiff('',{'selected_geotiff': selected_geotiff, 'geotif_re_project_epsg':geotif_re_project_epsg, 'projected_geotiff_name':projected_geotiff_name});
-    document.getElementById('reproject_geotiff_status').innerHTML = 'Done.';
+    Dajaxice.giscube_app.reproject_geotiff(reproject_geotiff_status,{'selected_geotiff': selected_geotiff, 'geotif_re_project_epsg':geotif_re_project_epsg, 'projected_geotiff_name':projected_geotiff_name});
   }
 </script>
