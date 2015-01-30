@@ -13,25 +13,21 @@ Beside some open source GIS libraries and some software like ArcGIS there are co
 
 2- [Install VirtualBox](https://www.virtualbox.org/wiki/Downloads)
 
-3- Download [GISCubeBox.zip](https://docs.google.com/uc?id=0B8NJEwCh-MJdM2ljVkJpUmlsSXc&export=download)
+3- Download [vagrant.zip](https://github.com/MBoustani/GISCube/blob/master/vagrant.zip)
 
-4- Unzip GISCubeBox.zip
+4- Unzip vagrant.zip
 
-5- `cd GISCubeBox`
+5- `cd vagrant`
 
-6- `vagrant box add giscube GISCube`
+6- `vagrant up`
 
-7- `vagrant init giscube`
+7-`vagrant ssh`
 
-8- `vagrant up`
+8- `cd GISCube`
 
-9-`vagrant ssh`
+9- `python manage.py runserver 0.0.0.0:5050`
 
-10- `cd GISCube`
-
-11- `python manage.py runserver 0.0.0.0:5050`
-
-12- open [localhost:5050](http://localhost:5050) in browser and enjoy.
+10- open [localhost:5050](http://localhost:5050) in browser and enjoy.
 
 ##Documentation 
 [Documentation](https://github.com/MBoustani/GISCube/wiki)
