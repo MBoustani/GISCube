@@ -20,18 +20,20 @@
       <input class="form-control" id="shp_table_text_name" type="text" placeholder="Enter file name" value="">
     </div>
 
-  <button type="button" class="btn btn-primary btn-lg" onclick="extract_table()">Extract table</button>
+  <button type="button" class="btn btn-primary btn-lg" onclick="extract_shp_table()">Extract table</button>
       <p id='extract_shp_table_status'></p>
     </div>
 </div>
 
 
 <script>
-  function extract_table() {
+  function extract_shp_table_status(data) {
+   document.getElementById('extract_shp_table_status').innerHTML = data.status;
+  }
+  function extract_shp_table() {
     document.getElementById('extract_shp_table_status').innerHTML = 'Processing...';
     var selected_vector = $('input[name="optionsRadios"]:checked').val();
     var text_name = $('#shp_table_text_name').val();
-    Dajaxice.giscube_app.extract_shp_table_text('',{'selected_vector': selected_vector, 'text_name':text_name});
-    document.getElementById('extract_shp_table_status').innerHTML = 'Done.';
+    Dajaxice.giscube_app.extract_shp_table_text(extract_shp_table_status,{'selected_vector': selected_vector, 'text_name':text_name});
   }
 </script>
