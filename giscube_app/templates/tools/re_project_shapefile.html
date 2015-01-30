@@ -25,18 +25,20 @@
     </div>
 
   <h2><small>4- Re-project shapefile:</small></h2>
-  <button type="button" class="btn btn-primary btn-lg" onclick="re_project()">Re-Project</button>
+  <button type="button" class="btn btn-primary btn-lg" onclick="reproject_shp()">Re-Project</button>
       <p id='reproject_shapefile_status'></p>
       </div>
 </div>
 
 <script>
-  function re_project() {
+  function reproject_shp_status(data) {
+    document.getElementById('reproject_shapefile_status').innerHTML = data.status;
+  } 
+  function reproject_shp() {
     document.getElementById('reproject_shapefile_status').innerHTML = 'Processing...';
     var selected_shapefile = $('input[name="optionsRadios"]:checked').val();
     var shapefile_re_project_epsg = $("#shapefile_re_project_epsg").val();
     var projected_shapefile_name = $('#focusedInput').val();
-    Dajaxice.giscube_app.reproject_shapefile('',{'selected_shapefile': selected_shapefile, 'shapefile_re_project_epsg':shapefile_re_project_epsg, 'projected_shapefile_name':projected_shapefile_name});
-    document.getElementById('reproject_shapefile_status').innerHTML = 'Done.';
+    Dajaxice.giscube_app.reproject_shapefile(reproject_shp_status,{'selected_shapefile': selected_shapefile, 'shapefile_re_project_epsg':shapefile_re_project_epsg, 'projected_shapefile_name':projected_shapefile_name});
   }
 </script>
