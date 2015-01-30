@@ -34,12 +34,14 @@
 </div>
 
 <script>
+  function clip_geotiff_by_shp_status(data) {
+   document.getElementById('clip_geotiff_status').innerHTML = data.status;
+  }
   function clip_geotiff_by_shp() {
     document.getElementById('clip_geotiff_status').innerHTML = 'Processing...';
     var selected_geotiff = $('input[name="existing_geotiff"]:checked').val();
     var selected_shapefile = $('input[name="existing_shapefile"]:checked').val();
     var clipped_geotiff_name = $('#clipped_geotiff_name').val();
-    Dajaxice.giscube_app.clip_geotiff_by_shapefile('',{'selected_geotiff': selected_geotiff, 'selected_shapefile':selected_shapefile, 'clipped_geotiff_name':clipped_geotiff_name});
-    document.getElementById('clip_geotiff_status').innerHTML = 'Done.';
+    Dajaxice.giscube_app.clip_geotiff_by_shapefile(clip_geotiff_by_shp_status,{'selected_geotiff': selected_geotiff, 'selected_shapefile':selected_shapefile, 'clipped_geotiff_name':clipped_geotiff_name});
   }
 </script>
