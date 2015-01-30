@@ -6,7 +6,9 @@
       <div class="container">
 	<h2><small>1- Select a netCDF file:</small></h2>
 
-
+      {% if not ncs_metadata %}
+	  <div class="alert alert-warning" role="alert">No netCDF</div>
+      {% endif %}
       {% for netcdf in ncs_metadata %}
         <div class="checkbox">
           <label>
@@ -52,6 +54,9 @@
 
 
 <script>
+  function netcdf_to_geotiff_status(data) {
+    document.getElementById('netcdf_to_geotiff_status').innerHTML = data.status;
+  }
   function callback_nc_to_geotiff(data) {
     document.getElementById('select_time').innerHTML = 'Select time: ';
     document.getElementById('start_time_select').innerHTML = '<select class="form-control" id="netcdf_times_nc_to_tif">';
@@ -77,13 +82,12 @@
     var value = $('#value_nc_to_tif').val();
     var selected_time = $('#netcdf_times_nc_to_tif').val();
     var geotiff_name = $('#netcdf_to_geotiff_name').val();
-    Dajaxice.giscube_app.netcdf_to_geotiff('',{'nc_file':nc_file,
+    Dajaxice.giscube_app.netcdf_to_geotiff(netcdf_to_geotiff_status,{'nc_file':nc_file,
 					   'latitude': latitude,
 					   'longitude':longitude,
 					   'time':time,
 					   'value':value,
 					   'selected_time':selected_time,
 					   'geotiff_name':geotiff_name});
-    document.getElementById('netcdf_to_geotiff_status').innerHTML = 'Done.';
   }
 </script>
