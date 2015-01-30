@@ -13,7 +13,7 @@ Beside some open source GIS libraries and some software like ArcGIS there are co
 
 2- [Install VirtualBox](https://www.virtualbox.org/wiki/Downloads)
 
-3- Download [vagrant.zip](https://github.com/MBoustani/GISCube/blob/master/vagrant.zip)
+3- Download [vagrant.zip](https://github.com/MBoustani/GISCube/blob/master/vagrant.zip?raw=true)
 
 4- Unzip vagrant.zip
 
