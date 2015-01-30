@@ -39,39 +39,59 @@ def remove_loaded_file(request, param):
 def reproject_shapefile(request, selected_shapefile, shapefile_re_project_epsg, projected_shapefile_name):
     if projected_shapefile_name.split(".")[-1] != "shp":
         projected_shapefile_name = "{0}.shp".format(projected_shapefile_name)
-    s = 'ogr2ogr -f "ESRI Shapefile" -t_srs EPSG:{2} {0} {1}'.format(MEDIA_ROOT+MEDIA_URL+projected_shapefile_name, MEDIA_ROOT+MEDIA_URL+selected_shapefile+'.shp', shapefile_re_project_epsg)
-    os.system(s)
+    if os.path.isfile('{0}{1}{2}'.format(MEDIA_ROOT, MEDIA_URL, projected_shapefile_name)):
+        return json.dumps({'status': 'File already exists.'})
+    else:
+        s = 'ogr2ogr -f "ESRI Shapefile" -t_srs EPSG:{2} {0} {1}'.format(MEDIA_ROOT+MEDIA_URL+projected_shapefile_name, MEDIA_ROOT+MEDIA_URL+selected_shapefile+'.shp', shapefile_re_project_epsg)
+        os.system(s)
+        return json.dumps({'status': 'Done'})
 
 
 @dajaxice_register(method='GET')
 def reproject_geotiff(request, selected_geotiff, geotif_re_project_epsg, projected_geotiff_name):
     if projected_geotiff_name.split(".")[-1] != "tif" or projected_geotiff_name.split(".")[-1] != "tiff":
         projected_geotiff_name = "{0}.tif".format(projected_geotiff_name)
-    s = "gdalwarp -t_srs 'epsg:{2}' {0} {1}".format(MEDIA_ROOT+MEDIA_URL+selected_geotiff, MEDIA_ROOT+MEDIA_URL+projected_geotiff_name, geotif_re_project_epsg)
-    os.system(s)
+    if os.path.isfile('{0}{1}{2}'.format(MEDIA_ROOT, MEDIA_URL, projected_geotiff_name)):
+        return json.dumps({'status': 'File already exists.'})
+    else:
+        s = "gdalwarp -t_srs 'epsg:{2}' {0} {1}".format(MEDIA_ROOT+MEDIA_URL+selected_geotiff, MEDIA_ROOT+MEDIA_URL+projected_geotiff_name, geotif_re_project_epsg)
+        os.system(s)
+        return json.dumps({'status': 'Done'})
 
 
 @dajaxice_register(method='GET')
 def extract_shp_table_text(request, selected_vector, text_name):
     if text_name.split(".")[-1] != "txt":
         text_name = "{0}.txt".format(text_name)
-    extract_shp_table(MEDIA_ROOT+MEDIA_URL+selected_vector+'.shp', MEDIA_ROOT+MEDIA_URL+text_name)
+    if os.path.isfile('{0}{1}{2}'.format(MEDIA_ROOT, MEDIA_URL, text_name)):
+        return json.dumps({'status': 'File already exists.'})
+    else:
+        extract_shp_table(MEDIA_ROOT+MEDIA_URL+selected_vector+'.shp', MEDIA_ROOT+MEDIA_URL+text_name)
+        return json.dumps({'status': 'Done'})
 
 
 @dajaxice_register(method='GET')
 def extract_netcdf_header(request, selected_netcdf, text_name):
     if text_name.split(".")[-1] != "txt":
         text_name = "{0}.txt".format(text_name)
-    s = "ncdump -h {0} > {1}".format(MEDIA_ROOT+MEDIA_URL+selected_netcdf, MEDIA_ROOT+MEDIA_URL+text_name)
-    os.system(s)
+    if os.path.isfile('{0}{1}{2}'.format(MEDIA_ROOT, MEDIA_URL, text_name)):
+        return json.dumps({'status': 'File already exists.'})
+    else:
+        s = "ncdump -h {0} > {1}".format(MEDIA_ROOT+MEDIA_URL+selected_netcdf, MEDIA_ROOT+MEDIA_URL+text_name)
+        os.system(s)
+        return json.dumps({'status': 'Done'})
 
 
 @dajaxice_register(method='GET')
 def dump_netcdf_to_text(request, selected_netcdf, text_name):
     if text_name.split(".")[-1] != "txt":
         text_name = "{0}.txt".format(text_name)
-    s = "ncdump {0} > {1}".format(MEDIA_ROOT+MEDIA_URL+selected_netcdf, MEDIA_ROOT+MEDIA_URL+text_name)
-    os.system(s)
+    if os.path.isfile('{0}{1}{2}'.format(MEDIA_ROOT, MEDIA_URL, text_name)):
+        return json.dumps({'status': 'File already exists.'})
+    else:
+        s = "ncdump {0} > {1}".format(MEDIA_ROOT+MEDIA_URL+selected_netcdf, MEDIA_ROOT+MEDIA_URL+text_name)
+        os.system(s)
+        return json.dumps({'status': 'Done'})
 
 
 @dajaxice_register(method='GET')
@@ -92,46 +112,70 @@ def netcdf_to_geotiff(request, nc_file, latitude, longitude, time, value, select
     time_data = nc_dataset.variables[time][:]
     selected_time_index = np.where(time_data==float(selected_time))[0][0]
     value_data = get_nc_data(nc_file, latitude, longitude, time, value, selected_time_index)
-    nc_to_gtif(latitude_data, longitude_data, value_data, geotiff_name)
+    if os.path.isfile('{0}{1}{2}'.format(MEDIA_ROOT, MEDIA_URL, geotiff_name)):
+        return json.dumps({'status': 'File already exists.'})
+    else:
+        nc_to_gtif(latitude_data, longitude_data, value_data, geotiff_name)
+        return json.dumps({'status': 'Done'})
 
 
 @dajaxice_register(method='GET')
 def netcdf_to_geojson(request, nc_file, latitude, longitude, time, value, selected_time, geojson_name):
+    if geojson_name.split(".")[-1] != "json":
+        geojson_name = "{0}.json".format(geojson_name)
     nc_dataset = Dataset(MEDIA_ROOT+MEDIA_URL+nc_file, mode='r')
     latitude_data = nc_dataset.variables[latitude][:]
     longitude_data = nc_dataset.variables[longitude][:]
     time_data = nc_dataset.variables[time][:]
     selected_time_index = np.where(time_data==float(selected_time))[0][0]
     value_data = get_nc_data(nc_file, latitude, longitude, time, value, selected_time_index)
-    nc_to_geojson(latitude_data, longitude_data, value_data, geojson_name)
+    if os.path.isfile('{0}{1}{2}'.format(MEDIA_ROOT, MEDIA_URL, geojson_name)):
+        return json.dumps({'status': 'File already exists.'})
+    else:
+        nc_to_geojson(latitude_data, longitude_data, value_data, geojson_name)
+        return json.dumps({'status': 'Done'})
 
 
 @dajaxice_register(method='GET')
 def shapefile_to_kml(request, selected_shp, kml_name):
     if kml_name.split(".")[-1] != "kml":
         kml_name = "{0}.kml".format(kml_name)
-    shp_to_kml(MEDIA_ROOT + MEDIA_URL + selected_shp + '.shp', MEDIA_ROOT + MEDIA_URL + kml_name)
+    if os.path.isfile('{0}{1}{2}'.format(MEDIA_ROOT, MEDIA_URL, kml_name)):
+        return json.dumps({'status': 'File already exists.'})
+    else:
+        shp_to_kml(MEDIA_ROOT + MEDIA_URL + selected_shp + '.shp', MEDIA_ROOT + MEDIA_URL + kml_name)
+        return json.dumps({'status': 'Done'})
 
 
 @dajaxice_register(method='GET')
 def clip_geotiff_by_shapefile(request, selected_geotiff, selected_shapefile, clipped_geotiff_name):
     if clipped_geotiff_name.split(".")[-1] != "tif" or clipped_geotiff_name.split(".")[-1] != "tiff":
         clipped_geotiff_name = "{0}.tif".format(clipped_geotiff_name)
-    clip_geotiff_by_shp(MEDIA_ROOT + MEDIA_URL + selected_geotiff , MEDIA_ROOT + MEDIA_URL + selected_shapefile + '.shp', MEDIA_ROOT + MEDIA_URL + clipped_geotiff_name)
+    if os.path.isfile('{0}{1}{2}'.format(MEDIA_ROOT, MEDIA_URL, clipped_geotiff_name)):
+        return json.dumps({'status': 'File already exists.'})
+    else:
+        clip_geotiff_by_shp(MEDIA_ROOT + MEDIA_URL + selected_geotiff , MEDIA_ROOT + MEDIA_URL + selected_shapefile + '.shp', MEDIA_ROOT + MEDIA_URL + clipped_geotiff_name)
+        return json.dumps({'status': 'Done'})
 
 
 @dajaxice_register(method='GET')
 def geotiff_to_kml(request, selected_geotiff, geotiff_to_kml_name):
     if geotiff_to_kml_name.split(".")[-1] != "kml":
         geotiff_to_kml_name = "{0}.kml".format(geotiff_to_kml_name)
-    convert_geotiff_to_kml(selected_geotiff, geotiff_to_kml_name)
-    return json.dumps({'status': 'Done'})
+    if os.path.isfile('{0}{1}{2}'.format(MEDIA_ROOT, MEDIA_URL, geotiff_to_kml_name)):
+        return json.dumps({'status': 'File already exists.'})
+    else:
+        convert_geotiff_to_kml(selected_geotiff, geotiff_to_kml_name)
+        return json.dumps({'status': 'Done'})
 
 
 @dajaxice_register(method='GET')
 def geotiff_resolution(request, selected_geotiff, geotiff_new_x_res, geotiff_new_y_res, geotiff_new_resolution_name):
     if geotiff_new_resolution_name.split(".")[-1] != "tif" or geotiff_new_resolution_name.split(".")[-1] != "tiff":
         geotiff_new_resolution_name = "{0}.tif".format(geotiff_new_resolution_name)
-    change_geotiff_resolution(selected_geotiff, geotiff_new_x_res, geotiff_new_y_res, geotiff_new_resolution_name)
-    return json.dumps({'status': 'Done'})
+    if os.path.isfile('{0}{1}{2}'.format(MEDIA_ROOT, MEDIA_URL, geotiff_new_resolution_name)):
+        return json.dumps({'status': 'File already exists.'})
+    else:
+        change_geotiff_resolution(selected_geotiff, geotiff_new_x_res, geotiff_new_y_res, geotiff_new_resolution_name)
+        return json.dumps({'status': 'Done'})
 
