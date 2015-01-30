@@ -30,7 +30,7 @@
       </div>
 
   <h2><small>5- Change GeoTIFF Resolution:</small></h2>
-  <button type="button" class="btn btn-primary btn-lg" onclick="clip_geotiff_by_shp()">Process</button>
+  <button type="button" class="btn btn-primary btn-lg" onclick="geotiff_resolution()">Process</button>
       <p id='geotiff_resolution_status'></p>
       </div>
 </div>
@@ -39,7 +39,7 @@
   function geotiff_resolution_status(data) {
    document.getElementById('geotiff_resolution_status').innerHTML = data.status;
   }
-  function clip_geotiff_by_shp() {
+  function geotiff_resolution() {
     document.getElementById('geotiff_resolution_status').innerHTML = 'Processing...';
     var selected_geotiff = $('input[name="existing_geotiff"]:checked').val();
     var geotiff_new_x_res = $('#geotiff_new_x_res').val();
