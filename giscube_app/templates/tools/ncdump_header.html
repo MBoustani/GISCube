@@ -1,5 +1,3 @@
-{% load netcdf_dict %}
-
 
 <div class="menu closed" id="menu_ncdump_header_to_text">
 <span class="close glyphicon glyphicon-remove red"></span>
@@ -7,10 +5,13 @@
       <h3>This tool can extracts netCDF file header and store in text file.</h3>
       <div class="container">
 	<h2><small>1- Select a netCDF file:</small></h2>
-	{% for each in netcdf_info %}
+	{% if not ncs_metadata %}
+	  <div class="alert alert-warning" role="alert">No netCDF</div>
+	{% endif %}
+	{% for netcdf in ncs_metadata %}
 	<div class="radio">
-	<input type="radio" name="optionsRadios" id="current_netcdf" value="{{ each|file_name }}">
-	<p>{{ each|file_name }}</p>
+	<input type="radio" name="optionsRadios" id="current_netcdf" value="{{ netcdf.file_name }}">
+	<p>{{ netcdf.file_name }}</p>
       </div>
       {% endfor %}
       
@@ -20,18 +21,20 @@
       <input class="form-control" id="netcdf_header_text_name" type="text" placeholder="Enter file name" value="">
     </div>
 
-  <button type="button" class="btn btn-primary btn-lg" onclick="extract_header()">Extract header</button>
+  <button type="button" class="btn btn-primary btn-lg" onclick="extract_nc_header()">Extract header</button>
       <p id='extract_netcdf_header_status'></p>
     </div>
 </div>
 
 
 <script>
-  function extract_header() {
+  function extract_nc_header_status(data) {
+   document.getElementById('extract_netcdf_header_status').innerHTML = data.status;
+  }
+  function extract_nc_header() {
     document.getElementById('extract_netcdf_header_status').innerHTML = 'Processing...';
     var selected_netcdf = $('input[name="optionsRadios"]:checked').val();
     var text_name = $('#netcdf_header_text_name').val();
-    Dajaxice.giscube_app.extract_netcdf_header('',{'selected_netcdf': selected_netcdf, 'text_name':text_name});
-    document.getElementById('extract_netcdf_header_status').innerHTML = 'Done.';
+    Dajaxice.giscube_app.extract_netcdf_header(extract_nc_header_status,{'selected_netcdf': selected_netcdf, 'text_name':text_name});
   }
 </script>
