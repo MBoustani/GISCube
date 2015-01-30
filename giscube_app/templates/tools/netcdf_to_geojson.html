@@ -6,7 +6,9 @@
       <div class="container">
 	<h2><small>1- Select a netCDF file:</small></h2>
 
-
+      {% if not ncs_metadata %}
+	  <div class="alert alert-warning" role="alert">No netCDF</div>
+      {% endif %}
       {% for netcdf in ncs_metadata %}
         <div class="checkbox">
           <label>
@@ -52,6 +54,9 @@
 
 
 <script>
+  function netcdf_to_geojson_status(data) {
+    document.getElementById('netcdf_to_geojson_status').innerHTML = data.status;
+  }
   function callback_nc_to_geojson(data) {
     document.getElementById('select_time_nc_to_json').innerHTML = 'Select time: ';
     document.getElementById('start_time_select_nc_to_json').innerHTML = '<select class="form-control" id="netcdf_times_nc_to_json">';
@@ -77,13 +82,12 @@
     var value = $('#value_nc_to_json').val();
     var selected_time = $('#netcdf_times_nc_to_json').val();
     var geojson_name = $('#netcdf_to_geojson_name').val();
-    Dajaxice.giscube_app.netcdf_to_geojson('',{'nc_file':nc_file,
+    Dajaxice.giscube_app.netcdf_to_geojson(netcdf_to_geojson_status,{'nc_file':nc_file,
 					   'latitude': latitude,
 					   'longitude':longitude,
 					   'time':time,
 					   'value':value,
 					   'selected_time':selected_time,
 					   'geojson_name':geojson_name});
-    document.getElementById('netcdf_to_geojson_status').innerHTML = 'Done.';
   }
 </script>
