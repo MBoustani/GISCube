@@ -1,0 +1,47 @@
+{% load shp_dict %}
+
+<div class="menu closed" id="menu_shp_to_json">
+<span class="close glyphicon glyphicon-remove red"></span>
+  <h2>Convert Shapefile to GeoJSON</h2>
+    <h3>This tool converts shapefile to GeoJSON file format.</h3>
+    <div class="container">
+      <h2><small>1- Select from current shapefile data:</small></h2>
+	{% for each in shps_info %}
+	<div class="radio">
+	<input type="radio" name="current_vector" id="current_vector" value="{{ each|layer_name }}">
+	<p>{{ each|file_name }}</p>
+      </div>
+      {% endfor %}
+
+      <h2><small>2-(optional) Enter EPSG: (<a href="http://en.wikipedia.org/wiki/List_of_map_projections">more info</a>)</small></h2>
+      <div class="input-group">
+        <input class="form-control" id="shp_to_json_epsg" type="text" placeholder="Enter EPSG number" value="">
+      </div>
+
+      <h2><small>3- Enter GeoJSON file name:</small></h2>
+      <div class="input-group">
+        <input class="form-control" id="shp_to_json" type="text" placeholder="Output GeoJSON name" value="">
+      </div>
+
+      <h2><small>4- Convert:</small></h2>
+      <button type="button" class="btn btn-primary btn-lg" onclick="shp_to_json()">Convert</button>
+        <p id='shp_to_json_status'></p>
+    </div>
+</div>
+
+<script>
+  function shp_to_json_status(data) {
+   document.getElementById('shp_to_json_status').innerHTML = data.status;
+  }
+  function shp_to_json() {
+    document.getElementById('shp_to_json_status').innerHTML = 'Processing...';
+    var selected_shp = $('input[name="current_vector"]:checked').val();
+    var shp_to_json_file = $('#shp_to_json').val();
+    var shp_to_json_epsg = $('#shp_to_json_epsg').val();
+    Dajaxice.giscube_app.shapefile_to_json(shp_to_json_status,{
+      'selected_shp': selected_shp,
+      'shp_to_json_file': shp_to_json_file,
+      'shp_to_json_epsg': shp_to_json_epsg
+      });
+  }
+</script>

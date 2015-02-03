@@ -7,7 +7,7 @@ from giscube.config import MEDIA_ROOT, MEDIA_URL
 
 from scripts.extract_shp_table import extract_shp_table
 from scripts.metadata import get_nc_data
-from scripts.conversion import nc_to_gtif, nc_to_geojson, shp_to_kml, convert_geotiff_to_kml, shp_to_tif
+from scripts.conversion import nc_to_gtif, nc_to_geojson, shp_to_kml, convert_geotiff_to_kml, shp_to_tif, shp_to_json
 from scripts.clip_geotiff_by_shp import clip_geotiff_by_shp
 from scripts.data_management import change_geotiff_resolution
 from scripts.opendap import load as load_opendap
@@ -19,10 +19,12 @@ def opendap_getdata(request, opendap_url, opendap_variable):
     text_file = load_opendap(opendap_url, opendap_variable)
     return json.dumps({'status': '<div class="alert alert-success" role="alert" >Successfully retrieved data. Please refresh the page.</div>'})
 
+
 @dajaxice_register(method='GET')
 def opendap_getmetadata(request, opendap_url):
     metadata = opendap_metadata(opendap_url)
     return json.dumps({'metadata': metadata.splitlines()})
+
 
 @dajaxice_register(method='GET')
 def remove_loaded_file(request, param):
@@ -155,6 +157,17 @@ def shapefile_to_tif(request, selected_shp, tif_name, shp_to_tif_layer, shp_to_t
         return json.dumps({'status': 'File already exists.'})
     else:
         shp_to_tif(selected_shp, tif_name, shp_to_tif_layer, shp_to_tif_epsg, shp_to_tif_width, shp_to_tif_height, shp_to_tif_ot, shp_to_tif_burn1, shp_to_tif_burn2, shp_to_tif_burn3)
+        return json.dumps({'status': 'Done'})
+
+
+@dajaxice_register(method='GET')
+def shapefile_to_json(request, selected_shp, shp_to_json_file, shp_to_json_epsg):
+    if shp_to_json_file.split(".")[-1] != "json":
+        shp_to_json_file = "{0}.json".format(shp_to_json_file)
+    if os.path.isfile('{0}{1}{2}'.format(MEDIA_ROOT, MEDIA_URL, shp_to_json_file)):
+        return json.dumps({'status': 'File already exists.'})
+    else:
+        shp_to_json(selected_shp, shp_to_json_file, shp_to_json_epsg)
         return json.dumps({'status': 'Done'})
 
 

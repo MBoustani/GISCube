@@ -147,6 +147,12 @@ def shp_to_tif(selected_shp, tif_name, shp_to_tif_layer, shp_to_tif_epsg, shp_to
     os.system(string)
 
 
+def shp_to_json(selected_shp, shp_to_json, shp_to_json_epsg):
+    string = "ogr2ogr -f GeoJSON  {0} {1}.shp ".format(shp_to_json, selected_shp)
+    if shp_to_json_epsg:
+        string += "-t_srs EPSG:{0}".format(shp_to_json_epsg)
+    os.system(string)
+    
 def convert_geotiff_to_kml(selected_geotiff, geotiff_to_kml_name):
     string = "gdal_translate -of KMLSUPEROVERLAY {0} {1}".format(selected_geotiff, geotiff_to_kml_name)
     os.system(string)
