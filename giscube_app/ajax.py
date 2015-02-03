@@ -7,7 +7,7 @@ from giscube.config import MEDIA_ROOT, MEDIA_URL
 
 from scripts.extract_shp_table import extract_shp_table
 from scripts.metadata import get_nc_data
-from scripts.conversion import nc_to_gtif, nc_to_geojson, shp_to_kml, convert_geotiff_to_kml
+from scripts.conversion import nc_to_gtif, nc_to_geojson, shp_to_kml, convert_geotiff_to_kml, shp_to_tif
 from scripts.clip_geotiff_by_shp import clip_geotiff_by_shp
 from scripts.data_management import change_geotiff_resolution
 from scripts.opendap import load as load_opendap
@@ -144,6 +144,17 @@ def shapefile_to_kml(request, selected_shp, kml_name):
         return json.dumps({'status': 'File already exists.'})
     else:
         shp_to_kml(MEDIA_ROOT + MEDIA_URL + selected_shp + '.shp', MEDIA_ROOT + MEDIA_URL + kml_name)
+        return json.dumps({'status': 'Done'})
+
+
+@dajaxice_register(method='GET')
+def shapefile_to_tif(request, selected_shp, tif_name, shp_to_tif_layer, shp_to_tif_epsg, shp_to_tif_width, shp_to_tif_height, shp_to_tif_ot, shp_to_tif_burn1, shp_to_tif_burn2, shp_to_tif_burn3):
+    if tif_name.split(".")[-1] != "tif" or tif_name.split(".")[-1] != "tiff":
+        tif_name = "{0}.tif".format(tif_name)
+    if os.path.isfile('{0}{1}{2}'.format(MEDIA_ROOT, MEDIA_URL, tif_name)):
+        return json.dumps({'status': 'File already exists.'})
+    else:
+        shp_to_tif(selected_shp, tif_name, shp_to_tif_layer, shp_to_tif_epsg, shp_to_tif_width, shp_to_tif_height, shp_to_tif_ot, shp_to_tif_burn1, shp_to_tif_burn2, shp_to_tif_burn3)
         return json.dumps({'status': 'Done'})
 
 

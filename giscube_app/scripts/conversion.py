@@ -133,6 +133,19 @@ def shp_to_kml(shp_path, kml_name):
             kml_feature.SetGeometry(feature_geometry)
             kml_layer.CreateFeature(kml_feature)
 
+def shp_to_tif(selected_shp, tif_name, shp_to_tif_layer, shp_to_tif_epsg, shp_to_tif_width, shp_to_tif_height, shp_to_tif_ot, shp_to_tif_burn1, shp_to_tif_burn2, shp_to_tif_burn3):
+    string = " gdal_rasterize -a_srs EPSG:{0}  -ts {1} {2} -ot {3} -burn {4} -burn {5} -burn {6} -l {7} {8}.shp {9}".format(shp_to_tif_epsg,
+                                                                                                                     shp_to_tif_width,
+                                                                                                                     shp_to_tif_height,
+                                                                                                                     shp_to_tif_ot,
+                                                                                                                     shp_to_tif_burn1,
+                                                                                                                     shp_to_tif_burn2,
+                                                                                                                     shp_to_tif_burn3,
+                                                                                                                     shp_to_tif_layer,
+                                                                                                                     selected_shp,
+                                                                                                                     tif_name)
+    os.system(string)
+
 
 def convert_geotiff_to_kml(selected_geotiff, geotiff_to_kml_name):
     string = "gdal_translate -of KMLSUPEROVERLAY {0} {1}".format(selected_geotiff, geotiff_to_kml_name)

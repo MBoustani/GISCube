@@ -1,0 +1,84 @@
+{% load shp_dict %}
+
+<div class="menu closed" id="menu_shp_to_tif">
+<span class="close glyphicon glyphicon-remove red"></span>
+  <h2>Convert Shapefile to GeoTIFF</h2>
+    <h3>This tool converts shapefile to GeoTIFF file format.</h3>
+    <div class="container">
+      <h2><small>1- Select from current shapefile data:</small></h2>
+	{% for each in shps_info %}
+	<div class="radio">
+	<input type="radio" name="current_vector" id="current_vector" value="{{ each|layer_name }}">
+	<p>{{ each|file_name }}</p>
+      </div>
+      {% endfor %}
+
+      <h2><small>2- Enter Shapefile layer name:</small></h2>
+      <div class="input-group">
+        <input class="form-control" id="shp_to_tif_layer" type="text" placeholder="Shapefile layer name" value="">
+      </div>
+
+      <h2><small>2- Enter EPSG: (<a href="http://en.wikipedia.org/wiki/List_of_map_projections">more info</a>)</small></h2>
+      <div class="input-group">
+        <input class="form-control" id="shp_to_tif_epsg" type="text" placeholder="Enter EPSG number" value="">
+      </div>
+
+      <h2><small>3- Enter GeoTIFF file name:</small></h2>
+      <div class="input-group">
+        <input class="form-control" id="shp_to_tif" type="text" placeholder="Output GeoTIFF name" value="">
+      </div>
+
+      <h2><small>4- Enter GeoTIFF width and height pixels:</small></h2>
+      <div class="input-group">
+        <input class="form-control" id="shp_to_tif_width" type="text" placeholder="Output GeoTIFF width" value="">
+	<input class="form-control" id="shp_to_tif_height" type="text" placeholder="Output GeoTIFF height" value="">
+      </div>
+
+      <h2><small>5- Enter GeoTIFF output band data type:</small></h2>
+      <div class="input-group">
+        <input class="form-control" id="shp_to_tif_ot" type="text" placeholder="GeoTIFF band type" value="">
+      </div>
+
+      <h2><small>6- Enter burn for each band:</small></h2>
+      <div class="input-group">
+        <input class="form-control" id="shp_to_tif_burn1" type="text" placeholder="-burn 1" value="">
+	<input class="form-control" id="shp_to_tif_burn2" type="text" placeholder="-burn 3" value="">
+	<input class="form-control" id="shp_to_tif_burn3" type="text" placeholder="-burn 3" value="">
+      </div>
+
+      <h2><small>7- Convert:</small></h2>
+      <button type="button" class="btn btn-primary btn-lg" onclick="shp_to_tif()">Convert</button>
+        <p id='shp_to_tif_status'></p>
+    </div>
+</div>
+
+<script>
+  function shp_to_tif_status(data) {
+   document.getElementById('shp_to_tif_status').innerHTML = data.status;
+  }
+  function shp_to_tif() {
+    document.getElementById('shp_to_tif_status').innerHTML = 'Processing...';
+    var selected_shp = $('input[name="current_vector"]:checked').val();
+    var shp_to_tif_layer = $('#shp_to_tif_layer').val();
+    var tif_name = $('#shp_to_tif').val();
+    var shp_to_tif_epsg = $('#shp_to_tif_epsg').val();
+    var shp_to_tif_width = $('#shp_to_tif_width').val();
+    var shp_to_tif_height = $('#shp_to_tif_height').val();
+    var shp_to_tif_ot = $('#shp_to_tif_ot').val();
+    var shp_to_tif_burn1 = $('#shp_to_tif_burn1').val();
+    var shp_to_tif_burn2 = $('#shp_to_tif_burn2').val();
+    var shp_to_tif_burn3 = $('#shp_to_tif_burn3').val();
+    Dajaxice.giscube_app.shapefile_to_tif(shp_to_tif_status,{
+      'selected_shp': selected_shp,
+      'tif_name':tif_name,
+      'shp_to_tif_layer':shp_to_tif_layer,
+      'shp_to_tif_epsg':shp_to_tif_epsg,
+      'shp_to_tif_width':shp_to_tif_width,
+      'shp_to_tif_height':shp_to_tif_height,
+      'shp_to_tif_ot':shp_to_tif_ot,
+      'shp_to_tif_burn1':shp_to_tif_burn1,
+      'shp_to_tif_burn2':shp_to_tif_burn2,
+      'shp_to_tif_burn3':shp_to_tif_burn3
+      });
+  }
+</script>
