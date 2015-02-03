@@ -190,6 +190,9 @@ var styles = {
   map.addControl(controls[1]);
   map.addControl(controls[2]);
 
+  var select = new ol.interaction.Select();
+  map.addInteraction(select);
+
   function add_remove_layer(layer, name, type) {
     if (document.getElementById(name).checked == true){
       map.addLayer(layer);
