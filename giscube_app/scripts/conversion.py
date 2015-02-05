@@ -1,7 +1,9 @@
 import os
+import numpy as np
+from numpy import ma
+
 from what_file import what_format
 from metadata import run_shp_info
-
 
 try:
     import gdal
@@ -13,11 +15,13 @@ try:
 except ImportError:
     from osgeo import ogr
 
-from osgeo import osr
+try:
+    import osr
+except ImportError:
+    from osgeo import osr
 
-import numpy
-from numpy import ma
-
+from gdalconst import GA_ReadOnly
+    
 
 def nc_to_gtif(latitudes, longitudes, values, geotiff_name):
     print "Creating GeoTIFF"
@@ -152,7 +156,51 @@ def shp_to_json(selected_shp, shp_to_json, shp_to_json_epsg):
     if shp_to_json_epsg:
         string += "-t_srs EPSG:{0}".format(shp_to_json_epsg)
     os.system(string)
-    
+
+
 def convert_geotiff_to_kml(selected_geotiff, geotiff_to_kml_name):
     string = "gdal_translate -of KMLSUPEROVERLAY {0} {1}".format(selected_geotiff, geotiff_to_kml_name)
     os.system(string)
+
+
+def geotiff_to_point_shp(selected_geotiff, tif_to_point_shp_name, tif_to_point_shp_layer_name, tif_to_point_shp_epsg):
+    gtiff_dataset = gdal.Open(selected_geotiff, GA_ReadOnly)
+    gtiff_band = gtiff_dataset.GetRasterBand(1) #TODO: get multi band in future
+    transform = gtiff_dataset.GetGeoTransform()
+    x_origin = transform[0]
+    y_origin = transform[3]
+    pixel_x_size = transform[1]
+    pixel_y_size = transform[5]
+    tif_x_size = gtiff_dataset.RasterXSize
+    tif_y_size = gtiff_dataset.RasterYSize
+    x_end = x_origin + (tif_x_size * pixel_x_size)
+    y_end = y_origin + (tif_y_size * pixel_y_size)
+    longitudes = np.arange(x_origin, x_end, pixel_x_size)
+    latitudes = np.arange(y_origin, y_end, pixel_y_size)
+    data = gtiff_band.ReadAsArray(0, 0, tif_x_size, tif_y_size)
+    driver = ogr.GetDriverByName('ESRI Shapefile')
+    data_source = driver.CreateDataSource(tif_to_point_shp_name)
+    srs = osr.SpatialReference()
+    srs.ImportFromEPSG(int(tif_to_point_shp_epsg))
+    layer = data_source.CreateLayer(tif_to_point_shp_layer_name, srs, ogr.wkbPoint)
+    long_field = ogr.FieldDefn("Longitude", ogr.OFTString)
+    long_field.SetWidth(24)
+    layer.CreateField(long_field)
+    lat_field = ogr.FieldDefn("Latitude", ogr.OFTString)
+    lat_field.SetWidth(24)
+    layer.CreateField(lat_field)
+    value_field = ogr.FieldDefn("Value", ogr.OFTString)
+    value_field.SetWidth(24)
+    layer.CreateField(value_field)
+    for xi, x in enumerate(longitudes):
+        for yi, y in enumerate(latitudes):
+            value = data[yi-1][xi-1]
+            point = ogr.Geometry(ogr.wkbPoint)
+            point.AddPoint(x, y)
+            feature = ogr.Feature(layer.GetLayerDefn())
+            feature.SetGeometry(point)
+            feature.SetField("Longitude", '{0}'.format(x))
+            feature.SetField("Latitude", '{0}'.format(y))
+            feature.SetField("Value", '{0}'.format(value))
+            layer.CreateFeature(feature)
+            feature.Destroy()

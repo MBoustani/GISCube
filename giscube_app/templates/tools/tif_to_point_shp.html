@@ -1,0 +1,51 @@
+{% load tif_dict %}
+
+
+<div class="menu closed" id="menu_tif_to_point_shp">
+<span class="close glyphicon glyphicon-remove red"></span>
+<h2>Convert GeoTIFF to Point Shapefile</h2>
+      <h3>This tool converts GeoTIFF to point shapefile format.</h3>
+      <div class="container">
+	<h2><small>1- Select from current GeoTIFF:</small></h2>
+	{% for each in tiffs_info %}
+	<div class="radio">
+	<input type="radio" name="existing_geotiff" id="existing_geotiff" value="{{ each|file_name }}">
+	<p>{{ each|file_name }}</p>
+      </div>
+      {% endfor %}
+      
+    <h2><small>2- Enter output Shapefile name:</small></h2>
+    <div class="input-group">
+      <input class="form-control" id="tif_to_point_shp_name" type="text" placeholder="Output Shapefile name" value="">
+    </div>
+
+    <h2><small>3- Enter output Shapefile EPSG:</small></h2>
+    <div class="input-group">
+      <input class="form-control" id="tif_to_point_shp_epsg" type="text" placeholder="Output Shapefile EPSG" value="">
+    </div>
+
+  <h2><small>4- Convert GeoTIFF to Point Shapefile:</small></h2>
+  <button type="button" class="btn btn-primary btn-lg" onclick="tif_to_point_shp()">Convert</button>
+      <p id='tif_to_point_shp_status'></p>
+      </div>
+</div>
+
+<script>
+  function tif_to_point_shp_status(data) {
+    document.getElementById('tif_to_point_shp_status').innerHTML = data.status;
+  }
+  function tif_to_point_shp() {
+    document.getElementById('tif_to_point_shp_status').innerHTML = 'Processing...';
+    var selected_geotiff = $('input[name="existing_geotiff"]:checked').val();
+    var tif_to_point_shp_name = $('#tif_to_point_shp_name').val();
+    var tif_to_point_shp_epsg = $('#tif_to_point_shp_epsg').val();
+    console.log(selected_geotiff);
+    console.log(tif_to_point_shp_name);
+    console.log(tif_to_point_shp_epsg);
+    Dajaxice.giscube_app.tif_to_point_shp(tif_to_point_shp_status,{
+      'selected_geotiff': selected_geotiff,
+      'tif_to_point_shp_name':tif_to_point_shp_name,
+      'tif_to_point_shp_epsg':tif_to_point_shp_epsg
+      });
+  }
+</script>
