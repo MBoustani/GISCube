@@ -39,9 +39,6 @@
     var selected_geotiff = $('input[name="existing_geotiff"]:checked').val();
     var tif_to_point_shp_name = $('#tif_to_point_shp_name').val();
     var tif_to_point_shp_epsg = $('#tif_to_point_shp_epsg').val();
-    console.log(selected_geotiff);
-    console.log(tif_to_point_shp_name);
-    console.log(tif_to_point_shp_epsg);
     Dajaxice.giscube_app.tif_to_point_shp(tif_to_point_shp_status,{
       'selected_geotiff': selected_geotiff,
       'tif_to_point_shp_name':tif_to_point_shp_name,
