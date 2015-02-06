@@ -7,7 +7,7 @@ from giscube.config import MEDIA_ROOT, MEDIA_URL
 
 from scripts.extract_shp_table import extract_shp_table
 from scripts.metadata import get_nc_data
-from scripts.conversion import nc_to_gtif, nc_to_geojson, shp_to_kml, convert_geotiff_to_kml, shp_to_tif, shp_to_json, geotiff_to_point_shp
+from scripts.conversion import nc_to_gtif, nc_to_geojson, shp_to_kml, convert_geotiff_to_kml, shp_to_tif, shp_to_json, geotiff_to_point_shp, geotiff_to_point_json
 from scripts.clip_geotiff_by_shp import clip_geotiff_by_shp
 from scripts.data_management import change_geotiff_resolution
 from scripts.opendap import load as load_opendap
@@ -213,4 +213,15 @@ def tif_to_point_shp(request, selected_geotiff, tif_to_point_shp_name, tif_to_po
     else:
         tif_to_point_shp_layer_name = tif_to_point_shp_name.split(".shp")[0]
         geotiff_to_point_shp(selected_geotiff, tif_to_point_shp_name, tif_to_point_shp_layer_name, tif_to_point_shp_epsg)
+        return json.dumps({'status': 'Done'})
+
+
+@dajaxice_register(method='GET')
+def tif_to_point_json(request, selected_geotiff, tif_to_point_json_name, tif_to_point_json_epsg):
+    if tif_to_point_json_name.split(".")[-1] != "json":
+        tif_to_point_json_name = "{0}.json".format(tif_to_point_json_name)
+    if os.path.isfile('{0}{1}{2}'.format(MEDIA_ROOT, MEDIA_URL, tif_to_point_json_name)):
+        return json.dumps({'status': 'File already exists.'})
+    else:
+        geotiff_to_point_json(selected_geotiff, tif_to_point_json_name, tif_to_point_json_epsg)
         return json.dumps({'status': 'Done'})

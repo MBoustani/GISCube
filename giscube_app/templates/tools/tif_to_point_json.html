@@ -1,0 +1,48 @@
+{% load tif_dict %}
+
+
+<div class="menu closed" id="menu_tif_to_point_json">
+<span class="close glyphicon glyphicon-remove red"></span>
+<h2>Convert GeoTIFF to Point GeoJSON</h2>
+      <h3>This tool converts GeoTIFF to point GeoJSON format.</h3>
+      <div class="container">
+	<h2><small>1- Select from current GeoTIFF:</small></h2>
+	{% for each in tiffs_info %}
+	<div class="radio">
+	<input type="radio" name="existing_geotiff" id="existing_geotiff" value="{{ each|file_name }}">
+	<p>{{ each|file_name }}</p>
+      </div>
+      {% endfor %}
+      
+    <h2><small>2- Enter output GeoJSON name:</small></h2>
+    <div class="input-group">
+      <input class="form-control" id="tif_to_point_json_name" type="text" placeholder="Output GeoJSON name" value="">
+    </div>
+
+    <h2><small>3- Enter output GeoJSON EPSG:</small></h2>
+    <div class="input-group">
+      <input class="form-control" id="tif_to_point_json_epsg" type="text" placeholder="Output GeoJSON EPSG" value="">
+    </div>
+
+  <h2><small>4- Convert GeoTIFF to Point GeoJSON:</small></h2>
+  <button type="button" class="btn btn-primary btn-lg" onclick="tif_to_point_json()">Convert</button>
+      <p id='tif_to_point_json_status'></p>
+      </div>
+</div>
+
+<script>
+  function tif_to_point_json_status(data) {
+    document.getElementById('tif_to_point_json_status').innerHTML = data.status;
+  }
+  function tif_to_point_json() {
+    document.getElementById('tif_to_point_json_status').innerHTML = 'Processing...';
+    var selected_geotiff = $('input[name="existing_geotiff"]:checked').val();
+    var tif_to_point_json_name = $('#tif_to_point_json_name').val();
+    var tif_to_point_json_epsg = $('#tif_to_point_json_epsg').val();
+    Dajaxice.giscube_app.tif_to_point_json(tif_to_point_json_status,{
+      'selected_geotiff': selected_geotiff,
+      'tif_to_point_json_name':tif_to_point_json_name,
+      'tif_to_point_json_epsg':tif_to_point_json_epsg
+      });
+  }
+</script>

@@ -204,3 +204,33 @@ def geotiff_to_point_shp(selected_geotiff, tif_to_point_shp_name, tif_to_point_s
             feature.SetField("Value", '{0}'.format(value))
             layer.CreateFeature(feature)
             feature.Destroy()
+
+def geotiff_to_point_json(selected_geotiff, tif_to_point_json_name, tif_to_point_json_epsg):
+    gtiff_dataset = gdal.Open(selected_geotiff, GA_ReadOnly)
+    gtiff_band = gtiff_dataset.GetRasterBand(1) #TODO: get multi band in future
+    transform = gtiff_dataset.GetGeoTransform()
+    x_origin = transform[0]
+    y_origin = transform[3]
+    pixel_x_size = transform[1]
+    pixel_y_size = transform[5]
+    tif_x_size = gtiff_dataset.RasterXSize
+    tif_y_size = gtiff_dataset.RasterYSize
+    x_end = x_origin + (tif_x_size * pixel_x_size)
+    y_end = y_origin + (tif_y_size * pixel_y_size)
+    longitudes = np.arange(x_origin, x_end, pixel_x_size)
+    latitudes = np.arange(y_origin, y_end, pixel_y_size)
+    data = gtiff_band.ReadAsArray(0, 0, tif_x_size, tif_y_size)
+    multipoint = ogr.Geometry(ogr.wkbMultiPoint)
+    with open(tif_to_point_json_name, 'w') as f:
+        f.write('''{
+                "type": "FeatureCollection",
+                "features": [ {
+                    "type": "Feature","geometry": ''')
+        for xi, x in enumerate(longitudes):
+            for yi, y in enumerate(latitudes):
+                value = data[yi-1][xi-1]
+                point = ogr.Geometry(ogr.wkbPoint)
+                point.AddPoint(x, y)
+                multipoint.AddGeometry(point)
+        f.write(multipoint.ExportToJson())
+        f.write('''}]}''')
