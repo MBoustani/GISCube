@@ -234,3 +234,40 @@ def geotiff_to_point_json(selected_geotiff, tif_to_point_json_name, tif_to_point
                 multipoint.AddGeometry(point)
         f.write(multipoint.ExportToJson())
         f.write('''}]}''')
+
+def convert_coord_to_point_shp(selected_coord_text, coord_to_point_shp_separator, coord_to_point_shp_lat_col, coord_to_point_shp_lon_col, coord_to_point_shp_value_col, coord_to_point_shp_name, coord_to_point_shp_layer_name, coord_to_point_shp_epsg):
+
+    try:
+        with open(selected_coord_text, 'r') as f:
+            latitudes = []
+            longitudes = []
+            values = []
+            for line in f:
+                latitudes.append(float(line.split("{0}".format(coord_to_point_shp_separator))[int(coord_to_point_shp_lat_col)]))
+                longitudes.append(float(line.split("{0}".format(coord_to_point_shp_separator))[int(coord_to_point_shp_lon_col)]))
+                values.append(line.split("{0}".format(coord_to_point_shp_separator))[int(coord_to_point_shp_value_col)])
+    
+        driver = ogr.GetDriverByName('ESRI Shapefile')
+        data_source = driver.CreateDataSource(coord_to_point_shp_name)
+        
+        srs = osr.SpatialReference()
+        srs.ImportFromEPSG(int(coord_to_point_shp_epsg))
+        
+        layer = data_source.CreateLayer(coord_to_point_shp_layer_name, srs, ogr.wkbPoint)
+        
+        field_name = ogr.FieldDefn("Name", ogr.OFTString)
+        field_name.SetWidth(24)
+        layer.CreateField(field_name)
+        
+        for i in range(len(latitudes)):
+            point = ogr.Geometry(ogr.wkbPoint)
+            point.AddPoint(longitudes[i], latitudes[i])
+            feature = ogr.Feature(layer.GetLayerDefn())
+            feature.SetGeometry(point)
+            feature.SetField("Name", 'point_{0}'.format(str(i)))
+            layer.CreateFeature(feature)
+            feature.Destroy()
+        error = "Done."
+    except:
+        error = "Cannot access data. Something went wrong"
+    return error
