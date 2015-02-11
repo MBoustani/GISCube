@@ -5,6 +5,7 @@
 {% include '/tools/shp_to_kml.html' %}
 {% include '/tools/shp_to_tif.html' %}
 {% include '/tools/shp_to_json.html' %}
+{% include '/tools/coord_to_point_shp.html' %}
 
 <!-- raster tools-->
 {% include '/tools/re_project_geotiff.html' %}
@@ -48,7 +49,7 @@
 </div>
 <div class="col-md-2">
   <button type="button" class="btn btn-default btn-block btn-lg open" id="shp_to_json"><small>Shapefile to GeoJSON</small></button>
-  <button type="button" class="btn btn-default btn-block btn-lg open" disabled="disabled"><small>-</small></button>
+  <button type="button" class="btn btn-default btn-block btn-lg open" id="coord_to_point_shp"><small>Coordinates to Point Shapefile</small></button>
   <button type="button" class="btn btn-default btn-block btn-lg open" disabled="disabled"><small>-</small></button>
   <button type="button" class="btn btn-default btn-block btn-lg open" disabled="disabled"><small>-</small></button>
 </div>
