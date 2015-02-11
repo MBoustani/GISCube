@@ -1,0 +1,74 @@
+
+
+<div class="menu closed" id="menu_coord_to_point_shp">
+<span class="close glyphicon glyphicon-remove red"></span>
+<h2>Create a Point Shapefile from Coordinates</h2>
+      <h3>This tool can create a point shapefile from coordinates that stored in column based text file.</h3>
+      <div class="container">
+	<h2><small>1- Select from current text file:</small></h2>
+	<p>Hint:</p>
+	<p>- You have to first upload coordinate text file in Data Resource page</p>
+	<p>- Text file must be column based with any separator</p>
+	{% for each in text_file_name %}
+	<div class="radio">
+	<input type="radio" name="current_text" id="current_text" value="{{ each }}">
+	<p>{{ each }}</p>
+      </div>
+      {% endfor %}
+
+      <h2><small>2- Enter separator character:</small></h2>
+      <p>Example: , - _ : space and more</p>
+      <div class="input-group">
+	<input class="form-control" id="coord_to_point_shp_separator" type="text" placeholder="charachter" value="">
+      </div>
+
+      <h2><small>3- Enter columns index (Zero Index):</small></h2>
+      <div class="input-group">
+	<p>3.1- Enter Latitude columns index:</p>
+	<input class="form-control" id="coord_to_point_shp_lat_col" type="text" placeholder="Integer" value="">
+	  <p>3.2- Enter Longitude columns index:</p>
+	<input class="form-control" id="coord_to_point_shp_lon_col" type="text" placeholder="Integer" value="">
+	  <p>3.3- Enter Value columns index:</p>
+	<input class="form-control" id="coord_to_point_shp_value_col" type="text" placeholder="Integer" value="">
+      </div>
+      
+      <h2><small>4- Enter output Shapfile name:</small></h2>
+      <div class="input-group">
+	<input class="form-control" id="coord_to_point_shp_name" type="text" placeholder="Enter shapefile name" value="">
+      </div>
+
+      <h2><small>5- Enter EPSG: (<a href="http://en.wikipedia.org/wiki/List_of_map_projections" target="_blank">more info</a>):</small></h2>
+      <div class="input-group">
+	<input class="form-control" id="coord_to_point_shp_epsg" type="text" placeholder="Enter EPSG" value="">
+      </div>
+
+    <h2><small>6- Create point shapefile:</small></h2>
+      <button type="button" class="btn btn-primary btn-lg" onclick="coord_to_point_shp()">Create Shapefile</button>
+      <p id='coord_to_point_shp_status'></p>
+    </div>
+</div>
+
+
+<script>
+  function coord_to_point_shp_status(data) {
+   document.getElementById('coord_to_point_shp_status').innerHTML = data.status;
+  }
+  function coord_to_point_shp() {
+    document.getElementById('coord_to_point_shp_status').innerHTML = 'Processing...';
+    var selected_coord_text = $('input[name="current_text"]:checked').val();
+    var coord_to_point_shp_separator = $('#coord_to_point_shp_separator').val();
+    var coord_to_point_shp_lat_col = $('#coord_to_point_shp_lat_col').val();
+    var coord_to_point_shp_lon_col = $('#coord_to_point_shp_lon_col').val();
+    var coord_to_point_shp_value_col = $('#coord_to_point_shp_value_col').val();
+    var coord_to_point_shp_name = $('#coord_to_point_shp_name').val();
+    var coord_to_point_shp_epsg = $('#coord_to_point_shp_epsg').val();
+    Dajaxice.giscube_app.coord_to_point_shp(coord_to_point_shp_status,{
+      'selected_coord_text': selected_coord_text,
+      'coord_to_point_shp_separator':coord_to_point_shp_separator,
+      'coord_to_point_shp_lat_col':coord_to_point_shp_lat_col,
+      'coord_to_point_shp_lon_col':coord_to_point_shp_lon_col,
+      'coord_to_point_shp_value_col':coord_to_point_shp_value_col,
+      'coord_to_point_shp_name':coord_to_point_shp_name,
+      'coord_to_point_shp_epsg':coord_to_point_shp_epsg});
+  }
+</script>

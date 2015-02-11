@@ -48,7 +48,7 @@ def data_resource(request, uploaded=''):
             UPLODED_FILES.append(each)
         elif file_format == "Hierarchical Data Format Release 5":
             UPLODED_FILES.append(each)
-        elif each.split(".")[-1] == "txt" or each.split(".")[-1] == "csv":
+        elif each.split(".")[-1] == "txt" or each.split(".")[-1] == "text" or each.split(".")[-1] == "csv":
             UPLODED_FILES.append(each)
     if request.method == 'POST':
         form = DocumentForm(request.POST, request.FILES)
@@ -179,9 +179,11 @@ def tools(request):
     shp_file_name = [each for each in glob.glob("*.shp") ]
     gtif_file_name = [each for each in glob.glob("*.tif")]
     nc_file_name = [each for each in glob.glob("*.nc")]
+    text_file_name = [each for each in glob.glob("*.txt") ] + [each for each in glob.glob("*.text") ]
     shps_info = []
     tiffs_info = []
     ncs_metadata = []
+    text_info = []
     for name in shp_file_name:
         if open_shp_file(name):
             shps_info.append(run_shp_info(name))
@@ -196,6 +198,8 @@ def tools(request):
         else:
             nc_error = "Cannot open netCDF."
             break
-    context = {'shps_info': shps_info, 'tiffs_info':tiffs_info, 'ncs_metadata':ncs_metadata}
+    for name in text_file_name:
+        text_info.append(name)
+    context = {'shps_info': shps_info, 'tiffs_info':tiffs_info, 'ncs_metadata':ncs_metadata, 'text_file_name':text_file_name}
 
     return render(request, 'tools/index.html', context)
