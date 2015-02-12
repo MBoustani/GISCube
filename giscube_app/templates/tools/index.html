@@ -1,3 +1,4 @@
+{% load staticfiles %}
 
 <!-- vector tools-->
 {% include '/tools/re_project_shapefile.html' %}
@@ -28,6 +29,7 @@
 <div class="row">
   <div class="col-md-2" id="side_menu">
     <ul class="nav nav-pills nav-stacked">
+      <li><img id="logo" src="{% static "img/logo_beta.png" %}"><br></li>
       <li><a href="resource">Data Resource<span class="glyphicon glyphicon-inbox right"></span></a></li>
       <li><a href="information">Data Information<span class="glyphicon glyphicon-info-sign right"></span></a></li>
       <li><a href="visualiser">Data Visualiser<span class="glyphicon glyphicon-globe right"></span></a></li>
