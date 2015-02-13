@@ -26,19 +26,22 @@
 
 
 <div class="row">
+  <div class="col-md-2">
+    <img id="logo" src="{% static "img/logo_beta.png" %}">
+  </div>
   <div class="col-md-2" id="side_menu">
     <ul class="nav nav-pills nav-stacked">
-      <li><img id="logo" src="{% static "img/logo_beta.png" %}"><br></li>
       <li><a href="resource">Data Resource<span class="glyphicon glyphicon-inbox right"></span></a></li>
       <li><a href="information">Data Information<span class="glyphicon glyphicon-info-sign right"></span></a></li>
       <li><a href="visualiser">Data Visualiser<span class="glyphicon glyphicon-globe right"></span></a></li>
       <li class="active"><a href="tools">GeoSpatial Tools<span class="glyphicon glyphicon-cog right"></span></a></li>
+      <a href="https://github.com/MBoustani/GISCube" target="_blank"><img id="github" src="{% static "img/github.png" %}"></a>
     </ul>
   </div>
 
 <div id="toggle"> </div>
 
-<div class="container col-md-10">
+<div class="container col-md-3">
 <div class="tree">
     <ul>
         <li>
@@ -84,6 +87,12 @@
                 </li>
             </ul>
         </li>
+    </ul>
+</div>
+</div>
+<div class="container col-md-3">
+<div class="tree">
+    <ul>
         <li>
             <span><i class="icon-folder-open"></i><div id="tools_title">Raster Tools</div></span>
             <ul>
@@ -117,6 +126,12 @@
                 </li>
 	    </ul>
         </li>
+    </ul>
+</div>
+</div>
+<div class="container col-md-3">
+<div class="tree">
+    <ul>
         <li>
             <span><i class="icon-folder-open"></i><div id="tools_title">netCDF Tools</div></span>
             <ul>
@@ -145,6 +160,7 @@
 	    </ul>
         </li>
     </ul>
+</div>
 </div>
 </div>
 
