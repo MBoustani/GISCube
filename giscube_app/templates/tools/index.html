@@ -24,8 +24,7 @@
 
 {% include 'header.html' %}
 
-<!-- /row -->
-<!-- /left-nav-stack-bar -->
+
 <div class="row">
   <div class="col-md-2" id="side_menu">
     <ul class="nav nav-pills nav-stacked">
@@ -39,82 +38,132 @@
 
 <div id="toggle"> </div>
 
-<!-- left-nav-stack-bar/ -->
 <div class="container col-md-10">
-<h1><small>Vector Tools:</small></h1>
-<hr>
-<div class="col-md-2">
-  <button type="button" class="btn btn-default btn-block btn-lg open" id="reproject_shapefile"><small>Re-Project Shapefile</small></button>
-  <button type="button" class="btn btn-default btn-block btn-lg open" id="extract_shp_table"><small>Shapefile table to text</small></button>
-  <button type="button" class="btn btn-default btn-block btn-lg open" id="shp_to_kml"><small>Shapefile to KML</small></button>
-  <button type="button" class="btn btn-default btn-block btn-lg open" id="shp_to_tif"><small>Shapefile to GeoTIFF</small></button>
+<div class="tree">
+    <ul>
+        <li>
+            <span><i class="icon-folder-open"></i><div id="tools_title">Vector Tools</div></span>
+            <ul>
+                <li>
+                	<span><i class="icon-minus-sign"></i><div id="tools_subtitle">Conversion</div></span>
+                    <ul>
+                        <li>
+	                        <span><div class="icon-leaf open" id="shp_to_kml"><div id="tool_title">Shapefile to KML</div></div></span>
+                        </li>
+                        <li>
+	                        <span><div class="icon-leaf open" id="shp_to_tif"><div id="tool_title">Shapefile to GeoTIFF</div></div></span>
+                        </li>
+                        <li>
+	                        <span><div class="icon-leaf open" id="shp_to_json"><div id="tool_title">Shapefile to GeoJSON</div></div></span>
+                        </li>
+                    </ul>
+                </li>
+                <li>
+                    <span><i class="icon-minus-sign"></i><div id="tools_subtitle">Creation</div></span>
+                    <ul>
+                        <li>
+	                        <span><div class="icon-leaf open" id="coord_to_point_shp"><div id="tool_title">Coordinates to Point Shapefile</div></div></span>
+                        </li>
+                    </ul>
+                </li>
+                <li>
+                    <span><i class="icon-minus-sign"></i><div id="tools_subtitle">Extraction</div></span>
+                    <ul>
+                        <li>
+	                        <span><div class="icon-leaf open" id="extract_shp_table"><div id="tool_title">Shapefile table to text</div></div></span>
+                        </li>
+                    </ul>
+                </li>
+                <li>
+                    <span><i class="icon-minus-sign"></i><div id="tools_subtitle">Spatial Analysis</div></span>
+                    <ul>
+                        <li>
+	                        <span><div class="icon-leaf open" id="reproject_shapefile"><div id="tool_title">Re-Project Shapefile</div></div></span>
+                        </li>
+                    </ul>
+                </li>
+            </ul>
+        </li>
+        <li>
+            <span><i class="icon-folder-open"></i><div id="tools_title">Raster Tools</div></span>
+            <ul>
+                <li>
+                	<span><i class="icon-minus-sign"></i><div id="tools_subtitle">Conversion</div></span>
+                    <ul>
+                        <li>
+	                        <span><div class="icon-leaf open" id="geotiff_to_kml"><div id="tool_title">GeoTIFF to KML</div></div></span>
+                        </li>
+                        <li>
+	                        <span><div class="icon-leaf open" id="tif_to_point_shp"><div id="tool_title">GeoTIFF to point Shp</div></div></span>
+                        </li>
+                        <li>
+	                        <span><div class="icon-leaf open" id="tif_to_point_json"><div id="tool_title">GeoTIFF to point JSON</div></div></span>
+                        </li>
+                    </ul>
+                </li>
+                <li>
+                    <span><i class="icon-minus-sign"></i><div id="tools_subtitle">Spatial Analysis</div></span>
+                    <ul>
+                        <li>
+	                        <span><div class="icon-leaf open" id="reproject_geotiff"><div id="tool_title">Re-Project GeoTIFF</div></div></span>
+                        </li>
+                        <li>
+	                        <span><div class="icon-leaf open" id="clip_geotiff_by_shp"><div id="tool_title">Clip GeoTIFF by Shapefile</div></div></span>
+                        </li>
+                        <li>
+	                        <span><div class="icon-leaf open" id="geotiff_resolution"><div id="tool_title">Change GeoTIFF Resolution</div></div></span>
+                        </li>
+                    </ul>
+                </li>
+	    </ul>
+        </li>
+        <li>
+            <span><i class="icon-folder-open"></i><div id="tools_title">netCDF Tools</div></span>
+            <ul>
+                <li>
+                	<span><i class="icon-minus-sign"></i><div id="tools_subtitle">Conversion</div></span>
+                    <ul>
+                        <li>
+	                        <span><div class="icon-leaf open" id="netcdf_to_geotiff"><div id="tool_title">netCDF to GeoTIFF</div></div></span>
+                        </li>
+                        <li>
+	                        <span><div class="icon-leaf open" id="netcdf_to_geojson"><div id="tool_title">netCDF to GeoJSON</div></div></span>
+                        </li>
+                    </ul>
+                </li>
+                <li>
+                    <span><i class="icon-minus-sign"></i><div id="tools_subtitle">Extraction</div></span>
+                    <ul>
+                        <li>
+	                        <span><div class="icon-leaf open" id="ncdump_dump_to_text"><div id="tool_title">netCDF dump to text</div></div></span>
+                        </li>
+                        <li>
+	                        <span><div class="icon-leaf open" id="ncdump_header_to_text"><div id="tool_title">netCDF header to text</div></div></span>
+                        </li>
+                    </ul>
+                </li>
+	    </ul>
+        </li>
+    </ul>
 </div>
-<div class="col-md-2">
-  <button type="button" class="btn btn-default btn-block btn-lg open" id="shp_to_json"><small>Shapefile to GeoJSON</small></button>
-  <button type="button" class="btn btn-default btn-block btn-lg open" id="coord_to_point_shp"><small>Coordinates to Point Shapefile</small></button>
-  <button type="button" class="btn btn-default btn-block btn-lg open" disabled="disabled"><small>-</small></button>
-  <button type="button" class="btn btn-default btn-block btn-lg open" disabled="disabled"><small>-</small></button>
 </div>
-<div class="col-md-2">
-  <button type="button" class="btn btn-default btn-block btn-lg open" disabled="disabled"><small>-</small></button>
-  <button type="button" class="btn btn-default btn-block btn-lg open" disabled="disabled"><small>-</small></button>
-  <button type="button" class="btn btn-default btn-block btn-lg open" disabled="disabled"><small>-</small></button>
-  <button type="button" class="btn btn-default btn-block btn-lg open" disabled="disabled"><small>-</small></button>
-</div>
-</div>
-
-<div class="container col-md-10">
-<h1><small>Raster Tools:</small></h1>
-<hr>
-<div class="col-md-2">
-  <button type="button" class="btn btn-default btn-block btn-lg open" id="reproject_geotiff"><small>Re-Project GeoTIFF</small></button>
-  <button type="button" class="btn btn-default btn-block btn-lg open" id="clip_geotiff_by_shp"><small>Clip GeoTIFF</small></button>
-  <button type="button" class="btn btn-default btn-block btn-lg open" id="geotiff_to_kml"><small>GeoTIFF to KML</small></button>
-  <button type="button" class="btn btn-default btn-block btn-lg open" id="geotiff_resolution"><small>GeoTIFF Resolution</small></button>
-</div>
-<div class="col-md-2">
-  <button type="button" class="btn btn-default btn-block btn-lg open" id="tif_to_point_shp"><small>GeoTIFF to point Shp</small></button>
-  <button type="button" class="btn btn-default btn-block btn-lg open" id="tif_to_point_json"><small>GeoTIFF to point JSON</small></button>
-  <button type="button" class="btn btn-default btn-block btn-lg open" disabled="disabled"><small>GeoTIFF to netCDF</small></button>
-  <button type="button" class="btn btn-default btn-block btn-lg open" disabled="disabled"><small>GeoTIFF Table to text</small></button>
-</div>
-<div class="col-md-2">
-  <button type="button" class="btn btn-default btn-block btn-lg open" disabled="disabled"><small>GeoTIFF to GeoJSON</small></button>
-  <button type="button" class="btn btn-default btn-block btn-lg open" disabled="disabled"><small>-</small></button>
-  <button type="button" class="btn btn-default btn-block btn-lg open" disabled="disabled"><small>-</small></button>
-  <button type="button" class="btn btn-default btn-block btn-lg open" disabled="disabled"><small>-</small></button>
-</div>
-</div>
-
-<div class="container col-md-10">
-<h1><small>netCDF Tools:</small></h1>
-<hr>
-<div class="col-md-2">
-  <button type="button" class="btn btn-default btn-block btn-lg open" id="netcdf_to_geotiff"><small>netCDF to GeoTIFF</small></button>
-  <button type="button" class="btn btn-default btn-block btn-lg open" id="netcdf_to_geojson"><small>netCDF to GeoJSON</small></button>
-  <button type="button" class="btn btn-default btn-block btn-lg open" id="ncdump_dump_to_text"><small>netCDF dump to text</small></button>
-  <button type="button" class="btn btn-default btn-block btn-lg open" id="ncdump_header_to_text"><small>netCDF header to text</small></button>
-</div>
-<div class="col-md-2">
-  <button type="button" class="btn btn-default btn-block btn-lg open" disabled="disabled"><small>netCDF to Point Shapefile</small></button>
-  <button type="button" class="btn btn-default btn-block btn-lg open" disabled="disabled"><small>netCDF to CSV</small></button>
-  <button type="button" class="btn btn-default btn-block btn-lg open" disabled="disabled"><small>-</small></button>
-  <button type="button" class="btn btn-default btn-block btn-lg open" disabled="disabled"><small>-</small></button>
-</div>
-<div class="col-md-2">
-  <button type="button" class="btn btn-default btn-block btn-lg open" disabled="disabled"><small>-</small></button>
-  <button type="button" class="btn btn-default btn-block btn-lg open" disabled="disabled"><small>-</small></button>
-  <button type="button" class="btn btn-default btn-block btn-lg open" disabled="disabled"><small>-</small></button>
-  <button type="button" class="btn btn-default btn-block btn-lg open" disabled="disabled"><small>-</small></button>
-</div>
-</div>
-
-</div>
-<!-- row/ -->
-
-
 
 <script>
+$(function () {
+    $('.tree li:has(ul)').addClass('parent_li').find(' > span').attr('title', 'Collapse this branch');
+    $('.tree li.parent_li > span').on('click', function (e) {
+        var children = $(this).parent('li.parent_li').find(' > ul > li');
+        if (children.is(":visible")) {
+            children.hide('fast');
+            $(this).attr('title', 'Expand this branch').find(' > i').addClass('icon-plus-sign').removeClass('icon-minus-sign');
+        } else {
+            children.show('fast');
+            $(this).attr('title', 'Collapse this branch').find(' > i').addClass('icon-minus-sign').removeClass('icon-plus-sign');
+        }
+        e.stopPropagation();
+    });
+});
+
 $(".open").click(function() {
   var id = $(this).attr('id');
   $("#menu_"+id).toggleClass("closed");
