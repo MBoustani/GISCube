@@ -8,6 +8,7 @@ from giscube.config import MEDIA_ROOT, MEDIA_URL
 from scripts.extract_shp_table import extract_shp_table
 from scripts.metadata import get_nc_data
 from scripts.conversion import nc_to_gtif, nc_to_geojson, shp_to_kml, convert_geotiff_to_kml, shp_to_tif, shp_to_json, geotiff_to_point_shp, geotiff_to_point_json, convert_coord_to_point_shp
+from scripts.spatial_analysis import buffer_shapefile
 from scripts.clip_geotiff_by_shp import clip_geotiff_by_shp
 from scripts.data_management import change_geotiff_resolution
 from scripts.opendap import load as load_opendap
@@ -169,6 +170,18 @@ def shapefile_to_json(request, selected_shp, shp_to_json_file, shp_to_json_epsg)
     else:
         shp_to_json(selected_shp, shp_to_json_file, shp_to_json_epsg)
         return json.dumps({'status': 'Done'})
+
+
+@dajaxice_register(method='GET')
+def buffer_shp(request, selected_shp, buffer_shp_buffer_range, buffer_shp_out_name):
+    if buffer_shp_out_name.split(".")[-1] != "shp":
+        buffer_shp_out_name = "{0}.shp".format(buffer_shp_out_name)
+    if os.path.isfile('{0}{1}{2}'.format(MEDIA_ROOT, MEDIA_URL, buffer_shp_out_name)):
+        return json.dumps({'status': 'File already exists.'})
+    else:
+        buffer_shp_out_layername = buffer_shp_out_name.split(".shp")[0]
+        error = buffer_shapefile(selected_shp, buffer_shp_buffer_range, buffer_shp_out_name, buffer_shp_out_layername)
+        return json.dumps({'status': error})
 
 
 @dajaxice_register(method='GET')
