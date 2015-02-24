@@ -1,0 +1,47 @@
+{% load shp_dict %}
+
+<div class="menu closed" id="menu_buffer_shapefile">
+<span class="close glyphicon glyphicon-remove red"></span>
+  <h2>Generate buffer around shapefile</h2>
+    <h3>This tool generates buffer around shapefile for given distance.</h3>
+    <div class="container">
+      <h2><small>1- Select from current shapefile data:</small></h2>
+	{% for each in shps_info %}
+	<div class="radio">
+	<input type="radio" name="current_vector" id="current_vector" value="{{ each|layer_name }}">
+	<p>{{ each|file_name }}</p>
+      </div>
+      {% endfor %}
+
+      <h2><small>2-Enter buffer range: (positive number for buffer outside of shapefile and negative for inside.</small></h2>
+      <div class="input-group">
+        <input class="form-control" id="buffer_shp_buffer_range" type="text" placeholder="Enter buffer range" value="">
+      </div>
+
+      <h2><small>3- Enter buffer polygon file name:</small></h2>
+      <div class="input-group">
+        <input class="form-control" id="buffer_shp_out_name" type="text" placeholder="Output buffer name" value="">
+      </div>
+
+      <h2><small>4- Generate buffer:</small></h2>
+      <button type="button" class="btn btn-primary btn-lg" onclick="buffer_shp()">Generate</button>
+        <p id='buffer_shp_status'></p>
+    </div>
+</div>
+
+<script>
+  function buffer_shp_status(data) {
+   document.getElementById('buffer_shp_status').innerHTML = data.status;
+  }
+  function buffer_shp() {
+    document.getElementById('buffer_shp_status').innerHTML = 'Processing...';
+    var selected_shp = $('input[name="current_vector"]:checked').val();
+    var buffer_shp_buffer_range = $('#buffer_shp_buffer_range').val();
+    var buffer_shp_out_name = $('#buffer_shp_out_name').val();
+    Dajaxice.giscube_app.buffer_shp(buffer_shp_status,{
+      'selected_shp': selected_shp,
+      'buffer_shp_buffer_range': buffer_shp_buffer_range,
+      'buffer_shp_out_name': buffer_shp_out_name
+      });
+  }
+</script>
