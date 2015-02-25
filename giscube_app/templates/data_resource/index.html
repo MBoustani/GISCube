@@ -45,13 +45,17 @@
         <h3>1: Enter OPeNDAP URL:</h3>
         <br>
         <input type="text" class="form-control" id="opendap_url" placeholder="OPeNDAP URL">
-        <h3>2: Enter variable name</h3>
+
+        <h3>2: Enter output name</h3>
         <div class="input-group">
-          <input class="form-control" id="opendap_variable" type="text" placeholder="Enter variable name" value="">
+          <input class="form-control" id="opendap_out_name" type="text" placeholder="Enter output name" value="">
         </div>
+
         <br>
         <div class="alert alert-info" role="alert"><p><small>Example:<br><b>OPeNDAP URL:</b> http://test.opendap.org/dap/data/nc/sst.mnmean.nc.gz<br><b>Variable:</b> sst</small></p></div>
-        <button value="opendap_getdata" class="btn btn-primary btn-lg" onclick="opendap_getdata()">Get Data</button>
+        <button value="opendap_getdata" class="btn btn-primary btn-lg" onclick="opendap_getdata('ASCII')">Get as ASCII</button>
+        <button value="opendap_getdata" class="btn btn-primary btn-lg" onclick="opendap_getdata('nc3')">Get as netCDF3</button>
+        <button value="opendap_getdata" class="btn btn-primary btn-lg" onclick="opendap_getdata('nc4')">Get as netCDF4</button>
         <br>
         <br>
         <div id='opendap_status'></div>
@@ -80,11 +84,11 @@
     //location.reload();
    document.getElementById('opendap_status').innerHTML = data.status;
   }
-  function opendap_getdata() {
+  function opendap_getdata(format) {
     document.getElementById('opendap_status').innerHTML = '<div class="alert alert-info" role="alert" >Retrieving data...Please wait.</div>';
     var opendap_url = $('#opendap_url').val();
-    var opendap_variable = $('#opendap_variable').val();
-    Dajaxice.giscube_app.opendap_getdata(opendap_status,{'opendap_url':opendap_url, 'opendap_variable':opendap_variable});
+    var opendap_out_name = $('#opendap_out_name').val();
+    Dajaxice.giscube_app.opendap_getdata(opendap_status,{'opendap_url':opendap_url, 'frm':format, 'opendap_out_name':opendap_out_name});
   }
 </script>
 
