@@ -16,9 +16,16 @@ from scripts.opendap import opendap_metadata
 
 
 @dajaxice_register(method='GET')
-def opendap_getdata(request, opendap_url, opendap_variable):
-    text_file = load_opendap(opendap_url, opendap_variable)
-    return json.dumps({'status': '<div class="alert alert-success" role="alert" >Successfully retrieved data. Please refresh the page.</div>'})
+def opendap_getdata(request, opendap_url, frm, opendap_out_name):
+    if frm == "nc3" or frm == "nc4":
+        check_frm = "nc"
+    else:
+        check_frm = frm
+    if os.path.isfile('{0}{1}{2}'.format(MEDIA_ROOT, MEDIA_URL, '{0}.{1}'.format(opendap_out_name, check_frm))):
+        return json.dumps({'status': '<div class="alert alert-danger" role="alert" >File already exists.</div>'})
+    else:
+        load_opendap(opendap_url, frm, opendap_out_name)
+        return json.dumps({'status': '<div class="alert alert-success" role="alert" >Successfully retrieved data. Please refresh the page.</div>'})
 
 
 @dajaxice_register(method='GET')
