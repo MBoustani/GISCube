@@ -1,6 +1,6 @@
 ![alt tag](https://github.com/MBoustani/GISCube/blob/master/giscube_app/static/img/logo.png)
 
-![alt tag](http://youtu.be/iV7SvP-gil4)
+[Demo video](http://youtu.be/iV7SvP-gil4)
 =======
 
 ##Web Based GIS Application
