@@ -15,7 +15,7 @@ def buffer_shapefile(selected_shp, buffer_shp_buffer_range, buffer_shp_out_name,
     if selected_shp.split(".")[-1] != "shp":
         selected_shp = selected_shp + ".shp"
     try:
-        buffer_shp_buffer_range = int(buffer_shp_buffer_range)
+        buffer_shp_buffer_range = float(buffer_shp_buffer_range)
         driver = ogr.GetDriverByName('ESRI Shapefile')
         in_shp_datasource = driver.Open(selected_shp)
         in_layer = in_shp_datasource.GetLayer()
@@ -30,7 +30,7 @@ def buffer_shapefile(selected_shp, buffer_shp_buffer_range, buffer_shp_out_name,
         for each in range(num_feature):
             in_feature = in_layer.GetFeature(each)
             in_geom = in_feature.GetGeometryRef()
-            bufer_geom = in_geom.Buffer(int(buffer_shp_buffer_range))
+            bufer_geom = in_geom.Buffer(buffer_shp_buffer_range)
             out_feature = ogr.Feature(out_layer.GetLayerDefn())
             out_feature.SetGeometry(bufer_geom)
             out_layer.CreateFeature(out_feature)
