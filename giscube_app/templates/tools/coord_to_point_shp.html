@@ -9,6 +9,9 @@
 	<p>Hint:</p>
 	<p>- You have to first upload coordinate text file in Data Resource page</p>
 	<p>- Text file must be column based with any separator</p>
+      	{% if not text_file_name %}
+	  <div class="alert alert-warning" role="alert">No text file</div>
+	{% endif %}
 	{% for each in text_file_name %}
 	<div class="radio">
 	<input type="radio" name="current_text" id="current_text" value="{{ each }}">
