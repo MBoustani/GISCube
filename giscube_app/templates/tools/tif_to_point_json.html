@@ -7,6 +7,9 @@
       <h3>This tool converts GeoTIFF to point GeoJSON format.</h3>
       <div class="container">
 	<h2><small>1- Select from current GeoTIFF:</small></h2>
+      	{% if not tiffs_info %}
+	  <div class="alert alert-warning" role="alert">No GeoTIFF</div>
+	{% endif %}
 	{% for each in tiffs_info %}
 	<div class="radio">
 	<input type="radio" name="existing_geotiff" id="existing_geotiff" value="{{ each|file_name }}">
