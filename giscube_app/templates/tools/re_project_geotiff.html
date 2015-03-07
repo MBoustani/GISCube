@@ -7,6 +7,9 @@
       <h3>This tool re-projects and creates new GeoTIFF data.</h3>
       <div class="container">
 	<h2><small>1- Select from current GeoTIFF data:</small></h2>
+      	{% if not tiffs_info %}
+	  <div class="alert alert-warning" role="alert">No GeoTIFF</div>
+	{% endif %}
 	{% for each in tiffs_info %}
 	<div class="radio">
 	<input type="radio" name="optionsRadios" id="existing_geotiff" value="{{ each|file_name }}">
