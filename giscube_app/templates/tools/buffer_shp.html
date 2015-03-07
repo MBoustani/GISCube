@@ -6,6 +6,9 @@
     <h3>This tool generates buffer around shapefile for given distance.</h3>
     <div class="container">
       <h2><small>1- Select from current shapefile data:</small></h2>
+      	{% if not shps_info %}
+	  <div class="alert alert-warning" role="alert">No shapefile</div>
+	{% endif %}
 	{% for each in shps_info %}
 	<div class="radio">
 	<input type="radio" name="current_vector" id="current_vector" value="{{ each|layer_name }}">
