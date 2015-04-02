@@ -1,0 +1,55 @@
+{% load tif_dict %}
+
+
+<div class="menu closed" id="menu_color_table_geotiff">
+<span class="close glyphicon glyphicon-remove red"></span>
+<h2>Add color on GeoTIFF</h2>
+      <h3>This tool applys color table on GeoTIFF</h3>
+      <div class="container">
+	<h2><small>1- Select from current GeoTIFF:</small></h2>
+	{% for each in tiffs_info %}
+	<div class="radio">
+	<input type="radio" name="existing_geotiff" id="existing_geotiff" value="{{ each|file_name }}">
+	<p>{{ each|file_name }}</p>
+      </div>
+      {% endfor %}
+      
+      <h2><small>2- Select the color table:</small></h2>
+
+      	{% if not text_file_name %}
+	  <div class="alert alert-warning" role="alert">No text file</div>
+	{% endif %}
+	{% for each in text_file_name %}
+	<div class="radio">
+	<input type="radio" name="color_table_text" id="color_table_text" value="{{ each }}">
+	<p>{{ each }}</p>
+      </div>
+    {% endfor %}
+
+      <h2><small>3- Enter new GeoTIFF name:</small></h2>
+
+      <div class="input-group">
+	<input class="form-control" id="colored_geotiff_name" type="text" placeholder="Enter new GeoTIFF" value="">
+      </div>
+
+    <h2><small>4- Apply color table on GeoTIFF:</small></h2>
+    <button type="button" class="btn btn-primary btn-lg" onclick="color_table_geotiff()">Apply</button>
+    <p id='color_table_geotiff_status'></p>
+    </div>
+  </div>
+
+<script>
+  function color_table_geotiff_status(data) {
+    document.getElementById('color_table_geotiff_status').innerHTML = data.status;
+  }
+  function color_table_geotiff() {
+    document.getElementById('color_table_geotiff_status').innerHTML = 'Processing...';
+    var selected_geotiff = $('input[name="existing_geotiff"]:checked').val();
+    var selected_color_table = $('input[name="color_table_text"]:checked').val();
+    var colored_geotiff_name = $('#colored_geotiff_name').val();
+    console.log(selected_geotiff);
+    console.log(selected_color_table);
+    console.log(colored_geotiff_name);
+    Dajaxice.giscube_app.color_table_geotiff(color_table_geotiff_status,{'selected_geotiff': selected_geotiff, 'selected_color_table':selected_color_table, 'colored_geotiff_name':colored_geotiff_name});
+  }
+</script>
