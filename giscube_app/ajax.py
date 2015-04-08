@@ -8,7 +8,7 @@ from giscube.config import MEDIA_ROOT, MEDIA_URL
 from scripts.extract_shp_table import extract_shp_table
 from scripts.metadata import get_nc_data
 from scripts.conversion import nc_to_gtif, nc_to_geojson, shp_to_kml, convert_geotiff_to_kml, shp_to_tif, shp_to_json, geotiff_to_point_shp, geotiff_to_point_json, convert_coord_to_point_shp
-from scripts.spatial_analysis import buffer_shapefile
+from scripts.spatial_analysis import buffer_shapefile, find_point_inside_feature
 from scripts.clip_geotiff_by_shp import clip_geotiff_by_shp
 from scripts.data_management import change_geotiff_resolution, color_table_on_geotiff
 from scripts.opendap import load as load_opendap
@@ -268,3 +268,9 @@ def color_table_geotiff(request, selected_geotiff, selected_color_table, colored
     else:
         color_table_on_geotiff(selected_geotiff, selected_color_table, colored_geotiff_name)
         return json.dumps({'status': 'Done'})
+
+
+@dajaxice_register(method='GET')
+def point_inside_feature(request, selected_vector, point_inside_shapefile_lat, point_inside_shapefile_lon):
+    feature_info = find_point_inside_feature(selected_vector, point_inside_shapefile_lat, point_inside_shapefile_lon)
+    return json.dumps({'status': feature_info})
