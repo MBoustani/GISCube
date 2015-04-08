@@ -1,0 +1,47 @@
+{% load shp_dict %}
+
+
+<div class="menu closed" id="menu_point_inside_shapefile">
+<span class="close glyphicon glyphicon-remove red"></span>
+<h2>Return feature attribute of point inside shapefile</h2>
+      <h3>This tool returns the shapefile feature attribute information which contains the give point.</h3>
+      <div class="container">
+	<h2><small>1- Select from current shapefile data:</small></h2>
+      	{% if not shps_info %}
+	  <div class="alert alert-warning" role="alert">No shapefile</div>
+	{% endif %}
+	{% for each in shps_info %}
+	<div class="radio">
+	<input type="radio" name="optionsRadios" id="current_vector" value="{{ each|layer_name }}">
+	<p>{{ each|file_name }}</p>
+      </div>
+      {% endfor %}
+      
+      <h2><small>2- Enter point's latitude:</small></h2>
+      <div class="input-group">
+	<input class="form-control" id="point_inside_shapefile_lat" type="text" placeholder="Enter latitude" value="">
+      </div>
+
+      <h2><small>2- Enter point's longitude:</small></h2>
+      <div class="input-group">
+	<input class="form-control" id="point_inside_shapefile_lon" type="text" placeholder="Enter longitude" value="">
+      </div>
+
+  <button type="button" class="btn btn-primary btn-lg" onclick="point_inside_feature()">Find feature</button>
+      <p id='point_inside_feature_status'></p>
+    </div>
+</div>
+
+
+<script>
+  function point_inside_feature_status(data) {
+   document.getElementById('point_inside_feature_status').innerHTML = data.status;
+  }
+  function point_inside_feature() {
+    document.getElementById('point_inside_feature_status').innerHTML = 'Processing...';
+    var selected_vector = $('input[name="optionsRadios"]:checked').val();
+    var point_inside_shapefile_lat = $('#point_inside_shapefile_lat').val();
+    var point_inside_shapefile_lon = $('#point_inside_shapefile_lon').val();
+    Dajaxice.giscube_app.point_inside_feature(point_inside_feature_status,{'selected_vector': selected_vector, 'point_inside_shapefile_lat':point_inside_shapefile_lat, 'point_inside_shapefile_lon':point_inside_shapefile_lon});
+  }
+</script>
