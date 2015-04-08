@@ -59,6 +59,7 @@ def find_point_inside_feature(selected_vector, point_inside_shapefile_lat, point
     except:
         print "Cannot read feature attribute information"
 
+    feature_info = "Point is not in any feature."
     features_number = in_layer.GetFeatureCount()
     for i in range(features_number):
         in_shp_feature = in_layer.GetFeature(i)
