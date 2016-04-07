@@ -11,9 +11,9 @@ Beside some open source GIS libraries and some software like ArcGIS there are co
 
 ##Installation (vagrant)
 
-1- [Install Vagrant](https://docs.vagrantup.com/v2/installation/)
+1- [Install Vagrant (v 1.8.1)](https://docs.vagrantup.com/v2/installation/)
 
-2- [Install VirtualBox](https://www.virtualbox.org/wiki/Downloads)
+2- [Install VirtualBox (v 5.0.16)](https://www.virtualbox.org/wiki/Downloads)
 
 3- Download [vagrant.zip](https://github.com/MBoustani/GISCube/blob/master/vagrant.zip?raw=true)
 
@@ -30,6 +30,10 @@ Beside some open source GIS libraries and some software like ArcGIS there are co
 9- `python manage.py runserver 0.0.0.0:5050`
 
 10- open [localhost:5050](http://localhost:5050) in browser and enjoy.
+
+11- To exit the VM (vagrant) type `exit`
+
+12- To remove/destroy VM, exit vagarnat first then type `vagrant destroy`
 
 ##Documentation 
 [Documentation](https://github.com/MBoustani/GISCube/wiki)
