@@ -31,6 +31,10 @@ Beside some open source GIS libraries and some software like ArcGIS there are co
 
 10- open [localhost:5050](http://localhost:5050) in browser and enjoy.
 
+11- To exit the VM (vagrant) type `exit`
+
+12- To remove/destroy VM, exit vagarnat first then type `vagrant destroy`
+
 ##Documentation 
 [Documentation](https://github.com/MBoustani/GISCube/wiki)
 
